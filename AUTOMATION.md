@@ -9,7 +9,7 @@ Because nobody reviews it, the checks below are the review. If any check fails a
 2. **Real facts for explainers.** Every claim in an explainer is verified with WebSearch/WebFetch against a primary or reputable source found in this run. List the URLs in the script's `sources`. No invented stats, quotes, companies or incidents. If you cannot verify a claim, cut it.
 3. **No em dashes** anywhere (script, captions, on-screen text, post). Use commas, colons or full stops.
 4. Post only to account id `29510734025188123` (@shipwithpip). Never to @anshgotenks or @anshgoten.
-5. One reel per run. If the log shows a reel was already posted for this slot within the last 6 hours, stop.
+5. One reel per run. Runs are at 02:07 and 04:07 Halifax time and must finish before 06:00. If the log shows a reel was already posted within the last 90 minutes, stop.
 6. Keep the video vertically centred, 1080x1920. Length 35 to 65 s.
 7. Hooks: the first 2 seconds must be a surprising, specific line (a number, a reversal, a "then I..." twist). Ansh wants more random, unexpected hooks; capturing attention in the first 10 seconds is the priority.
 
