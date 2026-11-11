@@ -1,5 +1,5 @@
 {
-  "next": "explainer",
+  "next": "sim",
   "sim_rotation": [
     "maze",
     "flappy",
