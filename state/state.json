@@ -1,5 +1,5 @@
 {
-  "next": "sim",
+  "next": "explainer",
   "sim_rotation": [
     "maze",
     "flappy",
@@ -17,7 +17,7 @@
     "keepups",
     "password"
   ],
-  "sim_index": 0,
+  "sim_index": 1,
   "account": {
     "platform": "INSTAGRAM",
     "username": "shipwithpip",
