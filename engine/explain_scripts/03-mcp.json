@@ -1,0 +1,174 @@
+{
+ "id": "03-mcp",
+ "accent": "violet",
+ "title": "MCP: the USB-C port for AI",
+ "hook": "The USB-C port for AI",
+ "beats": [
+  {
+   "say": "Every AI app used to need custom code for every single tool it connected to.",
+   "vis": {
+    "type": "mesh",
+    "phase": "before",
+    "left": [
+     {
+      "label": "Chat app",
+      "icon": "chat"
+     },
+     {
+      "label": "Code editor",
+      "icon": "code"
+     },
+     {
+      "label": "Agent",
+      "icon": "chip"
+     },
+     {
+      "label": "Browser",
+      "icon": "globe"
+     }
+    ],
+    "right": [
+     {
+      "label": "Email",
+      "icon": "mail"
+     },
+     {
+      "label": "Calendar",
+      "icon": "calendar"
+     },
+     {
+      "label": "Database",
+      "icon": "db"
+     },
+     {
+      "label": "Files",
+      "icon": "folder"
+     }
+    ],
+    "before_label": "{n} custom connectors",
+    "span": 2
+   }
+  },
+  {
+   "say": "Four apps, four tools, sixteen connectors. Scale that up and it explodes.",
+   "mood": "shocked"
+  },
+  {
+   "say": "Then Anthropic open-sourced MCP, the Model Context Protocol.",
+   "vis": {
+    "type": "slam",
+    "lines": [
+     "MCP",
+     "Model Context Protocol"
+    ],
+    "hi": 0,
+    "size": 120,
+    "sub": "Open standard, 2024"
+   }
+  },
+  {
+   "say": "Each tool builds one MCP server, each app speaks MCP once, and everything plugs into everything.",
+   "vis": {
+    "type": "mesh",
+    "phase": "after",
+    "left": [
+     {
+      "label": "Chat app",
+      "icon": "chat"
+     },
+     {
+      "label": "Code editor",
+      "icon": "code"
+     },
+     {
+      "label": "Agent",
+      "icon": "chip"
+     },
+     {
+      "label": "Browser",
+      "icon": "globe"
+     }
+    ],
+    "right": [
+     {
+      "label": "Email",
+      "icon": "mail"
+     },
+     {
+      "label": "Calendar",
+      "icon": "calendar"
+     },
+     {
+      "label": "Database",
+      "icon": "db"
+     },
+     {
+      "label": "Files",
+      "icon": "folder"
+     }
+    ],
+    "hub": "MCP",
+    "after_label": "8 connections, not 16"
+   }
+  },
+  {
+   "say": "Think USB-C for AI. One port, any tool. OpenAI and Google support it now too.",
+   "vis": {
+    "type": "hub",
+    "center": {
+     "label": "MCP"
+    },
+    "nodes": [
+     {
+      "label": "Email",
+      "icon": "mail"
+     },
+     {
+      "label": "Calendar",
+      "icon": "calendar"
+     },
+     {
+      "label": "Code",
+      "icon": "code"
+     },
+     {
+      "label": "Database",
+      "icon": "db"
+     },
+     {
+      "label": "Files",
+      "icon": "folder"
+     },
+     {
+      "label": "Web",
+      "icon": "globe"
+     }
+    ]
+   }
+  },
+  {
+   "say": "That's why your AI can suddenly read your calendar, your files and your code.",
+   "wave": true,
+   "vis": {
+    "type": "slam",
+    "lines": [
+     "One protocol.",
+     "Every tool."
+    ]
+   }
+  }
+ ],
+ "caption": "MCP (Model Context Protocol) is an open standard Anthropic released in 2024. Instead of every AI app writing custom code for every tool, each tool exposes one MCP server and every MCP-speaking app can use it. Its own docs call it a USB-C port for AI. OpenAI and Google have since added support.",
+ "hashtags": [
+  "mcp",
+  "aiagents",
+  "claudeai",
+  "developer",
+  "techexplained"
+ ],
+ "sources": [
+  "modelcontextprotocol.io (official docs use the USB-C analogy)",
+  "Anthropic announcement, Nov 2024",
+  "OpenAI (Mar 2025) and Google (Apr 2025) announced MCP support"
+ ]
+}

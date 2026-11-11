@@ -1,0 +1,106 @@
+{
+ "id": "04-agents",
+ "accent": "green",
+ "title": "What makes an AI an agent",
+ "hook": "What makes an AI an agent?",
+ "beats": [
+  {
+   "say": "A chatbot answers you. An agent actually does the work. The difference is one loop.",
+   "vis": {
+    "type": "versus",
+    "left": {
+     "title": "Chatbot",
+     "lines": [
+      "You ask",
+      "It answers",
+      "Done"
+     ],
+     "color": "cyan"
+    },
+    "right": {
+     "title": "Agent",
+     "lines": [
+      "You give a goal",
+      "It works until it's done",
+      "Uses real tools"
+     ]
+    }
+   }
+  },
+  {
+   "say": "First it thinks. What's the next step toward the goal?",
+   "vis": {
+    "type": "loop",
+    "stages": [
+     {
+      "label": "Think",
+      "icon": "brain"
+     },
+     {
+      "label": "Act",
+      "icon": "gear"
+     },
+     {
+      "label": "Check",
+      "icon": "eye"
+     }
+    ],
+    "center": "Goal:\nfix the failing test",
+    "laps": 1.0,
+    "span": 3
+   }
+  },
+  {
+   "say": "Then it acts, with a real tool. Search the web, run code, open a file."
+  },
+  {
+   "say": "Then it checks what happened, and loops again until the job is done."
+  },
+  {
+   "say": "That's how coding agents like Claude Code work. Read the code, edit, run the tests, repeat.",
+   "vis": {
+    "type": "flow",
+    "nodes": [
+     {
+      "label": "Read files",
+      "icon": "doc"
+     },
+     {
+      "label": "Edit code",
+      "icon": "code"
+     },
+     {
+      "label": "Run tests",
+      "icon": "gear"
+     },
+     {
+      "label": "Fix and repeat",
+      "icon": "check"
+     }
+    ]
+   }
+  },
+  {
+   "say": "The model is the brain. The loop is what turns it into a worker.",
+   "wave": true,
+   "vis": {
+    "type": "slam",
+    "lines": [
+     "Model = brain",
+     "Loop = worker"
+    ]
+   }
+  }
+ ],
+ "caption": "What turns a chatbot into an agent? A loop. The model thinks about the next step, acts with a real tool (search, code, files), checks the result, and repeats until the goal is done. Coding agents like Claude Code run exactly this loop: read, edit, test, repeat.",
+ "hashtags": [
+  "aiagents",
+  "claudecode",
+  "ai",
+  "techexplained",
+  "buildinpublic"
+ ],
+ "sources": [
+  "Anthropic, 'Building effective agents' (Dec 2024)"
+ ]
+}

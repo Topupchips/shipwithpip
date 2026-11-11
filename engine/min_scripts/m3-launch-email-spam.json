@@ -1,0 +1,189 @@
+{
+ "id": "m3-launch-email-spam",
+ "title": "Your launch email is going to spam",
+ "beats": [
+  {
+   "say": "You built the app, wrote the launch email, hit send, and it went straight to spam.",
+   "key": [
+    "spam"
+   ],
+   "vis": {
+    "type": "inbox",
+    "rows": [
+     [
+      "Ship With Pip",
+      "We launched! Your early access is ready",
+      "9:41"
+     ],
+     [
+      "Notion",
+      "Your weekly digest",
+      "9:12"
+     ],
+     [
+      "GitHub",
+      "[yourapp] 2 new pull requests",
+      "8:55"
+     ],
+     [
+      "Stripe",
+      "Payout scheduled",
+      "8:30"
+     ]
+    ],
+    "move_at": 0.5
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Since 2024, Gmail treats anyone sending five thousand emails a day as a bulk sender, with strict rules.",
+   "key": [
+    "five",
+    "bulk"
+   ],
+   "vis": {
+    "type": "number",
+    "value": 5000,
+    "color": "ink",
+    "sub": "emails a day to Gmail = bulk sender",
+    "size": 260
+   },
+   "bg": "light"
+  },
+  {
+   "say": "First, three DNS records that prove the email is really from you. SPF, DKIM and DMARC. Most new apps have none.",
+   "key": [
+    "three",
+    "none"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "yourapp.com · DNS",
+    "rows": [
+     [
+      "SPF",
+      "who may send for you",
+      "missing"
+     ],
+     [
+      "DKIM",
+      "signs every email",
+      "missing"
+     ],
+     [
+      "DMARC",
+      "what to do with fakes",
+      "missing"
+     ]
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Then one-click unsubscribe, and spam complaints under zero point three percent.",
+   "key": [
+    "one-click",
+    "zero"
+   ],
+   "vis": {
+    "type": "ring",
+    "label": "spam complaint rate",
+    "from": 0,
+    "to": 0.3,
+    "to_frac": 0.3,
+    "dec": 1,
+    "suffix": "%",
+    "color": "red",
+    "sub": "hard limit · aim for under 0.1%",
+    "particles": "red"
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "And Gmail has moved from delaying mail that breaks the rules, to rejecting it outright.",
+   "key": [
+    "rejecting"
+   ],
+   "vis": {
+    "type": "code",
+    "title": "mail log",
+    "lines": [
+     "$ send launch-email --to 12,480 users",
+     "> 421 4.7.0  try again later",
+     "> 421 4.7.0  try again later",
+     "> 550 5.7.26 unauthenticated email",
+     ">            is not accepted",
+     "delivered: 0"
+    ],
+    "hl": {
+     "3": "red",
+     "5": "red"
+    },
+    "hl_at": 0.6
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "Even below five thousand, every sender needs SPF or DKIM. Set them up once, and every receipt and password reset lands too.",
+   "key": [
+    "every",
+    "once"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "yourapp.com · DNS",
+    "rows": [
+     [
+      "SPF",
+      "who may send for you",
+      "missing"
+     ],
+     [
+      "DKIM",
+      "signs every email",
+      "missing"
+     ],
+     [
+      "DMARC",
+      "what to do with fakes",
+      "missing"
+     ]
+    ],
+    "flip": [
+     0.25,
+     0.45,
+     0.65
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Here's the prompt. Screenshot it, and send it to Claude inside your project.",
+   "key": [
+    "Screenshot"
+   ],
+   "vis": {
+    "type": "prompt"
+   },
+   "bg": "light",
+   "cap_y": 1500
+  },
+  {
+   "say": "Follow Ship With Pip for one of these every day.",
+   "nocap": true
+  }
+ ],
+ "prompt": "Check my app's email setup. Look up my domain's SPF, DKIM and DMARC records, confirm my email provider signs with DKIM on my domain, add List-Unsubscribe and one-click unsubscribe headers to marketing emails, and give me the exact DNS records to add.",
+ "caption": "Gmail's sender rules: everyone needs SPF or DKIM; bulk senders (5,000+ emails/day to Gmail) need SPF, DKIM and DMARC, one-click unsubscribe, and spam complaints under 0.3%. Gmail went from deferring non-compliant mail to rejecting it. Fix three DNS records once and your launch emails, receipts and password resets actually arrive. The prompt is at the end.",
+ "hashtags": [
+  "emailmarketing",
+  "saas",
+  "startups",
+  "vibecoding",
+  "buildinpublic"
+ ],
+ "sources": [
+  "Google Email sender guidelines (Feb 2024)",
+  "MailReach summary: 0.3% hard ceiling, 0.1% target; permanent 550 rejections from Nov 2025; 5.7.26 = unauthenticated"
+ ]
+}

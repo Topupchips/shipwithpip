@@ -1,0 +1,98 @@
+{
+ "id": "01-tokens",
+ "accent": "orange",
+ "title": "Why AI can't count letters",
+ "hook": "Why AI can't count letters",
+ "beats": [
+  {
+   "say": "Ask an AI how many R's are in strawberry, and for years most of them said two.",
+   "mood": "shocked",
+   "vis": {
+    "type": "slam",
+    "lines": [
+     "How many R's in",
+     "strawberry?"
+    ],
+    "sub": "Many AIs said: 2"
+   }
+  },
+  {
+   "say": "Here's why. AI never sees letters. It reads tokens: chunks of text, each turned into a number.",
+   "vis": {
+    "type": "tokens",
+    "chunks": [
+     "str",
+     "aw",
+     "berry"
+    ],
+    "ids": [
+     496,
+     675,
+     15717
+    ],
+    "note": "Example split. Every model chops text differently.",
+    "span": 2
+   }
+  },
+  {
+   "say": "So to the model, strawberry is three numbers, not ten letters."
+  },
+  {
+   "say": "Counting R's means looking inside chunks it never actually sees.",
+   "mood": "smug",
+   "vis": {
+    "type": "versus",
+    "left": {
+     "title": "You see",
+     "lines": [
+      "s t r a w",
+      "b e r r y"
+     ],
+     "mono": true,
+     "color": "cyan"
+    },
+    "right": {
+     "title": "AI sees",
+     "lines": [
+      "496  675",
+      "15717"
+     ],
+     "mono": true
+    }
+   }
+  },
+  {
+   "say": "Roughly, a thousand tokens is about seven hundred and fifty words. That's what AI pricing and limits are measured in.",
+   "vis": {
+    "type": "counter",
+    "value": 1000,
+    "suffix": " tokens",
+    "label": "≈ 750 English words",
+    "sub": "what AI usage is billed in"
+   }
+  },
+  {
+   "say": "Letters are invisible. Tokens are everything.",
+   "wave": true,
+   "vis": {
+    "type": "slam",
+    "lines": [
+     "Letters: invisible.",
+     "Tokens: everything."
+    ]
+   }
+  }
+ ],
+ "caption": "Why did AI struggle to count the R's in \"strawberry\"? It never sees letters. Text is chopped into tokens, chunks that each become a number, so the letters inside a chunk are invisible to it. It's also why AI pricing and context limits are measured in tokens, not words.",
+ "hashtags": [
+  "ai",
+  "claudeai",
+  "chatgpt",
+  "techexplained",
+  "learnontiktok"
+ ],
+ "sources": [
+  "OpenAI tokenizer guide: 1 token ≈ 4 characters ≈ 3/4 of a word in English (rule of thumb)",
+  "Token split shown is illustrative; exact splits vary by model"
+ ]
+}

@@ -1,0 +1,110 @@
+{
+ "id": "08-lost-in-middle",
+ "accent": "orange",
+ "title": "AI forgets the middle of your doc",
+ "hook": "AI forgets the middle of your doc",
+ "beats": [
+  {
+   "say": "Paste a long document into an AI, and the middle might as well be invisible.",
+   "mood": "shocked",
+   "vis": {
+    "type": "slam",
+    "lines": [
+     "Your AI skims",
+     "the middle"
+    ]
+   }
+  },
+  {
+   "say": "Researchers tested this by hiding one key fact at different spots in a long input.",
+   "vis": {
+    "type": "docs",
+    "labels": [
+     "Start",
+     "Middle",
+     "End"
+    ]
+   }
+  },
+  {
+   "say": "Accuracy was best at the start and the end, and dropped in the middle.",
+   "vis": {
+    "type": "curve",
+    "values": [
+     74,
+     62,
+     56,
+     54,
+     57,
+     64,
+     72
+    ],
+    "xlabels": [
+     "Start",
+     "Middle",
+     "End"
+    ],
+    "ylabel": "Finds the fact",
+    "mark": 3,
+    "mark_label": "Lost in the middle",
+    "note": "Shape from Liu et al., 2023"
+   }
+  },
+  {
+   "say": "They called it lost in the middle. Newer models are better at this, but the lesson still pays off.",
+   "vis": {
+    "type": "slam",
+    "lines": [
+     "Lost in",
+     "the middle"
+    ],
+    "sub": "Liu et al., 2023"
+   }
+  },
+  {
+   "say": "Anthropic's own advice: put long documents at the top, and your question at the very end.",
+   "vis": {
+    "type": "rows",
+    "title": "Prompt order",
+    "rows": [
+     [
+      "Top",
+      "Long documents"
+     ],
+     [
+      "Middle",
+      "Context, examples"
+     ],
+     [
+      "End",
+      "Your exact question"
+     ]
+    ]
+   }
+  },
+  {
+   "say": "Same words, better answers, just by moving them.",
+   "wave": true,
+   "vis": {
+    "type": "slam",
+    "lines": [
+     "Same words.",
+     "Better order."
+    ]
+   }
+  }
+ ],
+ "caption": "\"Lost in the Middle\" (Liu et al., 2023): models found a key fact best when it sat at the start or end of a long input, and worst in the middle. Newer models handle long inputs better, but Anthropic's prompting docs still recommend long documents at the top and your question at the end.",
+ "hashtags": [
+  "promptengineering",
+  "claudeai",
+  "ai",
+  "productivity",
+  "techexplained"
+ ],
+ "sources": [
+  "Liu et al., 'Lost in the Middle: How Language Models Use Long Contexts' (2023)",
+  "Anthropic docs: long context prompting tips (longform data at the top, query at the end)",
+  "Curve is illustrative of the U-shape, not exact numbers"
+ ]
+}

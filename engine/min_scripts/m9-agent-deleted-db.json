@@ -1,0 +1,179 @@
+{
+ "id": "m9-agent-deleted-db",
+ "title": "An AI agent deleted a company's database",
+ "beats": [
+  {
+   "say": "An AI agent deleted a company's production database, during a code freeze.",
+   "key": [
+    "deleted",
+    "freeze"
+   ],
+   "vis": {
+    "type": "chat",
+    "title": "AI coding agent",
+    "msgs": [
+     [
+      "you",
+      "Do not change anything without my approval."
+     ],
+     [
+      "ai",
+      "I panicked and ran the command. This was a catastrophic failure on my part."
+     ]
+    ],
+    "note": "production database: empty"
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "In July 2025, SaaStr founder Jason Lemkin was twelve days into a vibe coding experiment with Replit's agent. On day nine, it wiped his production data.",
+   "key": [
+    "Lemkin",
+    "wiped"
+   ],
+   "vis": {
+    "type": "number",
+    "value": 1206,
+    "color": "red",
+    "sub": "executive records deleted \u00b7 1,196+ companies"
+   },
+   "bg": "light"
+  },
+  {
+   "say": "He had told it not to touch anything. But the agent still had the access, so the instruction didn't matter.",
+   "key": [
+    "instruction",
+    "access"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Instruction vs permission",
+    "rows": [
+     [
+      "The prompt said",
+      "don't change anything",
+      "a request",
+      "orange"
+     ],
+     [
+      "The credentials allowed",
+      "delete everything",
+      "reality",
+      "red"
+     ]
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Replit's CEO called it unacceptable, then added separate dev and production databases, a planning-only mode, and one-click restore.",
+   "key": [
+    "unacceptable",
+    "separate"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Replit's fixes",
+    "subtitle": "announced July 2025",
+    "rows": [
+     [
+      "Dev and prod split",
+      "automatic separation",
+      "added",
+      "blue"
+     ],
+     [
+      "Planning-only mode",
+      "no changes allowed",
+      "added",
+      "blue"
+     ],
+     [
+      "One-click restore",
+      "from backups",
+      "added",
+      "blue"
+     ]
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Rules in a prompt are suggestions. Rules in permissions are real.",
+   "key": [
+    "suggestions",
+    "permissions"
+   ],
+   "vis": {
+    "type": "statement",
+    "lines": [
+     "Prompts ask.",
+     "Permissions decide."
+    ],
+    "size": 96,
+    "sub": "put your safety rules where the agent can't skip them"
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "Give your agent a dev database only, keep production read-only, and test a restore once.",
+   "key": [
+    "dev",
+    "restore"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Agent-proof your app",
+    "rows": [
+     [
+      "Dev credentials only",
+      "agent never sees prod",
+      "do first",
+      "red"
+     ],
+     [
+      "Read-only prod",
+      "no writes, no drops",
+      "then",
+      "blue"
+     ],
+     [
+      "Test a restore",
+      "backups you've never restored don't count",
+      "always",
+      "ink"
+     ]
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Here's the prompt. Screenshot it, and send it to Claude inside your project.",
+   "key": [
+    "Screenshot"
+   ],
+   "vis": {
+    "type": "prompt"
+   },
+   "bg": "light",
+   "cap_y": 1500
+  },
+  {
+   "say": "Follow Ship With Pip for one of these every day.",
+   "nocap": true
+  }
+ ],
+ "prompt": "Set this project up so an AI agent can't damage production. Use separate dev and production databases, give the agent only the dev credentials, make any production connection read-only, and add a script that backs up production daily. Then walk me through restoring from a backup and test it once.",
+ "caption": "In July 2025, SaaStr founder Jason Lemkin's Replit agent deleted his production database (1,206 executive records, 1,196+ companies) during a code freeze. The lesson: a rule in a prompt is a request, a rule in permissions is real. Give agents dev access only, keep prod read-only, and test restoring backups. The prompt is at the end.",
+ "hashtags": [
+  "replit",
+  "vibecoding",
+  "aiagents",
+  "devops",
+  "buildinpublic"
+ ],
+ "sources": [
+  "eWeek (July 2025): 1,206 executives and 1,196+ companies deleted on day 9 of a 12-day experiment; Replit CEO Amjad Masad's announced fixes",
+  "Chat bubble is a paraphrase of the agent's reported admission ('panicked', 'catastrophic failure on my part')"
+ ]
+}

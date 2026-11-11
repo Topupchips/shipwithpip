@@ -1,0 +1,26 @@
+{
+ "title": "p2 - 3 things never paste into AI",
+ "cast": ["pip","flop"],
+ "scene": "city",
+ "hook": "Never paste THIS into AI",
+ "hook_color": "red",
+ "hook_dur": 3.0,
+ "seed": 8,
+ "beats": [
+  {"who":"flop","say":"Stop. Do not paste that into the chatbot!","mood":"shocked"},
+  {"who":"pip","say":"Why? It's just my work stuff.","mood":"annoyed"},
+  {"who":"flop","say":"That is exactly the problem. Some chats you share can end up public.","mood":"shocked","rehook":"IT HAPPENED"},
+  {"who":"pip","say":"Public?! Like on Google?","mood":"shocked"},
+  {"who":"flop","say":"In twenty twenty five, shared ChatGPT links were showing up in search results. The feature was removed after people noticed.","panel":{"type":"note","lines":["Shared chats","got indexed"],"sub":"Aug 2025, then removed"},"scene":"study"},
+  {"who":"pip","say":"Okay. So what should I never paste?","mood":"shocked","rehook":"THE 3 NEVERS"},
+  {"who":"flop","say":"One, passwords and API keys. Two, private client data. Three, anything you would not put on a billboard.","panel":{"type":"list","title":"Never paste","rows":[["x","Passwords & API keys","bots and leaks"],["x","Client or customer data","not yours to share"],["x","Secrets you'd hide","assume it can leak"]]},"scene":"sunset"},
+  {"who":"pip","say":"Honestly I did the first one last week.","mood":"annoyed"},
+  {"who":"flop","say":"Then rotate that key today. And if you build apps, use code A T 100 on Base forty four. Link in bio.","mood":"happy"},
+  {"who":"pip","say":"Be honest. Which one have you done?","mood":"shocked","sticker":{"top":"Comment 1, 2 or","word":"3"}}
+ ],
+ "caption": "3 things you should NEVER paste into an AI chat. Number 1 is the one everybody does.\n\nBuilding your own app? Use code AT100 on Base44 (link in bio).\n\nWhich one have you done? Comment 1, 2 or 3.",
+ "hashtags": ["ai","chatgpt","privacy","aitips","cybersecurity","techtok","shipwithpip"],
+ "pinned_comment": "Comment 1, 2 or 3 - which one have you done? (no judgment, rotate your keys!)",
+ "sources": ["Shared ChatGPT links indexed by search engines, Aug 2025 - verified earlier this session"],
+ "end_hold": 2.4
+}

@@ -1,0 +1,139 @@
+{
+ "natural": true,
+ "voice": "af_bella",
+ "speed": 1.0,
+ "id": "m17-chatgpt-shared-google",
+ "title": "Your shared ChatGPT chat could be on Google",
+ "beats": [
+  {
+   "say": "Shared a ChatGPT chat? For a while, Google could find it.",
+   "key": [
+    "Shared",
+    "Google"
+   ],
+   "vis": {
+    "type": "statement",
+    "lines": [
+     "Shared a",
+     "ChatGPT chat?",
+     "Google could",
+     "find it."
+    ],
+    "red": 3,
+    "size": 104,
+    "sub": "if you ticked one box"
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Here's how. When you shared a chat, there was a checkbox that let search engines index it. Tick it, and anyone could search for your conversation.",
+   "key": [
+    "checkbox",
+    "search"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "How it happened",
+    "rows": [
+     [
+      "Share a chat",
+      "creates a public link",
+      "step 1",
+      "ink"
+     ],
+     [
+      "Tick the search box",
+      "allow search engines",
+      "step 2",
+      "red"
+     ],
+     [
+      "Anyone can find it",
+      "just by searching Google",
+      "result",
+      "red"
+     ]
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "OpenAI's security chief called it a short lived experiment, and said it made it too easy to share things by accident. OpenAI pulled it in early August 2025.",
+   "key": [
+    "accident",
+    "pulled"
+   ],
+   "vis": {
+    "type": "statement",
+    "lines": [
+     "Too easy to",
+     "share things",
+     "by accident."
+    ],
+    "red": 2,
+    "size": 110,
+    "sub": "OpenAI's security chief \u00b7 Aug 2025"
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "But cached copies can stick around for a while. So check your shared links, delete the ones you don't need, and never paste secrets into a chat you might share.",
+   "key": [
+    "cached",
+    "secrets"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Do this today",
+    "rows": [
+     [
+      "Check your shared links",
+      "in settings, data controls",
+      "do first",
+      "red"
+     ],
+     [
+      "Delete the old ones",
+      "if you don't need them",
+      "then",
+      "teal"
+     ],
+     [
+      "No keys, client data or IDs",
+      "in any chat, ever",
+      "always",
+      "ink"
+     ]
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Here's the prompt. Screenshot it, and send it to Claude inside your project.",
+   "key": [
+    "Screenshot"
+   ],
+   "vis": {
+    "type": "prompt"
+   },
+   "bg": "light",
+   "cap_y": 1500
+  },
+  {
+   "say": "Follow Ship With Pip for one of these every day.",
+   "nocap": true
+  }
+ ],
+ "prompt": "Give me a 10 minute privacy checklist for my AI chat accounts (ChatGPT, Claude, Gemini). Cover shared links, memory, training data opt-outs and chat history, and tell me which settings to change. Then list the kinds of things I should never paste into any chat, like API keys, client data and ID numbers.",
+ "caption": "In 2025 ChatGPT had an opt-in checkbox on shared chats that let search engines like Google index them. OpenAI's security chief called it a short-lived experiment that made it too easy to share things by accident, and it was pulled in early August 2025. Cached copies can linger, so check your shared links, delete old ones, and never paste secrets into a chat you might share. The prompt is at the end. Building your own app? Use code AT100 on Base44 (link in bio).",
+ "hashtags": [
+  "chatgpt",
+  "privacy",
+  "aisecurity",
+  "cybersecurity",
+  "buildinpublic"
+ ],
+ "sources": [
+  "Malwarebytes (Aug 1 2025): opt-in checkbox, OpenAI CISO Dane Stuckey statement, feature removed, cached results may linger"
+ ]
+}

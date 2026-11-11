@@ -1,0 +1,149 @@
+{
+ "id": "06-embeddings",
+ "accent": "yellow",
+ "title": "How AI does math with words",
+ "hook": "How AI does math with words",
+ "beats": [
+  {
+   "say": "King, minus man, plus woman, equals queen. AI can literally do that math.",
+   "mood": "shocked",
+   "vis": {
+    "type": "slam",
+    "lines": [
+     "King - Man + Woman",
+     "= Queen"
+    ]
+   }
+  },
+  {
+   "say": "Models turn words into lists of numbers called embeddings. Think of them as points in space.",
+   "vis": {
+    "type": "scatter",
+    "points": [
+     {
+      "label": "man",
+      "x": 0.12,
+      "y": 0.28
+     },
+     {
+      "label": "woman",
+      "x": 0.5,
+      "y": 0.3
+     },
+     {
+      "label": "king",
+      "x": 0.18,
+      "y": 0.72
+     },
+     {
+      "label": "queen",
+      "x": 0.56,
+      "y": 0.74
+     },
+     {
+      "label": "banana",
+      "x": 0.82,
+      "y": 0.12,
+      "dim": true,
+      "anchor": "rb"
+     }
+    ],
+    "arrows": [
+     [
+      "man",
+      "woman"
+     ],
+     [
+      "king",
+      "queen"
+     ]
+    ],
+    "span": 2
+   }
+  },
+  {
+   "say": "Similar meanings land close together, and the same relationship points the same way."
+  },
+  {
+   "say": "That's how AI search works. Search cheap flights, and it finds budget airfare, with zero matching words.",
+   "vis": {
+    "type": "scatter",
+    "points": [
+     {
+      "label": "cheap flights",
+      "x": 0.32,
+      "y": 0.6,
+      "color": "pink"
+     },
+     {
+      "label": "budget airfare",
+      "x": 0.46,
+      "y": 0.52
+     },
+     {
+      "label": "low-cost tickets",
+      "x": 0.2,
+      "y": 0.4
+     },
+     {
+      "label": "banana bread",
+      "x": 0.62,
+      "y": 0.14,
+      "dim": true
+     },
+     {
+      "label": "tax forms",
+      "x": 0.58,
+      "y": 0.88,
+      "dim": true
+     }
+    ],
+    "query": "cheap flights",
+    "radius": 200
+   }
+  },
+  {
+   "say": "Every chatbot that searches your docs runs on this.",
+   "vis": {
+    "type": "flow",
+    "nodes": [
+     {
+      "label": "Your question",
+      "icon": "search"
+     },
+     {
+      "label": "Nearest docs",
+      "icon": "db"
+     },
+     {
+      "label": "Answer",
+      "icon": "spark"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Words become coordinates. Meaning becomes distance.",
+   "wave": true,
+   "vis": {
+    "type": "slam",
+    "lines": [
+     "Words = coordinates",
+     "Meaning = distance"
+    ]
+   }
+  }
+ ],
+ "caption": "Embeddings turn words and sentences into lists of numbers, points in space where similar meanings sit close together. The classic word2vec example: king - man + woman lands near queen. It's why semantic search finds \"budget airfare\" when you type \"cheap flights\", and it powers chatbots that search your documents (RAG).",
+ "hashtags": [
+  "ai",
+  "embeddings",
+  "machinelearning",
+  "rag",
+  "techexplained"
+ ],
+ "sources": [
+  "Mikolov et al., word2vec (2013): king - man + woman ≈ queen",
+  "Plot is a 2D illustration of high-dimensional vectors"
+ ]
+}

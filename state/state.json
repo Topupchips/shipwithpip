@@ -1,0 +1,26 @@
+{
+  "next": "explainer",
+  "sim_rotation": [
+    "maze",
+    "flappy",
+    "dodge",
+    "pole",
+    "moon",
+    "hoops",
+    "lander",
+    "dino",
+    "hunt",
+    "snake",
+    "drone",
+    "walk",
+    "shortcut",
+    "keepups",
+    "password"
+  ],
+  "sim_index": 0,
+  "account": {
+    "platform": "INSTAGRAM",
+    "username": "shipwithpip",
+    "platformAccountId": "29510734025188123"
+  }
+}

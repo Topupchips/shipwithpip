@@ -1,0 +1,144 @@
+{
+ "id": "c1-base44-80m",
+ "title": "He built an app with AI and sold it for $80M",
+ "palette": "money",
+ "cast": [
+  "flop",
+  "pip",
+  "dex"
+ ],
+ "max_len": 44.0,
+ "badge": "REAL STORY \u00b7 $80M",
+ "hook": "He built an app with AI and sold it for $80M",
+ "beats": [
+  {
+   "who": "flop",
+   "mood": "smug",
+   "moods": {
+    "dex": "annoyed",
+    "pip": "annoyed"
+   },
+   "say": "Nobody makes real money with AI apps.",
+   "panel": {
+    "type": "big",
+    "text": "Nobody makes money with AI apps"
+   }
+  },
+  {
+   "who": "pip",
+   "mood": "happy",
+   "wave": true,
+   "moods": {
+    "flop": "shocked",
+    "dex": "shocked"
+   },
+   "say": "Maor Shlomo built Base44 mostly alone, with no outside funding. About six months later, Wix paid eighty million dollars in cash.",
+   "panel": {
+    "type": "number",
+    "label": "Wix paid, all cash",
+    "prefix": "$",
+    "value": 80,
+    "suffix": " million",
+    "sub": "Base44 \u00b7 June 2025 \u00b7 built mostly solo, no funding"
+   }
+  },
+  {
+   "who": "dex",
+   "mood": "shocked",
+   "moods": {
+    "flop": "shocked",
+    "pip": "happy"
+   },
+   "say": "Eighty million? For an app?"
+  },
+  {
+   "who": "pip",
+   "mood": "happy",
+   "say": "Around two hundred fifty thousand users. And one hundred eighty nine thousand dollars of net profit in May alone.",
+   "panel": {
+    "type": "list",
+    "title": "Base44 at the sale",
+    "rows": [
+     [
+      "users",
+      "about",
+      "250K"
+     ],
+     [
+      "profit",
+      "May 2025, net",
+      "$189K"
+     ],
+     [
+      "team",
+      "employees",
+      "8"
+     ]
+    ]
+   }
+  },
+  {
+   "who": "pip",
+   "mood": "smug",
+   "say": "It started as a side project. He kept posting his progress on LinkedIn and Twitter, and people showed up.",
+   "panel": {
+    "type": "big",
+    "text": "Build it. Post it. Repeat.",
+    "source": "Source: TechCrunch and DesignRush, June 2025"
+   }
+  },
+  {
+   "who": "flop",
+   "mood": "shocked",
+   "moods": {
+    "dex": "happy",
+    "pip": "smug"
+   },
+   "say": "So I just post every day?"
+  },
+  {
+   "who": "pip",
+   "mood": "happy",
+   "say": "Pick one painful problem. Build the first version with Claude. Show your work. Get your first paying user.",
+   "panel": {
+    "type": "steps",
+    "title": "The playbook",
+    "rows": [
+     [
+      "Pick one painful problem",
+      "for a specific group"
+     ],
+     [
+      "Build v1 with Claude",
+      "small and simple"
+     ],
+     [
+      "Post your progress",
+      "every single day"
+     ],
+     [
+      "Get one paying user",
+      "before you add features"
+     ]
+    ]
+   }
+  },
+  {
+   "who": "pip",
+   "mood": "smug",
+   "say": "Most won't reach eighty million. But shipping in public is how you get a shot."
+  }
+ ],
+ "cta": "Comment MONEY for the prompt",
+ "cta_sub": "Follow Ship With Pip",
+ "caption": "Base44's founder Maor Shlomo built the vibe-coding app mostly solo with no outside funding, and about six months in Wix bought it for $80M cash (June 2025). At the sale: roughly 250K users and $189K net profit in May. It began as a side project, and he posted progress on LinkedIn and Twitter. Most people won't get an exit like that, but the playbook is real: pick one painful problem, build v1 with Claude, post daily, get a paying user. Building your own app? Use code AT100 on Base44 (link in bio).",
+ "hashtags": [
+  "makemoneyonline",
+  "claude",
+  "buildinpublic",
+  "vibecoding",
+  "indiehacker"
+ ],
+ "pinned_comment": "The prompt: Help me find one painful problem I can solve with a small app. Interview me about my skills and the people I know, give me 5 niche ideas, rank them by how easily I could get a first paying customer, and write a one-week build plan for the best one.",
+ "prompt": "Help me find one painful problem I can solve with a small app. Interview me about my skills and the people I know, give me 5 niche ideas, rank them by how easily I could get a first paying customer, and write a one-week build plan for the best one."
+}

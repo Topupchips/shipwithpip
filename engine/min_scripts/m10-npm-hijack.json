@@ -1,0 +1,226 @@
+{
+ "id": "m10-npm-hijack",
+ "title": "One phishing email hijacked 2 billion weekly downloads",
+ "beats": [
+  {
+   "say": "One fake email just hijacked code that's downloaded two billion times a week.",
+   "key": [
+    "fake",
+    "billion"
+   ],
+   "vis": {
+    "type": "inbox",
+    "rows": [
+     [
+      "npm Support",
+      "Action required: update your 2FA now",
+      "9:14"
+     ],
+     [
+      "GitHub",
+      "[yourapp] 2 new pull requests",
+      "8:55"
+     ],
+     [
+      "Vercel",
+      "Deployment succeeded",
+      "8:30"
+     ],
+     [
+      "Stripe",
+      "Payout scheduled",
+      "8:10"
+     ]
+    ],
+    "move_at": 9
+   },
+   "bg": "light"
+  },
+  {
+   "say": "In September twenty twenty five, a maintainer entered his password and two factor code on a page that looked like npm.",
+   "key": [
+    "password",
+    "two"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Fake page captured",
+    "subtitle": "Hacker News",
+    "rows": [
+     [
+      "Username",
+      "typed into fake page",
+      "captured",
+      "red"
+     ],
+     [
+      "Password",
+      "typed into fake page",
+      "captured",
+      "red"
+     ],
+     [
+      "2FA code",
+      "typed into fake page",
+      "captured",
+      "red"
+     ]
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Within hours, twenty popular packages had malicious versions.",
+   "key": [
+    "twenty",
+    "malicious"
+   ],
+   "vis": {
+    "type": "number",
+    "value": 20,
+    "color": "red",
+    "sub": "npm packages hijacked \u00b7 2B+ weekly downloads"
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "That included chalk and debug. Any app that built with those versions could ship the attacker's code to its users.",
+   "key": [
+    "chalk",
+    "debug"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Compromised versions",
+    "subtitle": "September 8, 2025",
+    "rows": [
+     [
+      "chalk",
+      "5.6.1",
+      "hijacked",
+      "red"
+     ],
+     [
+      "debug",
+      "4.4.2",
+      "hijacked",
+      "red"
+     ],
+     [
+      "strip-ansi",
+      "7.1.1",
+      "hijacked",
+      "red"
+     ]
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "The code swapped crypto wallet addresses in the browser. The attacker made about six hundred dollars.",
+   "key": [
+    "wallet",
+    "six"
+   ],
+   "vis": {
+    "type": "number",
+    "value": 600,
+    "color": "red",
+    "sub": "dollars stolen \u00b7 Socket's estimate"
+   },
+   "bg": "light"
+  },
+  {
+   "say": "A week later, a self copying worm did something worse. It stole tokens and cloud keys, then published itself into over five hundred packages.",
+   "key": [
+    "worm",
+    "five"
+   ],
+   "vis": {
+    "type": "code",
+    "title": "worm: Shai-Hulud",
+    "lines": [
+     "> postinstall: scanning environment...",
+     "  found GITHUB_TOKEN",
+     "  found AWS_ACCESS_KEY_ID",
+     "> logging in to npm as the developer...",
+     "> publishing to 500+ packages"
+    ],
+    "hl": {
+     "4": "red"
+    },
+    "hl_at": 0.6,
+    "type_end": 0.15
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "Pinned versions and a committed lockfile mean you only upgrade when you choose to.",
+   "key": [
+    "lockfile",
+    "choose"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Harden your project",
+    "subtitle": "CISA's guidance",
+    "rows": [
+     [
+      "Commit your lockfile",
+      "pin exact versions",
+      "first",
+      "red"
+     ],
+     [
+      "Rotate exposed keys",
+      "assume they leaked",
+      "if hit",
+      "orange"
+     ],
+     [
+      "Passkeys on npm + GitHub",
+      "phishing-resistant MFA",
+      "do",
+      "blue"
+     ],
+     [
+      "Skip install scripts",
+      "ignore-scripts=true",
+      "then",
+      "ink"
+     ]
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Here's the prompt. Screenshot it, and send it to Claude inside your project.",
+   "key": [
+    "Screenshot"
+   ],
+   "vis": {
+    "type": "prompt"
+   },
+   "bg": "light",
+   "cap_y": 1500
+  },
+  {
+   "say": "Follow Ship With Pip for one of these every day.",
+   "nocap": true
+  }
+ ],
+ "prompt": "Audit this project for npm supply chain risk. Confirm package-lock.json is committed and CI installs with npm ci. Run npm audit, list any dependency versions published in the last 7 days, and flag packages with postinstall scripts. Then propose an .npmrc with ignore-scripts=true and tell me exactly what would break.",
+ "caption": "In Sept 2025 one phishing email hijacked 20 npm packages with 2B+ weekly downloads, including chalk and debug. The payload swapped crypto wallet addresses and netted about $600. A week later the Shai-Hulud worm stole tokens and cloud keys and spread itself across 500+ packages. Commit your lockfile, pin versions, rotate exposed keys, use phishing-resistant MFA. The prompt is at the end.",
+ "hashtags": [
+  "cybersecurity",
+  "npm",
+  "vibecoding",
+  "webdev",
+  "buildinpublic"
+ ],
+ "sources": [
+  "The Hacker News, Sep 9 2025: 20 npm packages, 2B+ weekly downloads; chalk 5.6.1, debug 4.4.2, strip-ansi 7.1.1; phishing of maintainer; ~$600 stolen per Socket",
+  "CISA alert (Sep 2025): Shai-Hulud worm, 500+ packages, steals GitHub PATs and AWS/GCP/Azure keys, self-propagates; mitigations",
+  "Inbox and terminal output are illustrations"
+ ]
+}

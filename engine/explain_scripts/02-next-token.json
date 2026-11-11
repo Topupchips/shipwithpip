@@ -1,0 +1,122 @@
+{
+ "id": "02-next-token",
+ "accent": "cyan",
+ "title": "AI doesn't know its next word",
+ "hook": "AI doesn't know its next word",
+ "beats": [
+  {
+   "say": "Here's something wild. An AI has no idea what it's going to say next.",
+   "mood": "shocked",
+   "vis": {
+    "type": "slam",
+    "lines": [
+     "It doesn't know",
+     "what it'll say next"
+    ]
+   }
+  },
+  {
+   "say": "Every word is a bet. The model scores every possible next token,",
+   "vis": {
+    "type": "probs",
+    "prompt": "The best pizza topping is",
+    "options": [
+     [
+      "pepperoni",
+      0.41
+     ],
+     [
+      "cheese",
+      0.22
+     ],
+     [
+      "mushroom",
+      0.14
+     ],
+     [
+      "pineapple",
+      0.09
+     ],
+     [
+      "olives",
+      0.05
+     ]
+    ],
+    "pick": 0,
+    "span": 2
+   }
+  },
+  {
+   "say": "picks one, adds it, then does the whole thing again. Word. By. Word."
+  },
+  {
+   "say": "A setting called temperature decides how adventurous those picks are.",
+   "vis": {
+    "type": "versus",
+    "left": {
+     "title": "Low temp",
+     "lines": [
+      "Safest word",
+      "Predictable",
+      "Great for code"
+     ],
+     "color": "cyan"
+    },
+    "right": {
+     "title": "High temp",
+     "lines": [
+      "Riskier words",
+      "More creative",
+      "Can go off the rails"
+     ],
+     "color": "pink"
+    }
+   }
+  },
+  {
+   "say": "It's also why AI hallucinates. A confident guess is still a guess.",
+   "mood": "smug",
+   "vis": {
+    "type": "slam",
+    "lines": [
+     "Sounds right",
+     "is not",
+     "the same as right"
+    ],
+    "hi": 2
+   }
+  },
+  {
+   "say": "So when facts matter, hand it a source to read instead of asking it to remember.",
+   "wave": true,
+   "vis": {
+    "type": "flow",
+    "nodes": [
+     {
+      "label": "Your source",
+      "icon": "doc"
+     },
+     {
+      "label": "The model",
+      "icon": "chip"
+     },
+     {
+      "label": "Grounded answer",
+      "icon": "check"
+     }
+    ]
+   }
+  }
+ ],
+ "caption": "Language models write one token at a time. At every step they score every possible next token, pick one, append it, and repeat. Temperature controls how adventurous the picks are, and it's why a fluent answer can still be a confident guess. When facts matter, give the model a source to read.",
+ "hashtags": [
+  "ai",
+  "llm",
+  "claudeai",
+  "techexplained",
+  "machinelearning"
+ ],
+ "sources": [
+  "Probabilities shown are illustrative"
+ ]
+}

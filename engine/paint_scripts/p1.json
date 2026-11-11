@@ -1,0 +1,28 @@
+{
+ "title": "p1 - AI lies confidently",
+ "cast": ["pip","dex"],
+ "scene": "study",
+ "hook": "Your AI is LYING to you",
+ "hook_color": "red",
+ "hook_dur": 3.0,
+ "seed": 4,
+ "still_times": [1.0, 4.5, 8, 12, 16, 20, 24, 27],
+ "beats": [
+  {"who":"pip","say":"Quick question. Has an AI ever lied to your face?","mood":"shocked"},
+  {"who":"dex","say":"Lied? It just makes things up, and it sounds totally sure.","mood":"smug"},
+  {"who":"pip","say":"Wait, what? Why would it do that?","mood":"shocked","rehook":"WAIT FOR #3"},
+  {"who":"dex","say":"Because it predicts the next likely word. It does not look up facts.","panel":{"type":"note","lines":["Predicts words","NOT facts"],"sub":"fluent is not the same as true"}},
+  {"who":"pip","say":"So a confident answer can still be totally wrong?","mood":"annoyed"},
+  {"who":"dex","say":"Yep. Lawyers have even been fined for filing fake case citations an AI invented.","mood":"smug","scene":"city"},
+  {"who":"pip","say":"Okay, so how do I stop getting fooled?","mood":"shocked","rehook":"THE 3 RULES"},
+  {"who":"dex","say":"One, ask for sources. Two, check every number. Three, tell it to say I don't know.","panel":{"type":"list","title":"Hallucination shield","rows":[["check","Ask for sources","then open them"],["check","Verify numbers","never trust a stat"],["check","Allow 'I don't know'","say it in the prompt"]]},"scene":"sunset"},
+  {"who":"pip","say":"Wow. That last one is so simple.","mood":"happy"},
+  {"who":"dex","say":"And if you are building an app with AI, use code A T 100 on Base forty four. Link in bio.","mood":"happy"},
+  {"who":"pip","say":"Now be honest. What is the dumbest thing an AI ever told you?","mood":"shocked","sticker":{"top":"Comment","word":"LIED"}}
+ ],
+ "title_post": "",
+ "caption": "Your AI sounds sure even when it is wrong. 3 rules to stop getting fooled.\n\nBuilding your own app? Use code AT100 on Base44 (link in bio).\n\nWhat is the dumbest thing an AI ever told you? Comment LIED and tell me.",
+ "hashtags": ["ai","chatgpt","claude","aitips","learnai","techtok","shipwithpip"],
+ "pinned_comment": "Comment LIED + the dumbest thing an AI told you. Best one gets a reply from Pip!",
+ "end_hold": 2.4
+}

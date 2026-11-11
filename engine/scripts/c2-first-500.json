@@ -1,0 +1,132 @@
+{
+ "id": "c2-first-500",
+ "title": "How I'd make my first $500 with Claude",
+ "palette": "neon",
+ "cast": [
+  "dex",
+  "pip"
+ ],
+ "max_len": 44.0,
+ "badge": "EXAMPLE MATH \u00b7 NOT A PROMISE",
+ "hook": "How I'd make my first $500 with Claude",
+ "beats": [
+  {
+   "who": "dex",
+   "mood": "annoyed",
+   "moods": {
+    "pip": "happy"
+   },
+   "say": "I need five hundred dollars this month. Fast.",
+   "panel": {
+    "type": "number",
+    "label": "The goal",
+    "prefix": "$",
+    "value": 500,
+    "sub": "example target, not a guarantee"
+   }
+  },
+  {
+   "who": "pip",
+   "mood": "happy",
+   "wave": true,
+   "say": "Don't sell AI. Sell a fixed problem. Local businesses lose customers when nobody replies fast.",
+   "panel": {
+    "type": "big",
+    "text": "Sell the fix, not the AI"
+   }
+  },
+  {
+   "who": "pip",
+   "mood": "smug",
+   "say": "So build a tiny lead follow up tool. A customer fills a form, gets a reply in a minute, and picks a time for a call.",
+   "panel": {
+    "type": "chat",
+    "title": "What the customer sees",
+    "bubbles": [
+     [
+      "you",
+      "Hi, can I get a quote for Friday?"
+     ],
+     [
+      "bot",
+      "Absolutely! Want 10am or 2pm for a quick call?"
+     ],
+     [
+      "you",
+      "2pm works."
+     ]
+    ]
+   }
+  },
+  {
+   "who": "dex",
+   "mood": "shocked",
+   "moods": {
+    "pip": "smug"
+   },
+   "say": "Can Claude really build that?"
+  },
+  {
+   "who": "pip",
+   "mood": "happy",
+   "say": "Describe it, build it in an afternoon, and test it on your own phone first. And keep every key on the server.",
+   "panel": {
+    "type": "prompt",
+    "label": "You to Claude",
+    "text": "Build a small web form that emails me new leads, sends the customer an instant reply, and offers two call times. Keep it simple and secure: no API keys in the browser."
+   }
+  },
+  {
+   "who": "pip",
+   "mood": "happy",
+   "say": "Then offer it to five local businesses for a five hundred dollar setup. One yes hits your goal.",
+   "panel": {
+    "type": "steps",
+    "title": "The plan",
+    "rows": [
+     [
+      "Build it in an afternoon",
+      "test on yourself first"
+     ],
+     [
+      "List 5 local businesses",
+      "ones that miss calls"
+     ],
+     [
+      "Offer a $500 setup",
+      "one clear promise"
+     ],
+     [
+      "Ask for the sale",
+      "then fix what they say"
+     ]
+    ]
+   }
+  },
+  {
+   "who": "dex",
+   "mood": "happy",
+   "moods": {
+    "pip": "happy"
+   },
+   "say": "And if all five say no, I still learn what sells."
+  },
+  {
+   "who": "pip",
+   "mood": "smug",
+   "say": "Start small. Ship it. Then ask for the sale."
+  }
+ ],
+ "cta": "Comment MONEY for the full plan",
+ "cta_sub": "Follow Ship With Pip",
+ "caption": "A realistic way to try for your first $500 with Claude: don't sell 'AI', sell a fixed problem. Build a tiny lead follow-up tool (form, instant reply, call booking) in an afternoon, test it on yourself, keep API keys on the server, then offer it to 5 local businesses for a $500 setup. This is example math, not a promise of income. The prompt is in the pinned comment. Building your own app? Use code AT100 on Base44 (link in bio).",
+ "hashtags": [
+  "makemoneyonline",
+  "claude",
+  "sidehustle",
+  "buildinpublic",
+  "aiagents"
+ ],
+ "pinned_comment": "The prompt: Build a small web form that emails me new leads, sends the customer an instant reply, and offers two call times. Keep it simple and secure: no API keys in the browser.",
+ "prompt": "Build a small web form that emails me new leads, sends the customer an instant reply, and offers two call times. Keep it simple and secure: no API keys in the browser."
+}

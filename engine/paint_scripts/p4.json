@@ -1,0 +1,105 @@
+{
+ "title": "p4 - incognito mode isn't private",
+ "cast": ["pip", "flop"],
+ "scene": "study",
+ "hook": "Incognito mode isn't private",
+ "hook_color": "red",
+ "hook_dur": 3.0,
+ "seed": 14,
+ "beats": [
+  {
+   "who": "pip",
+   "say": "Going incognito so nobody sees what I'm looking up.",
+   "mood": "smug"
+  },
+  {
+   "who": "flop",
+   "say": "Nobody on this laptop. Everyone else still can.",
+   "mood": "shocked",
+   "rehook": "WAIT, WHAT?"
+  },
+  {
+   "who": "pip",
+   "say": "What do you mean everyone else?",
+   "mood": "annoyed"
+  },
+  {
+   "who": "flop",
+   "say": "Incognito only deletes your history, cookies and form data from this device when you close the window.",
+   "panel": {
+    "type": "note",
+    "lines": ["It only hides", ["the laptop.", "red"]],
+    "sub": "Not the internet"
+   },
+   "scene": "city"
+  },
+  {
+   "who": "pip",
+   "say": "Okay but who's actually watching?",
+   "mood": "shocked",
+   "rehook": "WHO CAN STILL SEE YOU"
+  },
+  {
+   "who": "flop",
+   "say": "Your internet provider sees every site you visit. Your school or work network can too. And every site still gets your IP address.",
+   "panel": {
+    "type": "list",
+    "title": "Still watching",
+    "rows": [
+     ["x", "Your internet provider", "sees every site"],
+     ["x", "Work or school wifi", "logs the traffic"],
+     ["x", "The website itself", "gets your IP"]
+    ]
+   },
+   "scene": "sunset"
+  },
+  {
+   "who": "pip",
+   "say": "Wait, didn't Google get sued over this exact thing?",
+   "mood": "shocked"
+  },
+  {
+   "who": "flop",
+   "say": "Yes. A lawsuit claimed Google still tracked people in Incognito. Google settled in late twenty twenty three and agreed to delete billions of those records.",
+   "panel": {
+    "type": "note",
+    "lines": [["Billions of records,", "red"], "deleted in the deal"],
+    "sub": "Google Incognito lawsuit, settled late 2023"
+   },
+   "scene": "study"
+  },
+  {
+   "who": "pip",
+   "say": "So what actually keeps me private?",
+   "mood": "shocked",
+   "rehook": "WHAT ACTUALLY HELPS"
+  },
+  {
+   "who": "flop",
+   "say": "A VPN hides your traffic from your provider. Logging out and using different accounts helps too. Incognito just wipes the local trail.",
+   "mood": "happy"
+  },
+  {
+   "who": "pip",
+   "say": "And if you build your own privacy tool, use code A T 100 on Base forty four. Link in bio.",
+   "mood": "happy"
+  },
+  {
+   "who": "flop",
+   "say": "Be honest. Did you think incognito actually hid you from everyone?",
+   "mood": "smug",
+   "sticker": {
+    "top": "Comment",
+    "word": "CAUGHT"
+   }
+  }
+ ],
+ "caption": "Incognito mode doesn't make you invisible. It only wipes your history, cookies and form data from THIS device. Your internet provider, your school or work network, and every website you visit can still see you, and websites still get your IP address. Google was even sued over this: a class action claimed Google still tracked people in Incognito, and Google settled in late 2023, agreeing to delete billions of those records.\n\nBuilding your own app? Use code AT100 on Base44 (link in bio).\n\nDid you think incognito hid you from everyone? Comment CAUGHT if you did.",
+ "hashtags": ["incognitomode", "privacy", "techtips", "cybersecurity", "didyouknow", "shipwithpip"],
+ "pinned_comment": "Comment CAUGHT if you thought incognito actually hid you from everyone (no judgment, most people do)",
+ "sources": [
+  "What incognito hides/doesn't hide (ISP, employer, website IP visibility): https://maketecheasier.com/mte-j-incognito-mode-was-never-private-it-hides-your-history-from-the-family-laptop-not-from-your-isp-your-employer-or-the-site-you-just-logged-into/",
+  "Google Incognito lawsuit settlement, late 2023, agreed to delete billions of records: same source"
+ ],
+ "end_hold": 2.4
+}

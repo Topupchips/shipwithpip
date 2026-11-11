@@ -1,0 +1,175 @@
+{
+ "id": "m8-slopsquatting",
+ "title": "AI invents packages. Attackers publish them.",
+ "beats": [
+  {
+   "say": "Your AI can tell you to install a package that doesn't exist. And that's a problem.",
+   "key": [
+    "doesn't",
+    "exist"
+   ],
+   "vis": {
+    "type": "code",
+    "title": "terminal",
+    "lines": [
+     "$ npm install fast-jwt-validator-pro",
+     "",
+     "added 1 package in 2s",
+     "",
+     "1 high severity vulnerability"
+    ],
+    "hl": {
+     "4": "red"
+    },
+    "hl_at": 0.6,
+    "type_end": 0.2
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "Researchers tested sixteen models on five hundred seventy six thousand code samples.",
+   "key": [
+    "sixteen",
+    "samples"
+   ],
+   "vis": {
+    "type": "number",
+    "value": 576000,
+    "color": "teal",
+    "sub": "code samples \u00b7 16 models tested"
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Nearly twenty percent of the packages they suggested were fake, over two hundred thousand made-up names.",
+   "key": [
+    "twenty",
+    "fake"
+   ],
+   "vis": {
+    "type": "ring",
+    "label": "fake packages",
+    "from": 0,
+    "to": 19.7,
+    "from_frac": 0.0,
+    "to_frac": 0.197,
+    "suffix": "%",
+    "color": "red",
+    "sub": "across all tested models",
+    "particles": "red"
+   },
+   "bg": "light"
+  },
+  {
+   "say": "An attacker just registers one of those names and hides malware inside. Then your install runs it.",
+   "key": [
+    "registers",
+    "malware"
+   ],
+   "vis": {
+    "type": "timeline",
+    "items": [
+     [
+      "Step 1",
+      "AI invents a package name",
+      "ink"
+     ],
+     [
+      "Step 2",
+      "Attacker registers that name",
+      "red"
+     ],
+     [
+      "Step 3",
+      "Your install runs their code",
+      "red"
+     ]
+    ],
+    "timer": 0
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "It's called slopsquatting.",
+   "key": [
+    "slopsquatting"
+   ],
+   "vis": {
+    "type": "statement",
+    "lines": [
+     "Slop",
+     "squatting"
+    ],
+    "size": 150,
+    "sub": "fake names the AI invents, real malware someone ships"
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "Check that every package is real, old, and actually used, and commit your lockfile.",
+   "key": [
+    "real",
+    "lockfile"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Before you install",
+    "rows": [
+     [
+      "Does it exist?",
+      "check the registry",
+      "first",
+      "red"
+     ],
+     [
+      "How old is it?",
+      "weeks old = suspicious",
+      "then",
+      "orange"
+     ],
+     [
+      "Weekly downloads",
+      "real tools have thousands",
+      "then",
+      "blue"
+     ],
+     [
+      "Commit lockfile",
+      "pin exact versions",
+      "always",
+      "ink"
+     ]
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Here's the prompt. Screenshot it, and send it to Claude inside your project.",
+   "key": [
+    "Screenshot"
+   ],
+   "vis": {
+    "type": "prompt"
+   },
+   "bg": "light",
+   "cap_y": 1500
+  },
+  {
+   "say": "Follow Ship With Pip for one of these every day.",
+   "nocap": true
+  }
+ ],
+ "prompt": "List every dependency in package.json. For each one, check the npm registry and tell me if it exists, when it was first published, its weekly downloads and its maintainer. Flag anything under a year old, under 1,000 weekly downloads, or with a name close to a popular package. Don't install anything new until I approve it.",
+ "caption": "A study of 16 code models across 576,000 code samples found 19.7% of the suggested packages didn't exist, with over 200,000 unique made-up names. Attackers can register those names and ship malware (slopsquatting). Verify every dependency before you install it. The prompt is at the end.",
+ "hashtags": [
+  "cybersecurity",
+  "vibecoding",
+  "npm",
+  "webdev",
+  "buildinpublic"
+ ],
+ "sources": [
+  "arXiv 2406.10279 (June 2024 preprint): 576,000 samples, 16 models, 19.7% hallucinated packages, 205,474 unique names",
+  "Terminal output is an illustration; the study used older models, so rates today may differ"
+ ]
+}

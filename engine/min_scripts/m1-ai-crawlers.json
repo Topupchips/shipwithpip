@@ -1,0 +1,186 @@
+{
+ "id": "m1-ai-crawlers",
+ "title": "ChatGPT can't see your website",
+ "beats": [
+  {
+   "say": "If an AI tool built your website, ChatGPT probably can't read a single word of it.",
+   "key": [
+    "ChatGPT"
+   ],
+   "vis": {
+    "type": "browser",
+    "blank_at": 0.55,
+    "badge": "What GPTBot sees"
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Most AI-built apps draw the whole page with JavaScript, inside your visitor's browser.",
+   "key": [
+    "JavaScript"
+   ],
+   "vis": {
+    "type": "code",
+    "title": "index.html",
+    "lines": [
+     "<html>",
+     "  <head><title>yourapp</title></head>",
+     "  <body>",
+     "    <div id=\"root\"></div>",
+     "    <script src=\"/assets/index.js\"></script>",
+     "  </body>",
+     "</html>"
+    ],
+    "hl": {
+     "3": "red"
+    },
+    "hl_at": 0.6
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "But AI crawlers don't run JavaScript. Vercel tracked them across its network, and none of them render it.",
+   "key": [
+    "don't",
+    "none"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Renders JavaScript?",
+    "subtitle": "Vercel, Dec 2024",
+    "rows": [
+     [
+      "GPTBot",
+      "OpenAI",
+      "no",
+      "ink"
+     ],
+     [
+      "ClaudeBot",
+      "Anthropic",
+      "no",
+      "orange"
+     ],
+     [
+      "PerplexityBot",
+      "Perplexity",
+      "no",
+      "teal"
+     ],
+     [
+      "Googlebot",
+      "Google + Gemini",
+      "yes",
+      "blue"
+     ]
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "So to ChatGPT, your landing page is one empty div.",
+   "key": [
+    "empty"
+   ],
+   "vis": {
+    "type": "statement",
+    "lines": [
+     "<div id=\"root\">",
+     "</div>"
+    ],
+    "size": 110,
+    "sub": "everything GPTBot reads on your page"
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "And these bots are busy. GPTBot alone made five hundred and sixty nine million requests in one month on Vercel.",
+   "key": [
+    "five",
+    "million"
+   ],
+   "vis": {
+    "type": "number",
+    "value": 569000000,
+    "color": "teal",
+    "sub": "GPTBot requests · 1 month · Vercel network",
+    "particles": "teal"
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "When someone asks AI for the best tool like yours, it recommends the sites it can actually read.",
+   "key": [
+    "recommends"
+   ],
+   "vis": {
+    "type": "chat",
+    "title": "ChatGPT",
+    "msgs": [
+     [
+      "you",
+      "What's the best app to plan a weekend launch?"
+     ],
+     [
+      "ai",
+      "Here are 3 options: Launchly, ShipFast and Kitwise. Each has..."
+     ]
+    ],
+    "note": "yourapp: not mentioned"
+   },
+   "bg": "light"
+  },
+  {
+   "say": "The fix is server rendering. Send real HTML first, then load the JavaScript.",
+   "key": [
+    "HTML"
+   ],
+   "vis": {
+    "type": "code",
+    "title": "what crawlers should get",
+    "lines": [
+     "<body>",
+     "  <h1>Ship your idea this weekend.</h1>",
+     "  <p>The AI-native way to build...</p>",
+     "  <a href=\"/pricing\">Pricing</a>",
+     "  <script src=\"/assets/index.js\"></script>",
+     "</body>"
+    ],
+    "hl": {
+     "1": "green",
+     "2": "green",
+     "3": "green"
+    },
+    "hl_at": 0.55
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "Here's the prompt. Screenshot it, and send it to Claude inside your project.",
+   "key": [
+    "Screenshot"
+   ],
+   "vis": {
+    "type": "prompt"
+   },
+   "bg": "light",
+   "cap_y": 1500
+  },
+  {
+   "say": "Follow Ship With Pip for one of these every day.",
+   "nocap": true
+  }
+ ],
+ "prompt": "Check how my site looks to an AI crawler that doesn't run JavaScript: fetch the raw HTML of every public page. If the main text, title, meta description or links are missing, add server-side rendering or prerendering for those pages, plus a sitemap.xml and robots.txt. Show me the before and after HTML.",
+ "caption": "If an AI tool built your site, ChatGPT may only see an empty <div>. Vercel's data (Dec 2024): the major AI crawlers, including GPTBot, ClaudeBot and PerplexityBot, don't render JavaScript, and GPTBot made 569M requests in a month on Vercel's network alone. Server-render your key pages so AI can read and recommend you. The prompt is at the end.",
+ "hashtags": [
+  "vibecoding",
+  "seo",
+  "chatgpt",
+  "claudeai",
+  "buildinpublic"
+ ],
+ "sources": [
+  "Vercel, 'The rise of the AI crawler' (Dec 17, 2024): no major AI crawler renders JS except Gemini (Googlebot) and AppleBot; GPTBot 569M, Claude 370M fetches/month"
+ ]
+}

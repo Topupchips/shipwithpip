@@ -1,0 +1,97 @@
+{
+ "id": "10-moe",
+ "accent": "violet",
+ "title": "Only part of this AI wakes up",
+ "hook": "Only part of this AI wakes up",
+ "beats": [
+  {
+   "say": "Some of the biggest AI models only use a small slice of their brain for each word.",
+   "mood": "shocked",
+   "vis": {
+    "type": "slam",
+    "lines": [
+     "Most of this AI",
+     "is asleep"
+    ]
+   }
+  },
+  {
+   "say": "It's called mixture of experts. Inside are many smaller expert networks, plus a router.",
+   "vis": {
+    "type": "experts",
+    "tokens": [
+     "The",
+     "pizza",
+     "was",
+     "great"
+    ],
+    "choices": [
+     [
+      0,
+      5
+     ],
+     [
+      2,
+      7
+     ],
+     [
+      1,
+      4
+     ],
+     [
+      3,
+      6
+     ]
+    ],
+    "note": "2 of 8 experts per token",
+    "span": 3
+   }
+  },
+  {
+   "say": "For every token, the router picks just two experts to do the work."
+  },
+  {
+   "say": "Different tokens, different experts. Everything else stays asleep."
+  },
+  {
+   "say": "Mixtral, for example, has about forty seven billion parameters, but uses only about thirteen billion per token.",
+   "vis": {
+    "type": "bars",
+    "title": "Mixtral 8x7B",
+    "rows": [
+     [
+      "Total",
+      47
+     ],
+     [
+      "Per token",
+      13
+     ]
+    ],
+    "unit": "B"
+   }
+  },
+  {
+   "say": "Huge knowledge, small compute bill. That's why so many new models are built this way.",
+   "wave": true,
+   "vis": {
+    "type": "slam",
+    "lines": [
+     "Big brain.",
+     "Small bill."
+    ]
+   }
+  }
+ ],
+ "caption": "Mixture of experts (MoE): the model holds many expert sub-networks, and a router sends each token to just a few of them. Mixtral 8x7B has ~47B parameters but uses ~13B per token (2 of 8 experts). You get the knowledge of a big model at the compute cost of a much smaller one.",
+ "hashtags": [
+  "ai",
+  "llm",
+  "machinelearning",
+  "deeplearning",
+  "techexplained"
+ ],
+ "sources": [
+  "Mistral AI, Mixtral of Experts (2024): 46.7B total, 12.9B active, top-2 of 8 experts"
+ ]
+}

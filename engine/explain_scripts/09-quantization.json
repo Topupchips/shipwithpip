@@ -1,0 +1,114 @@
+{
+ "id": "09-quantization",
+ "accent": "green",
+ "title": "Fitting a 140 GB AI on a laptop",
+ "hook": "Fit a 140 GB AI on a laptop",
+ "beats": [
+  {
+   "say": "A seventy billion parameter AI model needs about a hundred and forty gigabytes of memory.",
+   "mood": "shocked",
+   "vis": {
+    "type": "counter",
+    "value": 140,
+    "suffix": " GB",
+    "label": "70B model at 16-bit",
+    "sub": "Your laptop: not happening"
+   }
+  },
+  {
+   "say": "Because every parameter is a number, stored with sixteen bits of precision.",
+   "vis": {
+    "type": "rows",
+    "mono": true,
+    "rows": [
+     [
+      "16-bit",
+      "0.0172119140625"
+     ],
+     [
+      "8-bit",
+      "0.0172"
+     ],
+     [
+      "4-bit",
+      "0.02"
+     ]
+    ],
+    "title": "One weight, rounded"
+   }
+  },
+  {
+   "say": "Quantization rounds those numbers off. Fewer bits per number, way less memory.",
+   "vis": {
+    "type": "bars",
+    "rows": [
+     [
+      "16-bit",
+      140
+     ],
+     [
+      "8-bit",
+      70
+     ],
+     [
+      "4-bit",
+      35
+     ]
+    ],
+    "unit": " GB",
+    "marker": {
+     "value": 64,
+     "label": "64 GB laptop"
+    },
+    "span": 2
+   }
+  },
+  {
+   "say": "At four bits, the same model shrinks to about thirty five gigabytes."
+  },
+  {
+   "say": "You lose a little accuracy, but it runs on a well-equipped laptop. Offline. Private.",
+   "vis": {
+    "type": "versus",
+    "left": {
+     "title": "16-bit",
+     "lines": [
+      "Full precision",
+      "Needs a big server"
+     ],
+     "color": "cyan"
+    },
+    "right": {
+     "title": "4-bit",
+     "lines": [
+      "Slightly less accurate",
+      "Runs on your laptop",
+      "Data stays with you"
+     ]
+    }
+   }
+  },
+  {
+   "say": "That's how people run open models at home. Round the numbers, shrink the AI.",
+   "wave": true,
+   "vis": {
+    "type": "slam",
+    "lines": [
+     "Round the numbers.",
+     "Shrink the AI."
+    ]
+   }
+  }
+ ],
+ "caption": "Model memory ≈ parameters × bytes per parameter. A 70B model at 16-bit (2 bytes) needs ~140 GB. Quantization stores each weight with fewer bits: ~70 GB at 8-bit, ~35 GB at 4-bit, with a small accuracy cost. That's how open models run locally on laptops with tools like Ollama and llama.cpp.",
+ "hashtags": [
+  "localai",
+  "llm",
+  "ai",
+  "opensource",
+  "techexplained"
+ ],
+ "sources": [
+  "Arithmetic: 70e9 params × 2 bytes = 140 GB; × 0.5 byte = 35 GB (weights only, excludes runtime overhead)"
+ ]
+}

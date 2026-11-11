@@ -1,0 +1,78 @@
+{
+ "id": "07-diffusion",
+ "accent": "cyan",
+ "title": "Every AI image starts as static",
+ "hook": "Every AI image starts as static",
+ "beats": [
+  {
+   "say": "Every AI image starts exactly like this. Pure random noise.",
+   "mood": "shocked",
+   "vis": {
+    "type": "noise",
+    "a0": 0.0,
+    "a1": 0.02,
+    "label": "Random noise",
+    "counter": false
+   }
+  },
+  {
+   "say": "In training, the model watched millions of images get buried in noise, and learned to undo it.",
+   "vis": {
+    "type": "noise",
+    "a0": 0.0,
+    "a1": 1.0,
+    "reverse": true,
+    "label": "Training: add noise"
+   }
+  },
+  {
+   "say": "To make a new image, it starts from static and removes a little noise at a time.",
+   "vis": {
+    "type": "noise",
+    "a0": 0.0,
+    "a1": 0.45,
+    "label": "Generating..."
+   }
+  },
+  {
+   "say": "Your prompt steers every step. Say, a cute orange robot, waving.",
+   "vis": {
+    "type": "noise",
+    "a0": 0.45,
+    "a1": 1.0,
+    "label": "\"a cute orange robot, waving\""
+   }
+  },
+  {
+   "say": "Dozens of tiny cleanups later, you get an image that never existed before.",
+   "wave": true,
+   "vis": {
+    "type": "noise",
+    "a0": 1.0,
+    "a1": 1.0,
+    "label": "Never existed before"
+   }
+  },
+  {
+   "say": "Same trick powers a lot of AI video too. Static in, art out.",
+   "vis": {
+    "type": "slam",
+    "lines": [
+     "Static in.",
+     "Art out."
+    ]
+   }
+  }
+ ],
+ "caption": "Diffusion models learn by watching images get gradually buried in noise and learning to reverse it. To generate, they start from pure random static and remove a little noise per step, with your prompt steering each step, until a brand-new image appears.",
+ "hashtags": [
+  "aiart",
+  "diffusion",
+  "ai",
+  "techexplained",
+  "generativeai"
+ ],
+ "sources": [
+  "Ho et al., Denoising Diffusion Probabilistic Models (2020)"
+ ]
+}

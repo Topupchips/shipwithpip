@@ -1,0 +1,155 @@
+{
+ "id": "m2-ai-bill",
+ "title": "Your AI bill is compounding",
+ "beats": [
+  {
+   "say": "Your fiftieth message to an AI can cost about fifty times more than your first. Here's why.",
+   "key": [
+    "fifty"
+   ],
+   "vis": {
+    "type": "number",
+    "value": 50,
+    "suffix": "×",
+    "color": "red",
+    "sub": "cost of message 50 vs message 1",
+    "size": 300,
+    "count": false
+   },
+   "bg": "light"
+  },
+  {
+   "say": "The model has no memory. Every time you send a message, the whole conversation gets sent again.",
+   "key": [
+    "whole"
+   ],
+   "vis": {
+    "type": "code",
+    "title": "request · message 6",
+    "lines": [
+     "messages: [",
+     "  { user: \"Build me a landing page\" },",
+     "  { assistant: \"Here's the code...\" },",
+     "  { user: \"Make the button blue\" },",
+     "  { assistant: \"Done. Updated...\" },",
+     "  { user: \"Now add pricing\" }   // new",
+     "]"
+    ],
+    "hl": {
+     "5": "green",
+     "1": "amber",
+     "2": "amber",
+     "3": "amber",
+     "4": "amber"
+    },
+    "hl_at": 0.55
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "Message one sends one turn. Message fifty sends all fifty.",
+   "key": [
+    "all"
+   ],
+   "vis": {
+    "type": "stack",
+    "n": 25,
+    "title": "Tokens sent per message",
+    "span": 2
+   },
+   "bg": "light"
+  },
+  {
+   "say": "So your total doesn't grow in a line. It grows like a triangle.",
+   "key": [
+    "triangle"
+   ]
+  },
+  {
+   "say": "Agents are worse. Every tool call is another full trip with all that history attached.",
+   "key": [
+    "Agents"
+   ],
+   "vis": {
+    "type": "code",
+    "title": "agent log",
+    "type_end": 0.7,
+    "lines": [
+     "turn 1   read_file      input  4,120 tokens",
+     "turn 2   search         input  9,860 tokens",
+     "turn 3   edit_file      input 17,430 tokens",
+     "turn 4   run_tests      input 26,910 tokens",
+     "turn 5   edit_file      input 38,240 tokens",
+     "turn 6   run_tests      input 51,770 tokens"
+    ],
+    "size": 28,
+    "hl": {
+     "5": "red"
+    },
+    "hl_at": 0.75
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "The fix is prompt caching. Claude bills input it has already seen at ten percent of the normal price.",
+   "key": [
+    "caching",
+    "ten"
+   ],
+   "vis": {
+    "type": "ring",
+    "label": "cached input · price",
+    "from": 100,
+    "to": 10,
+    "from_frac": 1.0,
+    "to_frac": 0.1,
+    "suffix": "%",
+    "color": "green",
+    "sub": "vs normal input price",
+    "particles": "green"
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "Same conversation. The repeated part gets up to ninety percent cheaper.",
+   "key": [
+    "ninety"
+   ],
+   "vis": {
+    "type": "stack",
+    "n": 25,
+    "cache": true,
+    "title": "With prompt caching"
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Here's the prompt. Screenshot it, and send it to Claude inside your project.",
+   "key": [
+    "Screenshot"
+   ],
+   "vis": {
+    "type": "prompt"
+   },
+   "bg": "light",
+   "cap_y": 1500
+  },
+  {
+   "say": "Follow Ship With Pip for one of these every day.",
+   "nocap": true
+  }
+ ],
+ "prompt": "Audit every place my app calls an AI model. For each call, show how many input tokens repeat between requests. Add prompt caching for the stable parts (system prompt, tool definitions, long documents), trim conversation history I don't need, and estimate the monthly savings.",
+ "caption": "Chat models are stateless: every message re-sends the whole conversation, so message 50 carries ~50 turns of input and your total grows like a triangle. Agents make it worse with every tool call. Prompt caching fixes the repeated part: Claude bills cache reads at 10% of the normal input price (cache writes cost a bit extra). The prompt is at the end.",
+ "hashtags": [
+  "claudeai",
+  "aiagents",
+  "llm",
+  "buildinpublic",
+  "startups"
+ ],
+ "sources": [
+  "Anthropic prompt caching docs: cache reads 0.1x base input price; 5-min cache writes 1.25x, 1-hour 2x",
+  "'50x' assumes similar-sized messages; illustrative"
+ ]
+}

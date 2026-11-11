@@ -1,0 +1,209 @@
+{
+ "id": "m4-leaked-keys",
+ "title": "Bots find leaked API keys in a minute",
+ "beats": [
+  {
+   "say": "Push an API key to GitHub, and bots can start using it before you've closed the tab.",
+   "key": [
+    "bots"
+   ],
+   "vis": {
+    "type": "code",
+    "title": "terminal",
+    "lines": [
+     "$ git add .",
+     "$ git commit -m \"launch\"",
+     "$ git push origin main",
+     "  + .env",
+     "  OPENAI_API_KEY=\"sk-proj-8f2Kx...\""
+    ],
+    "hl": {
+     "4": "red"
+    },
+    "hl_at": 0.6,
+    "type_end": 0.15
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "In one test, researchers leaked AWS keys on GitHub. Attackers started abusing them within one minute.",
+   "key": [
+    "one"
+   ],
+   "vis": {
+    "type": "timeline",
+    "timer": 60,
+    "items": [
+     [
+      "0:00",
+      "Key pushed to GitHub",
+      "ink"
+     ],
+     [
+      "~1:00",
+      "Attackers start using it",
+      "red"
+     ],
+     [
+      "< 4:00",
+      "First attack finished",
+      "red"
+     ]
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "GitHub found over thirty nine million leaked secrets in 2024 alone.",
+   "key": [
+    "thirty",
+    "million"
+   ],
+   "vis": {
+    "type": "number",
+    "value": 39000000,
+    "grid": true,
+    "color": "red",
+    "sub": "secrets leaked on GitHub · 2024"
+   },
+   "bg": "light"
+  },
+  {
+   "say": "AI-built apps leak keys a second way, inside the code your visitors download.",
+   "key": [
+    "download"
+   ],
+   "vis": {
+    "type": "code",
+    "title": ".env",
+    "lines": [
+     "# frontend env",
+     "VITE_OPENAI_API_KEY=\"sk-proj-8f2Kx...\"",
+     "VITE_SUPABASE_URL=\"https://xyz.supabase.co\""
+    ],
+    "hl": {
+     "1": "red"
+    },
+    "hl_at": 0.5
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "In Vite, any variable that starts with VITE is baked into your public JavaScript. Anyone can open dev tools and copy it.",
+   "key": [
+    "VITE",
+    "copy"
+   ],
+   "vis": {
+    "type": "code",
+    "title": "DevTools · Sources · index-a8f2.js",
+    "lines": [
+     "const cfg={",
+     "  apiKey:\"sk-proj-8f2Kx...\",",
+     "  model:\"gpt-4o\"",
+     "};fetch(\"https://api.openai.com/...\")"
+    ],
+    "hl": {
+     "1": "red"
+    },
+    "hl_at": 0.45,
+    "typing": false
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "Then someone else runs their AI on your bill.",
+   "key": [
+    "bill"
+   ],
+   "vis": {
+    "type": "phone",
+    "notes": [
+     {
+      "app": "OpenAI",
+      "title": "Usage alert",
+      "body": "Unusual spike in API usage",
+      "color": "ink"
+     },
+     {
+      "app": "GitHub",
+      "title": "Secret detected in yourapp",
+      "body": "OPENAI_API_KEY in commit 3f9a2c",
+      "color": "ink"
+     },
+     {
+      "app": "Bank",
+      "title": "Card charge declined",
+      "body": "Limit reached",
+      "color": "red"
+     }
+    ],
+    "stagger": 0.18
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "Keys belong on a server, never in the browser. And if one leaks, rotate it. Deleting the commit isn't enough.",
+   "key": [
+    "server",
+    "rotate"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Leaked a key?",
+    "rows": [
+     [
+      "Rotate it now",
+      "old key = dead key",
+      "do first",
+      "red"
+     ],
+     [
+      "Move it server-side",
+      "never VITE_ / NEXT_PUBLIC_",
+      "fix",
+      "blue"
+     ],
+     [
+      "Scrub git history",
+      "deleting a commit isn't enough",
+      "then",
+      "ink"
+     ]
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Here's the prompt. Screenshot it, and send it to Claude inside your project.",
+   "key": [
+    "Screenshot"
+   ],
+   "vis": {
+    "type": "prompt"
+   },
+   "bg": "light",
+   "cap_y": 1500
+  },
+  {
+   "say": "Follow Ship With Pip for one of these every day.",
+   "nocap": true
+  }
+ ],
+ "prompt": "Scan this repo and its full git history for API keys and secrets, including .env files and any VITE_ or NEXT_PUBLIC_ variables that ship to the browser. Move every secret behind a server-side endpoint, add .env to .gitignore, and list exactly which keys I need to rotate.",
+ "caption": "Leaked keys get used fast: in Comparitech's GitHub honeypot, attackers abused exposed AWS keys within a minute. GitHub detected 39M+ leaked secrets in 2024. Vibe-coded apps add a second leak: Vite exposes any VITE_ variable in the public JS bundle. Keep keys server-side, and if one leaks, rotate it. The prompt is at the end.",
+ "hashtags": [
+  "cybersecurity",
+  "vibecoding",
+  "webdev",
+  "github",
+  "buildinpublic"
+ ],
+ "sources": [
+  "Comparitech GitHub honeypot: AWS key abused within 1 minute; >1,000 RunInstances calls within a minute in a later test",
+  "GitHub blog (Apr 2025): 39M+ secret leaks in 2024",
+  "Orca 2023 honeypot report: GitHub secrets found <5 min",
+  "Vite docs: VITE_-prefixed env vars are exposed to client code",
+  "Phone notifications are an illustration"
+ ]
+}

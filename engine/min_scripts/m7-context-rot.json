@@ -1,0 +1,174 @@
+{
+ "id": "m7-context-rot",
+ "title": "Your AI gets dumber the longer you chat",
+ "beats": [
+  {
+   "say": "Your AI gets worse the longer you chat with it, and there's research on exactly why.",
+   "key": [
+    "worse",
+    "research"
+   ],
+   "vis": {
+    "type": "statement",
+    "lines": [
+     "Context",
+     "rot"
+    ],
+    "size": 150,
+    "sub": "accuracy drops as the input gets longer"
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "In July 2025, Chroma tested eighteen models. Performance got less reliable as input length grew, even on simple tasks.",
+   "key": [
+    "eighteen",
+    "simple"
+   ],
+   "vis": {
+    "type": "number",
+    "value": 18,
+    "color": "teal",
+    "sub": "models tested \u00b7 Chroma, July 2025"
+   },
+   "bg": "light"
+  },
+  {
+   "say": "That included Claude, GPT four point one, and Gemini two point five.",
+   "key": [
+    "Claude",
+    "GPT",
+    "Gemini"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Models tested",
+    "subtitle": "Chroma Context Rot report",
+    "rows": [
+     [
+      "Anthropic",
+      "5 Claude models",
+      "tested",
+      "orange"
+     ],
+     [
+      "OpenAI",
+      "7 models",
+      "tested",
+      "ink"
+     ],
+     [
+      "Google",
+      "3 Gemini models",
+      "tested",
+      "blue"
+     ],
+     [
+      "Alibaba",
+      "3 Qwen models",
+      "tested",
+      "teal"
+     ]
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "So a three hour debugging chat full of dead ends is the worst place to ask for your next fix.",
+   "key": [
+    "three",
+    "dead"
+   ],
+   "vis": {
+    "type": "chat",
+    "title": "Claude \u00b7 3 hours in",
+    "msgs": [
+     [
+      "you",
+      "Still broken. Try the other approach?"
+     ],
+     [
+      "ai",
+      "Going back to the first fix we tried at message 14..."
+     ]
+    ],
+    "note": "context: 180 messages, mostly failed attempts"
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "Wrong guesses and old errors sit in there as distractors, competing with what you actually need.",
+   "key": [
+    "distractors"
+   ],
+   "vis": {
+    "type": "stack",
+    "n": 22,
+    "title": "Everything re-read every message",
+    "span": 2
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Start fresh per task, and carry over only a short handoff note.",
+   "key": [
+    "fresh",
+    "handoff"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Beat the rot",
+    "rows": [
+     [
+      "New chat per task",
+      "clean context",
+      "do first",
+      "red"
+     ],
+     [
+      "Handoff note",
+      "goal, state, next step",
+      "carry",
+      "blue"
+     ],
+     [
+      "/clear or /compact",
+      "in Claude Code",
+      "shortcut",
+      "ink"
+     ]
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Here's the prompt. Screenshot it, and send it to Claude inside your project.",
+   "key": [
+    "Screenshot"
+   ],
+   "vis": {
+    "type": "prompt"
+   },
+   "bg": "light",
+   "cap_y": 1500
+  },
+  {
+   "say": "Follow Ship With Pip for one of these every day.",
+   "nocap": true
+  }
+ ],
+ "prompt": "Write a handoff note so I can continue this in a fresh chat. Include the goal, what's already done, what failed and why, the current state of the files, and the single next step. Keep it under 300 words and leave out dead ends.",
+ "caption": "Chroma's July 2025 Context Rot report tested 18 LLMs, including Claude, GPT-4.1 and Gemini 2.5, and found performance gets less reliable as input length grows, even on simple tasks. Long chats full of failed attempts make it worse. Start a fresh chat per task and carry a short handoff note. The prompt is at the end.",
+ "hashtags": [
+  "claudecode",
+  "chatgpt",
+  "vibecoding",
+  "aitips",
+  "buildinpublic"
+ ],
+ "sources": [
+  "Chroma Technical Report, Context Rot (July 14 2025): 18 LLMs; performance grows increasingly unreliable as input length grows",
+  "The 180-message chat is an illustration",
+  "The 'distractors' point follows the report's distractor experiments"
+ ]
+}

@@ -1,0 +1,152 @@
+{
+ "natural": true,
+ "voice": "af_bella",
+ "speed": 1.0,
+ "id": "m18-drift-oauth-breach",
+ "title": "One AI chatbot plug-in leaked 700+ companies",
+ "beats": [
+  {
+   "say": "One AI chatbot plug in leaked data from over seven hundred companies. The chat wasn't the problem. The connection was.",
+   "key": [
+    "seven",
+    "connection"
+   ],
+   "vis": {
+    "type": "code",
+    "title": "Drift AI chat \u00b7 connected to Salesforce",
+    "lines": [
+     "connected app: Drift (AI chat agent)",
+     "OAuth token: [ stolen ]",
+     "access: your Salesforce data"
+    ],
+    "hl": {
+     "1": "red",
+     "2": "red"
+    },
+    "hl_at": 0.12,
+    "typing": false
+   },
+   "bg": "volt"
+  },
+  {
+   "say": "In August 2025, a group Google tracks as UNC6395 used stolen OAuth tokens from the Salesloft Drift chat agent. They exported Salesforce data. Google counted over seven hundred potentially affected organizations.",
+   "key": [
+    "UNC6395",
+    "seven"
+   ],
+   "vis": {
+    "type": "timeline",
+    "timer": 0,
+    "items": [
+     [
+      "Aug 8, 2025",
+      "attackers start using stolen tokens",
+      "red"
+     ],
+     [
+      "Through Aug 18",
+      "activity seen at least this long",
+      "red"
+     ],
+     [
+      "Google's count",
+      "700+ orgs potentially impacted",
+      "ink"
+     ]
+    ]
+   },
+   "bg": "volt"
+  },
+  {
+   "say": "And they weren't after the chats. They searched the exported data for AWS keys, passwords and Snowflake tokens.",
+   "key": [
+    "AWS",
+    "Snowflake"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "What they hunted for",
+    "rows": [
+     [
+      "AWS access keys",
+      "in the exported data",
+      "searched",
+      "red"
+     ],
+     [
+      "Passwords",
+      "in the exported data",
+      "searched",
+      "red"
+     ],
+     [
+      "Snowflake tokens",
+      "in the exported data",
+      "searched",
+      "red"
+     ]
+    ]
+   },
+   "bg": "volt"
+  },
+  {
+   "say": "So treat every AI tool you connect as a key to your data. Audit them, revoke the ones you don't use, and never store secrets in your CRM.",
+   "key": [
+    "key",
+    "secrets"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Your checklist",
+    "rows": [
+     [
+      "Audit connected apps",
+      "every AI tool with OAuth access",
+      "do first",
+      "red"
+     ],
+     [
+      "Revoke and reconnect",
+      "rotate keys stored in that data",
+      "then",
+      "teal"
+     ],
+     [
+      "No secrets in your CRM",
+      "keys belong in a vault",
+      "always",
+      "ink"
+     ]
+    ]
+   },
+   "bg": "volt"
+  },
+  {
+   "say": "Here's the prompt. Screenshot it, and send it to Claude inside your project.",
+   "key": [
+    "Screenshot"
+   ],
+   "vis": {
+    "type": "prompt"
+   },
+   "bg": "light",
+   "cap_y": 1500
+  },
+  {
+   "say": "Follow Ship With Pip for one of these every day.",
+   "nocap": true
+  }
+ ],
+ "prompt": "Help me audit every third-party app and AI tool connected to my accounts (Google, GitHub, Slack, Salesforce or other CRM, Notion). List each OAuth connection, what it can access, and which ones I should revoke. Then check my CRM and docs for pasted API keys or passwords, and tell me what to rotate.",
+ "caption": "In Aug 2025, Google tracked a group (UNC6395) using stolen OAuth tokens from the Salesloft Drift AI chat agent to export Salesforce data. Google counted 700+ potentially impacted organizations, and the attackers searched the data for AWS keys, passwords and Snowflake tokens. Treat every connected AI tool as a key to your data: audit, revoke, rotate. The prompt is at the end. Building your own app? Use code AT100 on Base44 (link in bio).",
+ "hashtags": [
+  "cybersecurity",
+  "oauth",
+  "aisecurity",
+  "saas",
+  "buildinpublic"
+ ],
+ "sources": [
+  "The Hacker News (Aug 2025): Salesloft Drift OAuth breach, UNC6395, Aug 8-18 2025, 700+ potentially impacted orgs per GTIG, AWS keys/passwords/Snowflake tokens searched"
+ ]
+}

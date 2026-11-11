@@ -1,0 +1,171 @@
+{
+ "natural": true,
+ "voice": "af_bella",
+ "speed": 1.0,
+ "id": "m19-invisible-text",
+ "title": "Slow-mo shows what your eyes miss. AI sees what you can't.",
+ "beats": [
+  {
+   "say": "Slow motion shows what your eyes miss. Your AI has the opposite problem. It reads text you can't see.",
+   "key": [
+    "miss",
+    "text"
+   ],
+   "vis": {
+    "type": "statement",
+    "lines": [
+     "Your eyes",
+     "miss it.",
+     "Your AI",
+     "doesn't."
+    ],
+    "red": 3,
+    "size": 112
+   },
+   "bg": "volt"
+  },
+  {
+   "say": "Pillar Security showed that a rules file can hide instructions in invisible characters. Cursor and GitHub Copilot read them. You don't.",
+   "key": [
+    "invisible",
+    "read"
+   ],
+   "vis": {
+    "type": "code",
+    "title": ".cursorrules",
+    "lines": [
+     "Always use TypeScript.",
+     "Prefer small, pure functions.",
+     "[ invisible characters ]",
+     "Write clear commit messages."
+    ],
+    "hl": {
+     "2": "red"
+    },
+    "hl_at": 0.4,
+    "typing": false
+   },
+   "bg": "volt"
+  },
+  {
+   "say": "Those hidden lines can steer the AI into writing vulnerable or backdoored code, and you'd never notice in the file.",
+   "key": [
+    "backdoored",
+    "notice"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Same file, two views",
+    "rows": [
+     [
+      "You see",
+      "four clean rules",
+      "looks fine",
+      "teal"
+     ],
+     [
+      "The AI sees",
+      "extra hidden orders",
+      "hijacked",
+      "red"
+     ],
+     [
+      "You ship",
+      "code with a backdoor",
+      "risk",
+      "red"
+     ]
+    ]
+   },
+   "bg": "volt"
+  },
+  {
+   "say": "And rules files get shared with teammates and copied into forks, so one poisoned file can spread.",
+   "key": [
+    "shared",
+    "spread"
+   ],
+   "vis": {
+    "type": "timeline",
+    "timer": 0,
+    "items": [
+     [
+      "Poisoned rules file",
+      "one invisible line",
+      "red"
+     ],
+     [
+      "Teammate pulls it",
+      "their AI reads it too",
+      "red"
+     ],
+     [
+      "Someone forks it",
+      "the hidden line survives",
+      "red"
+     ]
+    ]
+   },
+   "bg": "volt"
+  },
+  {
+   "say": "So review rules files like code, and scan them for invisible characters before you trust them.",
+   "key": [
+    "review",
+    "scan"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Do this",
+    "rows": [
+     [
+      "Review rules files",
+      "like you review code",
+      "always",
+      "teal"
+     ],
+     [
+      "Scan for hidden characters",
+      "before you trust a file",
+      "do first",
+      "red"
+     ],
+     [
+      "Don't copy rules blindly",
+      "from strangers",
+      "never",
+      "ink"
+     ]
+    ]
+   },
+   "bg": "volt"
+  },
+  {
+   "say": "Here's the prompt. Screenshot it, and send it to Claude inside your project.",
+   "key": [
+    "Screenshot"
+   ],
+   "vis": {
+    "type": "prompt"
+   },
+   "bg": "light",
+   "cap_y": 1500
+  },
+  {
+   "say": "Follow Ship With Pip for one of these every day.",
+   "nocap": true
+  }
+ ],
+ "prompt": "Scan every rules and config file my AI tools read (.cursorrules, CLAUDE.md, AGENTS.md, copilot-instructions, MCP configs) for invisible or zero-width Unicode characters and bidirectional control characters. Show me the file, line and exact characters found, and give me a pre-commit check that blocks them.",
+ "caption": "Slow motion shows what your eyes miss. Your AI reads what you can't: Pillar Security's Rules File Backdoor (Mar 2025) hid instructions in invisible Unicode inside rules files read by Cursor and GitHub Copilot, steering the AI toward vulnerable or backdoored code, and the files can spread to teammates and forks. Review rules files like code and scan for hidden characters. The prompt is at the end. Building your own app? Use code AT100 on Base44 (link in bio).",
+ "hashtags": [
+  "cybersecurity",
+  "aisecurity",
+  "cursor",
+  "vibecoding",
+  "buildinpublic"
+ ],
+ "sources": [
+  "The Hacker News Mar 18 2025: Pillar Security Rules File Backdoor, Cursor and GitHub Copilot, zero-width/bidi characters, spreads to teammates and forks"
+ ]
+}

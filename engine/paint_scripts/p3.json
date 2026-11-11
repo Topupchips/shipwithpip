@@ -1,0 +1,25 @@
+{
+ "title": "p3 - make Claude interview you",
+ "cast": ["pip","dex"],
+ "scene": "sunset",
+ "hook": "Stop writing prompts!",
+ "hook_color": "purple",
+ "hook_dur": 3.0,
+ "seed": 12,
+ "beats": [
+  {"who":"dex","say":"Want better AI answers? Stop writing prompts.","mood":"smug"},
+  {"who":"pip","say":"Stop?! That's the whole game!","mood":"shocked"},
+  {"who":"dex","say":"Nope. Make the AI interview you instead.","mood":"smug","rehook":"TRY THIS"},
+  {"who":"pip","say":"Interview me? Show me!","mood":"happy","panel":{"type":"prompt","label":"Paste this","text":"Before you answer, ask me 5 questions one at a time about my goal, my audience and my constraints. Then give me the best answer."}},
+  {"who":"dex","say":"That is it. The AI learns what you actually want before it writes anything.","mood":"happy"},
+  {"who":"pip","say":"So no more vague, generic answers?","mood":"shocked","scene":"study","rehook":"WAIT, IT GETS BETTER"},
+  {"who":"dex","say":"Exactly. Vague in, vague out. Specific in, useful out.","panel":{"type":"chat","bubbles":[["you","Help me with my startup"],["ai","Sure! First question: who is your customer?"],["you","College students"]]}},
+  {"who":"pip","say":"And you can build apps with that too?","mood":"happy"},
+  {"who":"dex","say":"Yes. Use code A T 100 on Base forty four for free credits. Link in bio.","mood":"happy"},
+  {"who":"pip","say":"Drop the topic you want an AI to interview you about.","mood":"shocked","sticker":{"top":"Comment","word":"ASK ME"}}
+ ],
+ "caption": "Stop writing prompts. Make the AI interview YOU first. Copy this and watch the answers get way better.\n\nBuilding your own app? Use code AT100 on Base44 (link in bio).\n\nComment ASK ME and I'll send you my best interview prompts.",
+ "hashtags": ["ai","chatgpt","claude","promptengineering","aitips","techtok","shipwithpip"],
+ "pinned_comment": "Comment ASK ME + the topic you want help with. I'll reply with a custom interview prompt.",
+ "end_hold": 2.4
+}

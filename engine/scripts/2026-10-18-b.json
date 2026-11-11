@@ -1,0 +1,33 @@
+{
+  "id": "2026-10-18-b",
+  "title": "Stop Claude building web apps that look AI-generated",
+  "palette": "lilac",
+  "cast": ["flop", "dex", "pip"],
+  "hook": "Why every AI-built website looks the same",
+  "beats": [
+    {"who": "dex", "mood": "annoyed", "moods": {"pip": "smug", "flop": "smug"},
+     "say": "Why does every app I build look like the same purple gradient?",
+     "panel": {"type": "big", "text": "Purple gradient. Inter font. Three cards."}},
+    {"who": "pip", "mood": "smug",
+     "say": "Because you asked for a clean website. So you got the average of every website.",
+     "panel": {"type": "big", "text": "Vague prompt = average design"}},
+    {"who": "pip", "mood": "happy", "wave": true,
+     "say": "Give Claude a design direction and ban the defaults, like a real art director would.",
+     "panel": {"type": "prompt",
+               "text": "Build this landing page as a 1970s Swiss transit poster. Strict grid, one typeface, black, cream and signal red. No gradients, no rounded cards, no emoji icons. Explain each design choice in one line."}},
+    {"who": "pip", "mood": "happy", "moods": {"dex": "shocked", "flop": "shocked"},
+     "say": "In Claude Code, add Anthropic's frontend design skill so it picks a bold direction every time.",
+     "panel": {"type": "list", "title": "The clean-app checklist",
+               "rows": [["1", "Name a real visual reference"], ["2", "Ban the AI defaults"], ["3", "One typeface, three colours"], ["4", "Screenshot it, then critique it"]]}},
+    {"who": "dex", "mood": "shocked", "moods": {"pip": "smug", "flop": "happy"},
+     "say": "That looks like an agency made it."},
+    {"who": "flop", "mood": "smug", "moods": {"dex": "happy", "pip": "happy"},
+     "say": "Told you. Swiss design never dies."}
+  ],
+  "cta": "Follow for one Claude build a day",
+  "cta_sub": "Save this before your next build",
+  "caption": "AI-built sites look the same because vague prompts get the average answer. Give Claude a real design reference, ban the defaults, and make it justify every choice. In Claude Code, Anthropic's frontend-design skill pushes it toward a distinct direction by default. Prompt in the first comment.",
+  "hashtags": ["claudecode", "webdesign", "vibecoding", "frontend", "buildinpublic"],
+  "pinned_comment": "The prompt: Build this landing page as a 1970s Swiss transit poster. Strict grid, one typeface, black, cream and signal red. No gradients, no rounded cards, no emoji icons. Explain each design choice in one line.",
+  "prompt": "Build this landing page as a 1970s Swiss transit poster. Strict grid, one typeface, black, cream and signal red. No gradients, no rounded cards, no emoji icons. Explain each design choice in one line."
+}

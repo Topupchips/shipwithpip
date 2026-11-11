@@ -1,0 +1,188 @@
+{
+ "id": "m6-supabase-rls",
+ "title": "Your AI-built app may expose its whole database",
+ "beats": [
+  {
+   "say": "Anyone can read your whole user table if your app skipped one setting.",
+   "key": [
+    "whole",
+    "skipped"
+   ],
+   "vis": {
+    "type": "code",
+    "title": "terminal",
+    "lines": [
+     "$ curl yourapp.supabase.co/rest/v1/users",
+     "[{\"email\":\"sara@mail.com\",\"plan\":\"pro\"},",
+     "{\"email\":\"jo@mail.com\",\"plan\":\"free\"},",
+     "  ...4,812 more rows ]"
+    ],
+    "hl": {
+     "2": "red"
+    },
+    "hl_at": 0.6,
+    "type_end": 0.2
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "In 2025, a researcher found Lovable apps shipping without Row Level Security. It became CVE twenty twenty five, forty eight seven fifty seven.",
+   "key": [
+    "Lovable",
+    "CVE"
+   ],
+   "vis": {
+    "type": "number",
+    "value": 170,
+    "color": "red",
+    "sub": "projects with exposed tables \u00b7 303 endpoints"
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Your app talks to the database straight from the browser, so the only lock is a policy on each table.",
+   "key": [
+    "browser",
+    "policy"
+   ],
+   "vis": {
+    "type": "code",
+    "title": "supabase \u00b7 users",
+    "lines": [
+     "alter table users",
+     "  enable row level security;",
+     "",
+     "-- no policy, no access",
+     "-- policy = true, everyone in"
+    ],
+    "hl": {
+     "4": "red"
+    },
+    "hl_at": 0.55
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "The exposed data included emails, phone numbers, payment status, and even API keys.",
+   "key": [
+    "emails",
+    "keys"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Found in open tables",
+    "subtitle": "Reported exposures",
+    "rows": [
+     [
+      "Emails",
+      "usernames + addresses",
+      "leaked",
+      "red"
+     ],
+     [
+      "Phone numbers",
+      "user profiles",
+      "leaked",
+      "red"
+     ],
+     [
+      "Payment status",
+      "subscription data",
+      "leaked",
+      "red"
+     ],
+     [
+      "API keys",
+      "Gemini, Google Maps",
+      "leaked",
+      "red"
+     ]
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "A policy that just says true is the same as no lock at all.",
+   "key": [
+    "true"
+   ],
+   "vis": {
+    "type": "code",
+    "title": "policy.sql",
+    "lines": [
+     "create policy \"read all\"",
+     "  on users for select",
+     "  using ( true );",
+     "",
+     "-- anyone, logged in or not"
+    ],
+    "hl": {
+     "2": "red"
+    },
+    "hl_at": 0.5
+   },
+   "bg": "dark"
+  },
+  {
+   "say": "Turn it on for every table, match rows to the logged in user, and test while logged out.",
+   "key": [
+    "every",
+    "logged"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Lock it down",
+    "rows": [
+     [
+      "Enable RLS",
+      "on every table",
+      "do first",
+      "red"
+     ],
+     [
+      "auth.uid() = user_id",
+      "users see own rows",
+      "policy",
+      "blue"
+     ],
+     [
+      "Test logged out",
+      "should return nothing",
+      "verify",
+      "ink"
+     ]
+    ]
+   },
+   "bg": "light"
+  },
+  {
+   "say": "Here's the prompt. Screenshot it, and send it to Claude inside your project.",
+   "key": [
+    "Screenshot"
+   ],
+   "vis": {
+    "type": "prompt"
+   },
+   "bg": "light",
+   "cap_y": 1500
+  },
+  {
+   "say": "Follow Ship With Pip for one of these every day.",
+   "nocap": true
+  }
+ ],
+ "prompt": "Audit every Supabase table in this project. For each one, tell me if Row Level Security is on and what the policies allow. Rewrite any policy that uses true so users can only read and write their own rows with auth.uid(). Then query each table as a logged-out visitor and show me exactly what comes back.",
+ "caption": "A researcher found Lovable-generated apps with missing Row Level Security (CVE-2025-48757): 303 endpoints across 170 projects exposed user emails, phone numbers, payment status and API keys. If your app calls Supabase from the browser, RLS is the only lock. Enable it on every table, scope policies with auth.uid(), and test as a logged-out visitor. The prompt is at the end.",
+ "hashtags": [
+  "supabase",
+  "lovable",
+  "vibecoding",
+  "cybersecurity",
+  "buildinpublic"
+ ],
+ "sources": [
+  "CVE-2025-48757 (disclosed May 2025 by Matt Palmer)",
+  "Superblocks write-up: 303 endpoints / 170 projects, exposed data types (secondary source; verify against Palmer's statement)",
+  "Terminal output and row counts are an illustration"
+ ]
+}

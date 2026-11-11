@@ -1,0 +1,135 @@
+{
+ "natural": true,
+ "voice": "af_bella",
+ "speed": 1.0,
+ "id": "m20-token-by-token",
+ "title": "Slow it down: AI writes one token at a time",
+ "beats": [
+  {
+   "say": "Slow it down and everything happens one frame at a time. AI works the same way. It writes one token at a time.",
+   "key": [
+    "frame",
+    "token"
+   ],
+   "vis": {
+    "type": "code",
+    "title": "next token?",
+    "lines": [
+     "The capital of France is",
+     "  \u2192 Paris",
+     "  \u2192 a",
+     "  \u2192 the"
+    ],
+    "hl": {
+     "1": "green"
+    },
+    "hl_at": 0.5,
+    "typing": false
+   },
+   "bg": "volt"
+  },
+  {
+   "say": "A token is a small chunk of text. In English it's roughly four characters, about three quarters of a word.",
+   "key": [
+    "chunk",
+    "four"
+   ],
+   "vis": {
+    "type": "number",
+    "value": 4,
+    "color": "teal",
+    "sub": "characters per token, roughly \u00b7 English"
+   },
+   "bg": "volt"
+  },
+  {
+   "say": "The model reads your whole prompt, picks the most likely next token, adds it, and then does it all again.",
+   "key": [
+    "likely",
+    "again"
+   ],
+   "vis": {
+    "type": "timeline",
+    "timer": 0,
+    "items": [
+     [
+      "Read the prompt",
+      "every word of it",
+      "ink"
+     ],
+     [
+      "Pick the next token",
+      "the most likely one",
+      "ink"
+     ],
+     [
+      "Add it to the text",
+      "then repeat",
+      "red"
+     ]
+    ]
+   },
+   "bg": "volt"
+  },
+  {
+   "say": "That's why your prompt matters so much. Every word you write shapes every token that comes after.",
+   "key": [
+    "prompt",
+    "shapes"
+   ],
+   "vis": {
+    "type": "rows",
+    "title": "Steer the next token",
+    "rows": [
+     [
+      "Be specific",
+      "vague in, vague out",
+      "tip",
+      "teal"
+     ],
+     [
+      "Show one example",
+      "gives it a pattern to continue",
+      "tip",
+      "teal"
+     ],
+     [
+      "Say what to avoid",
+      "narrows what comes next",
+      "tip",
+      "ink"
+     ]
+    ]
+   },
+   "bg": "volt"
+  },
+  {
+   "say": "Here's the prompt. Screenshot it, and send it to Claude inside your project.",
+   "key": [
+    "Screenshot"
+   ],
+   "vis": {
+    "type": "prompt"
+   },
+   "bg": "light",
+   "cap_y": 1500
+  },
+  {
+   "say": "Follow Ship With Pip for one of these every day.",
+   "nocap": true
+  }
+ ],
+ "prompt": "Rewrite the prompt I'm about to paste so it is specific, includes one example of the output I want, and says what to avoid. Show me the before and after, and explain in one line each why every change makes the answer better.",
+ "caption": "Slow motion breaks things into frames. AI breaks writing into tokens: it reads your whole prompt, picks the most likely next token, adds it, and repeats. A token is roughly 4 characters of English, about 3/4 of a word. That's why a specific prompt with an example and clear limits steers every token that follows. The prompt is at the end. Building your own app? Use code AT100 on Base44 (link in bio).",
+ "hashtags": [
+  "ai",
+  "chatgpt",
+  "promptengineering",
+  "claude",
+  "buildinpublic"
+ ],
+ "sources": [
+  "OpenAI tokenizer docs: a token is roughly 4 characters or 0.75 words in English (rule of thumb)",
+  "General LLM next-token prediction; example words are illustrative"
+ ]
+}
