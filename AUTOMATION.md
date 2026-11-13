@@ -1,7 +1,7 @@
 # @shipwithpip auto-reels: runbook for each scheduled run
 
 Every run makes **one** reel and posts it to Instagram **@shipwithpip** with no human review.
-Ansh approved fully automatic posting, 2 reels a day, alternating an AI simulation reel and a visual math reel (Ansh, Nov 13 2026: visual reels replace the dark explainers).
+Ansh approved fully automatic posting, 3 reels a day (Ansh, Nov 13 2026: up from 2), in a repeating cycle of sim, sim, visual math reel (visual reels replaced the dark explainers on Nov 13 2026).
 Because nobody reviews it, the checks below are the review. If any check fails and you cannot fix it honestly, **post nothing** and log the failure.
 
 ## Hard rules (never break)
@@ -9,7 +9,7 @@ Because nobody reviews it, the checks below are the review. If any check fails a
 2. **Real facts for visual reels.** Every landmark, distance and claim in a visual reel is verified with WebSearch/WebFetch against a primary or reputable source found in this run. List the URLs in the script's `sources`. No invented stats, quotes, companies or incidents. If you cannot verify a claim, cut it.
 3. **No em dashes** anywhere (script, captions, on-screen text, post). Use commas, colons or full stops.
 4. Post only to account id `29510734025188123` (@shipwithpip). Never to @anshgotenks or @anshgoten.
-5. One reel per run. Runs are at 02:07 and 04:07 Halifax time and must finish before 06:00. If the log shows a reel was already posted within the last 90 minutes, stop.
+5. One reel per run. Runs are at 02:07, 04:07 and 14:07 Halifax time; each must finish within 110 minutes of starting. If the log shows a reel was already posted within the last 90 minutes, stop.
 6. Keep the video vertically centred, 1080x1920. Length 35 to 65 s.
 7. Hooks: the first 2 seconds must be a surprising, specific line (a number, a reversal, a "then I..." twist). Ansh wants more random, unexpected hooks; capturing attention in the first 10 seconds is the priority.
 
@@ -19,9 +19,9 @@ Because nobody reviews it, the checks below are the review. If any check fails a
 cd /home/claude/shipwithpip && bash tools/setup.sh
 export KOKORO_DIR=$HOME/kokoro-multi-lang-v1_0
 ```
-Read `state/state.json` (what is `next`) and the last 40 lines of `state/log.jsonl` (what was already posted).
+Read `state/state.json`: the reel to make is `next = cycle[cycle_index % len(cycle)]` (cycle is sim, sim, visual) and the last 40 lines of `state/log.jsonl` (what was already posted).
 
-## A. Simulation reel (`next == "sim"`)
+## A. Simulation reel (`next` is "sim")
 Sim = `sim_rotation[sim_index % len]`. Work in `engine/goal2/`. Run ONE heavy process at a time (2 cores, 8 GB; two renders at once get OOM-killed).
 
 1. **Run with a fresh seed** (not used before for this sim in the log; pick e.g. a random number 10 to 9999):
@@ -35,7 +35,7 @@ Sim = `sim_rotation[sim_index % len]`. Work in `engine/goal2/`. Run ONE heavy pr
 6. **Render**: `nohup python3 -u goal2.py SIM /tmp/r.json /tmp/reel.mp4 --spec /tmp/spec.json > /tmp/render.log 2>&1 &` then poll the log until `done` (10 to 20 min). Any `pageerror` = fix and re-render.
 7. **Verify the mp4**: ffprobe duration 35 to 65 s, has audio; extract 3 frames (early, middle, last third) with ffmpeg and Read them.
 
-## B. Visual math reel (`next == "visual"`)
+## B. Visual math reel (`next` is "visual")
 Style: a dark "scale climb". Something multiplies every step (folds, doublings, grains...) and a log-scale camera zooms out past real landmarks, with a big step counter, a live size readout and word-by-word captions. Engine: `engine/scale.py`. First example: `engine/scale_scripts/v1_folds.json` (paper folds past Everest, the Moon, the Sun, Andromeda, the observable universe; posted Nov 13 2026). Read it first and copy its format.
 
 1. **Pick a topic** not already in the log (check `topic` of every `"kind": "visual"` line). It must be a quantity that grows by a fixed factor per step and can be measured in metres, so the ruler works. Ideas: a stack of 1 mm grains or rice doubling (chessboard), a $1 bill stack doubling (bill thickness), a cell dividing, a chain letter (people stacked head to toe), a sheet folded but starting from a different object (credit card, phone, human), tripling instead of doubling. Hook must be a specific, surprising number in the first 2 seconds.
@@ -51,7 +51,7 @@ Style: a dark "scale climb". Something multiplies every step (folds, doublings, 
 2. vidIQ `vidiq_video_upload` with `url` = that URL -> `videoUrl`.
 3. Caption: sims use `post.caption` + a blank line + `Follow @shipwithpip for more AI from scratch.` + blank line + hashtags (`#` + each tag). Visual reels use the script `caption` + blank line + `Follow @shipwithpip for more.` + blank line + hashtags. Max 2,200 chars, no em dashes.
 4. vidIQ `vidiq_instagram_publish_reel` with `platformAccountId` `29510734025188123`, `videoUrl`, `caption`. No trial params, no AI label. Continue with `containerId` / `mcpJobId` exactly as the tool says until `PUBLISHED`. Do not retry a failed publish with a new container; log the error and stop.
-5. Append one JSON line to `state/log.jsonl`: `{"date": ISO time, "kind": "sim"|"visual", "sim": name, "seed": n, "topic": title, "permalink": ..., "status": "posted"|"failed: reason"}`. Update `state/state.json`: flip `next` between "sim" and "visual" (if it still says "explainer", treat it as "visual"); after a sim, `sim_index += 1` (only when posted). Commit and push to `main`:
+5. Append one JSON line to `state/log.jsonl`: `{"date": ISO time, "kind": "sim"|"visual", "sim": name, "seed": n, "topic": title, "permalink": ..., "status": "posted"|"failed: reason"}`. Update `state/state.json` only when the reel was posted: `cycle_index += 1`, set `next` to the new `cycle[cycle_index % len(cycle)]` (for readability), and after a sim also `sim_index += 1`. A failed run leaves the state unchanged so the next run retries the same slot. Commit and push to `main`:
    `git add state engine/scale_scripts && git commit -m "log: <title>" && git push origin HEAD:main`
 
 ## D. Report
