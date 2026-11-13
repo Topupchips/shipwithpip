@@ -1,0 +1,163 @@
+{
+  "id": "v1_folds",
+  "start_m": 0.0001,
+  "factor": 2,
+  "unit_word": "FOLD",
+  "landmarks": [
+    {
+      "name": "MOUNT EVEREST",
+      "m": 8848.86,
+      "value": "8,848.86 m",
+      "icon": "mountain"
+    },
+    {
+      "name": "SPACE STATION",
+      "m": 402336,
+      "value": "about 250 miles up",
+      "icon": "station"
+    },
+    {
+      "name": "THE MOON",
+      "m": 384400000,
+      "value": "384,400 km away",
+      "icon": "moon"
+    },
+    {
+      "name": "THE SUN",
+      "m": 149597870700,
+      "value": "149.6 million km away",
+      "icon": "sun"
+    },
+    {
+      "name": "NEAREST STAR",
+      "m": 3.9732e+16,
+      "value": "Proxima, 4.2 light-years",
+      "icon": "star"
+    },
+    {
+      "name": "MILKY WAY",
+      "m": 9.46e+20,
+      "value": "100,000 light-years across",
+      "icon": "galaxy"
+    },
+    {
+      "name": "ANDROMEDA",
+      "m": 2.365e+22,
+      "value": "2.5 million light-years",
+      "icon": "andromeda"
+    },
+    {
+      "name": "OBSERVABLE UNIVERSE",
+      "m": 8.7978e+26,
+      "value": "93 billion light-years wide",
+      "icon": "universe"
+    }
+  ],
+  "beats": [
+    {
+      "to": 0,
+      "hook": [
+        "103 FOLDS",
+        "THICKER THAN",
+        "THE UNIVERSE"
+      ],
+      "say": "Fold one sheet of paper a hundred and three times, and it's thicker than the universe is wide.",
+      "key": [
+        "universe"
+      ]
+    },
+    {
+      "to": 7,
+      "say": "One sheet is a tenth of a millimeter. Every fold doubles it. Seven folds: twelve point eight millimeters.",
+      "key": [
+        "doubles"
+      ]
+    },
+    {
+      "to": 27,
+      "say": "Fold twenty seven: over thirteen kilometers. You just passed Mount Everest.",
+      "key": [
+        "Everest"
+      ]
+    },
+    {
+      "to": 32,
+      "say": "Fold thirty two: you're above the space station.",
+      "key": [
+        "station"
+      ]
+    },
+    {
+      "to": 42,
+      "say": "Fold forty two: about four hundred and forty thousand kilometers. That is past the Moon.",
+      "key": [
+        "Moon"
+      ]
+    },
+    {
+      "to": 51,
+      "say": "Fold fifty one: past the Sun.",
+      "key": [
+        "Sun"
+      ]
+    },
+    {
+      "to": 69,
+      "say": "Fold sixty nine: past the nearest star.",
+      "key": [
+        "star"
+      ]
+    },
+    {
+      "to": 88,
+      "say": "Fold eighty eight: out of our galaxy and past Andromeda.",
+      "key": [
+        "Andromeda"
+      ]
+    },
+    {
+      "to": 103,
+      "say": "Fold one hundred and three: a hundred and seven billion light years. The observable universe is ninety three.",
+      "key": [
+        "universe"
+      ]
+    },
+    {
+      "to": 12,
+      "stamp": "REAL RECORD: 12",
+      "say": "The real world record? Twelve folds. Britney Gallivan did it in 2001, with over a kilometer of tissue paper.",
+      "key": [
+        "Twelve"
+      ],
+      "speak": "The real world record? Twelve folds. Britney Gallivan did it in two thousand and one, with over a kilometer of tissue paper."
+    },
+    {
+      "to": 12,
+      "nocap": true,
+      "say": "Follow Ship With Pip for more."
+    }
+  ],
+  "title": "How many folds to make paper thicker than the universe?",
+  "caption": "A sheet of paper is about 0.1 mm thick and every fold doubles it. 7 folds: 12.8 mm. 27 folds: 13.4 km, taller than Everest (8,848.86 m). 32 folds: above the space station (about 250 miles up). 42 folds: 439,805 km, past the Moon (384,400 km). 51 folds: past the Sun. 69: past Proxima Centauri. 88: past Andromeda (2.5 million light-years). 103 folds: about 107 billion light-years, wider than the observable universe (about 93 billion light-years). The real record is 12 folds, set by Britney Gallivan in 2001 with 1,219 m of tissue paper. That's exponential growth: 2 to the power of 103.",
+  "hashtags": [
+    "math",
+    "exponentialgrowth",
+    "space",
+    "universe",
+    "science",
+    "shipwithpip"
+  ],
+  "sources": [
+    "https://hypertextbook.com/facts/2001/JuliaSherlis.shtml",
+    "https://kathmandupost.com/national/2020/12/08/it-s-official-mount-everest-is-8-848-86-metres-tall",
+    "https://www.nasa.gov/learning-resources/for-kids-and-students/what-is-the-international-space-station-grades-5-8/",
+    "https://science.nasa.gov/moon/facts/",
+    "https://ssd.jpl.nasa.gov/glossary/au.html",
+    "https://science.nasa.gov/asset/hubble/compass-and-scale-image-for-proxima-centauri",
+    "https://earthsky.org/clusters-nebulae-galaxies/andromeda-galaxy-closest-spiral-to-milky-way/",
+    "https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-31/",
+    "https://britannica.com/topic/observable-universe",
+    "https://www.britannica.com/dictionary/light%E2%80%93year",
+    "https://www.guinnessworldrecords.com/news/2025/10/how-many-times-can-you-actually-fold-a-piece-of-paper-student-busts-myth"
+  ]
+}

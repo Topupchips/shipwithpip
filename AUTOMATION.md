@@ -1,12 +1,12 @@
 # @shipwithpip auto-reels: runbook for each scheduled run
 
 Every run makes **one** reel and posts it to Instagram **@shipwithpip** with no human review.
-Ansh approved fully automatic posting, 2 reels a day, alternating an AI simulation reel and a dark explainer reel.
+Ansh approved fully automatic posting, 2 reels a day, alternating an AI simulation reel and a visual math reel (Ansh, Nov 13 2026: visual reels replace the dark explainers).
 Because nobody reviews it, the checks below are the review. If any check fails and you cannot fix it honestly, **post nothing** and log the failure.
 
 ## Hard rules (never break)
 1. **Honest numbers.** Every number in a sim reel comes from the run you just did (`autosim.py stats`). Never reuse numbers from an old run, never round in a way that changes meaning, never claim something the stats do not show. `autosim.py check` must print `CHECK OK`.
-2. **Real facts for explainers.** Every claim in an explainer is verified with WebSearch/WebFetch against a primary or reputable source found in this run. List the URLs in the script's `sources`. No invented stats, quotes, companies or incidents. If you cannot verify a claim, cut it.
+2. **Real facts for visual reels.** Every landmark, distance and claim in a visual reel is verified with WebSearch/WebFetch against a primary or reputable source found in this run. List the URLs in the script's `sources`. No invented stats, quotes, companies or incidents. If you cannot verify a claim, cut it.
 3. **No em dashes** anywhere (script, captions, on-screen text, post). Use commas, colons or full stops.
 4. Post only to account id `29510734025188123` (@shipwithpip). Never to @anshgotenks or @anshgoten.
 5. One reel per run. Runs are at 02:07 and 04:07 Halifax time and must finish before 06:00. If the log shows a reel was already posted within the last 90 minutes, stop.
@@ -35,22 +35,24 @@ Sim = `sim_rotation[sim_index % len]`. Work in `engine/goal2/`. Run ONE heavy pr
 6. **Render**: `nohup python3 -u goal2.py SIM /tmp/r.json /tmp/reel.mp4 --spec /tmp/spec.json > /tmp/render.log 2>&1 &` then poll the log until `done` (10 to 20 min). Any `pageerror` = fix and re-render.
 7. **Verify the mp4**: ffprobe duration 35 to 65 s, has audio; extract 3 frames (early, middle, last third) with ffmpeg and Read them.
 
-## B. Explainer reel (`next == "explainer"`)
-Style: the dark minimal reels (see the `min_scripts/` examples, all beats `"bg": "dark"`): UI mockups, big numbers, word-by-word captions with a highlighted keyword, the prompt at the end.
+## B. Visual math reel (`next == "visual"`)
+Style: a dark "scale climb". Something multiplies every step (folds, doublings, grains...) and a log-scale camera zooms out past real landmarks, with a big step counter, a live size readout and word-by-word captions. Engine: `engine/scale.py`. First example: `engine/scale_scripts/v1_folds.json` (paper folds past Everest, the Moon, the Sun, Andromeda, the observable universe; posted Nov 13 2026). Read it first and copy its format.
 
-1. **Pick a topic**: something that happened or was published in the last ~2 weeks about AI, vibe coding, AI coding agents, security of AI-built apps, AI costs, or developer tools, that a builder would want to know. Use WebSearch. Check the log so you never repeat a topic. Good shapes: "this broke because...", a surprising number, a real incident and the one fix.
-2. **Verify** every fact with at least one reputable source (official post, docs, major outlet, original researcher). Keep the URLs.
-3. **Write the script** `/tmp/x.json` in the exact format of `engine/min_scripts/*.json` (read 2 or 3 of them first, e.g. m9, m14, m2). 7 to 10 beats. Every beat `"bg": "dark"`. Each beat has `say`, `key` (1 word from `say` to highlight) and usually a `vis` (types used before: rows, code, number, statement, timeline, chat, stack, ring, inbox, tool, browser, phone, dialog, prompt). Second to last beat is `{"vis": {"type": "prompt"}}` with a short line, last beat is `{"say": "Follow Ship With Pip for one of these every day.", "nocap": true, "bg": "dark"}`. Fill `id`, `title`, `caption`, `hashtags` (5 to 7), `prompt` (a copy-paste prompt the viewer can give an AI to apply the lesson), `sources`.
-4. **Contact sheet**: `cd engine && python3 minimal.py /tmp/x.json /tmp/sheet.png --model $KOKORO_DIR --stills`, Read it, fix layout problems.
-5. **Render**: `python3 minimal.py /tmp/x.json /tmp/reel.mp4 --model $KOKORO_DIR` (about 5 min). Verify like A.7.
+1. **Pick a topic** not already in the log (check `topic` of every `"kind": "visual"` line). It must be a quantity that grows by a fixed factor per step and can be measured in metres, so the ruler works. Ideas: a stack of 1 mm grains or rice doubling (chessboard), a $1 bill stack doubling (bill thickness), a cell dividing, a chain letter (people stacked head to toe), a sheet folded but starting from a different object (credit card, phone, human), tripling instead of doubling. Hook must be a specific, surprising number in the first 2 seconds.
+2. **Verify** every landmark distance/size and the starting size with WebSearch/WebFetch against a reputable source in this run (NASA, JPL, Britannica, official records, major outlets). Keep the URLs in `sources`.
+3. **Compute** every step number with Python in this run: `step = ceil(log(landmark_m / start_m) / log(factor))` and the size at each shown step as `start_m * factor ** step`. Every number spoken or written must be one of these results or a sourced fact. Write the arithmetic in your notes.
+4. **Write the script** `/tmp/v.json` like `v1_folds.json`: `start_m`, `factor`, `unit_word` (counter label, e.g. FOLD, DOUBLING, DAY), 5 to 9 `landmarks` (`name` ALL CAPS, `m`, `value` short sourced text, `icon` one of mountain, station, moon, sun, star, galaxy, andromeda, universe), 8 to 11 `beats` (`to` = step reached by the end of the beat, `say`, `key`; first beat has `hook` = 3 short ALL CAPS lines; optional `stamp` for a red stamp, e.g. a real record or reality check; optional `speak` when the voice must differ from the caption, e.g. years written in words). Last beat: `{"to": <same as before>, "nocap": true, "say": "Follow Ship With Pip for more."}`. Fill `id` (v2_..., v3_...), `title`, `caption`, `hashtags` (5 to 7, include shipwithpip), `sources`. End with a reality-check twist where a real sourced one exists.
+5. **Voice check**: the Kokoro lexicon silently skips unknown words (plurals like "kilometers", names, digits). Run the stills command and `grep OOV` its output; fix every OOV word with `speak` or by adding it to `LEX_ADD` in `scale.py`. No OOV lines allowed.
+6. **Contact sheet**: `cd engine && python3 scale.py /tmp/v.json /tmp/sheet.png --model $KOKORO_DIR --stills 2>&1 | grep -v "^$"`, Read the PNG: labels readable, landmarks not overlapping each other, counter and readout matching the script.
+7. **Render**: `python3 scale.py /tmp/v.json /tmp/reel.mp4 --model $KOKORO_DIR` (about 3 to 5 min). Verify like A.7. Copy the final script into `engine/scale_scripts/` and commit it with the state.
 
 ## C. Post (both kinds)
 1. `url=$(bash tools/host_video.sh /tmp/reel.mp4)` (prints a raw.githubusercontent.com URL).
 2. vidIQ `vidiq_video_upload` with `url` = that URL -> `videoUrl`.
-3. Caption: sims use `post.caption` + a blank line + `Follow @shipwithpip for more AI from scratch.` + blank line + hashtags (`#` + each tag). Explainers use the script `caption` + blank line + hashtags. Max 2,200 chars, no em dashes.
+3. Caption: sims use `post.caption` + a blank line + `Follow @shipwithpip for more AI from scratch.` + blank line + hashtags (`#` + each tag). Visual reels use the script `caption` + blank line + `Follow @shipwithpip for more.` + blank line + hashtags. Max 2,200 chars, no em dashes.
 4. vidIQ `vidiq_instagram_publish_reel` with `platformAccountId` `29510734025188123`, `videoUrl`, `caption`. No trial params, no AI label. Continue with `containerId` / `mcpJobId` exactly as the tool says until `PUBLISHED`. Do not retry a failed publish with a new container; log the error and stop.
-5. Append one JSON line to `state/log.jsonl`: `{"date": ISO time, "kind": "sim"|"explainer", "sim": name, "seed": n, "topic": title, "permalink": ..., "status": "posted"|"failed: reason"}`. Update `state/state.json`: flip `next`; after a sim, `sim_index += 1` (only when posted). Commit and push to `main`:
-   `git add state && git commit -m "log: <title>" && git push origin HEAD:main`
+5. Append one JSON line to `state/log.jsonl`: `{"date": ISO time, "kind": "sim"|"visual", "sim": name, "seed": n, "topic": title, "permalink": ..., "status": "posted"|"failed: reason"}`. Update `state/state.json`: flip `next` between "sim" and "visual" (if it still says "explainer", treat it as "visual"); after a sim, `sim_index += 1` (only when posted). Commit and push to `main`:
+   `git add state engine/scale_scripts && git commit -m "log: <title>" && git push origin HEAD:main`
 
 ## D. Report
 End the run with a 2 line summary: what was posted (title, permalink) or why nothing was.
