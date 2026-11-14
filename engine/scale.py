@@ -132,14 +132,15 @@ def render_frame(t, S, tl, bg, total):
 
     # stack column
     yt = max(Y(top), 360)
-    col = Image.new("RGBA", (COL_X1 - COL_X0, int(Y_BOT - yt) + 1), PAPER + (255,))
+    pc, pd = tuple(S.get("col_rgb", PAPER)), tuple(S.get("col_rgb_d", PAPER_D))  # optional column colours
+    col = Image.new("RGBA", (COL_X1 - COL_X0, int(Y_BOT - yt) + 1), pc + (255,))
     cd = ImageDraw.Draw(col)
     layers = S["factor"] ** max(n, 0)
     if layers <= 64:
         hgt = col.size[1]
         for k in range(1, int(layers)):
             yy = hgt - hgt * k / layers
-            cd.line([(0, yy), (col.size[0], yy)], fill=PAPER_D + (255,), width=2)
+            cd.line([(0, yy), (col.size[0], yy)], fill=pd + (255,), width=2)
     else:
         arr = np.asarray(col).astype(np.float32)
         g = np.linspace(0.78, 1.0, arr.shape[0])[:, None, None]
@@ -176,7 +177,7 @@ def render_frame(t, S, tl, bg, total):
     tc(d, (540, 92), S.get("unit_word", "FOLD"), font(F_SEMI, 40), al(TH["muted"], 1))
     tc(d, (540, 192), f"{max(n, 0)}", font(F_BOLD, 150), al(YEL, 1))
     thick = S["start_m"] * S["factor"] ** max(n, 0)
-    txt = fmt_len(thick) + " thick"
+    txt = fmt_len(thick) + " " + S.get("readout_word", "thick")
     f = font(F_SEMI, 46); w = d.textlength(txt, font=f)
     d.rounded_rectangle([540 - w / 2 - 34, 278, 540 + w / 2 + 34, 344], radius=33, fill=al(TH["card"], 1), outline=al(TH["line"], 1), width=2)
     tc(d, (540, 311), txt, f, al(TH["ink"], 1))
@@ -210,6 +211,7 @@ def render_frame(t, S, tl, bg, total):
 LEX_ADD = {  # words the Kokoro US lexicon is missing (it silently skips them otherwise)
     "kilometers": "k ə l ˈ ɑ m ə ɾ ə ɹ z", "millimeters": "m ˈ ɪ l ə m ˌ i ɾ ə ɹ z", "that's": "ð ˈ æ t s",
     "britney": "b ɹ ˈ ɪ t n i", "gallivan": "ɡ ˈ æ l ɪ v ə n", "centimeters": "s ˈ ɛ n t ə m ˌ i ɾ ə ɹ z",
+    "doublings": "d ˈ ʌ b l ɪ ŋ z",
 }
 
 

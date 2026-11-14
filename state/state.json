@@ -1,11 +1,11 @@
 {
-  "next": "visual",
+  "next": "sim",
   "cycle": [
     "sim",
     "sim",
     "visual"
   ],
-  "cycle_index": 2,
+  "cycle_index": 3,
   "sim_rotation": [
     "maze",
     "flappy",

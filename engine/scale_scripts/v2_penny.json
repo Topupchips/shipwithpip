@@ -1,0 +1,169 @@
+{
+  "id": "v2_penny",
+  "start_m": 0.00152,
+  "factor": 2,
+  "unit_word": "DOUBLING",
+  "readout_word": "tall",
+  "col_rgb": [
+    205,
+    127,
+    50
+  ],
+  "col_rgb_d": [
+    140,
+    80,
+    30
+  ],
+  "landmarks": [
+    {
+      "name": "MOUNT EVEREST",
+      "m": 8848.86,
+      "value": "8,848.86 m",
+      "icon": "mountain"
+    },
+    {
+      "name": "SPACE STATION",
+      "m": 402336,
+      "value": "about 250 miles up",
+      "icon": "station"
+    },
+    {
+      "name": "THE MOON",
+      "m": 384400000,
+      "value": "384,400 km away",
+      "icon": "moon"
+    },
+    {
+      "name": "THE SUN",
+      "m": 149597870700,
+      "value": "149.6 million km away",
+      "icon": "sun"
+    },
+    {
+      "name": "NEAREST STAR",
+      "m": 3.99212e+16,
+      "value": "Proxima, 4.22 light-years",
+      "icon": "star"
+    },
+    {
+      "name": "ANDROMEDA",
+      "m": 2.365e+22,
+      "value": "2.5 million light-years",
+      "icon": "andromeda"
+    },
+    {
+      "name": "OBSERVABLE UNIVERSE",
+      "m": 8.7978e+26,
+      "value": "93 billion light-years wide",
+      "icon": "universe"
+    }
+  ],
+  "beats": [
+    {
+      "to": 0,
+      "hook": [
+        "ONE PENNY",
+        "99 DOUBLINGS",
+        "> UNIVERSE"
+      ],
+      "say": "Stack one penny. Double the stack ninety nine times, and it's taller than the universe is wide.",
+      "key": [
+        "universe"
+      ]
+    },
+    {
+      "to": 10,
+      "say": "One penny is one point five two millimeters thick. Ten doublings: over one and a half meters of pennies.",
+      "key": [
+        "doublings"
+      ]
+    },
+    {
+      "to": 23,
+      "say": "Doubling twenty three: almost thirteen kilometers. You just passed Mount Everest.",
+      "key": [
+        "Everest"
+      ]
+    },
+    {
+      "to": 30,
+      "say": "Doubling thirty: sixteen hundred kilometers, way above the space station.",
+      "key": [
+        "station"
+      ]
+    },
+    {
+      "to": 30,
+      "stamp": "$10.7 MILLION",
+      "say": "And that stack of pennies is worth over ten million dollars.",
+      "key": [
+        "million"
+      ]
+    },
+    {
+      "to": 38,
+      "say": "Doubling thirty eight: past the Moon.",
+      "key": [
+        "Moon"
+      ]
+    },
+    {
+      "to": 47,
+      "say": "Doubling forty seven: past the Sun.",
+      "key": [
+        "Sun"
+      ]
+    },
+    {
+      "to": 84,
+      "say": "Eighty four: past the nearest star, out of our galaxy, and past Andromeda.",
+      "key": [
+        "Andromeda"
+      ]
+    },
+    {
+      "to": 99,
+      "say": "Doubling ninety nine: about a hundred and two billion light years. The observable universe is ninety three.",
+      "key": [
+        "universe"
+      ]
+    },
+    {
+      "to": 99,
+      "stamp": "LAST PENNY: 2025",
+      "say": "Too bad you can't try it. The US Mint made its last pennies for circulation in November 2025.",
+      "speak": "Too bad you can't try it. The U S Mint made its last pennies for circulation in November, twenty twenty five.",
+      "key": [
+        "last"
+      ]
+    },
+    {
+      "to": 99,
+      "nocap": true,
+      "say": "Follow Ship With Pip for more."
+    }
+  ],
+  "title": "One penny doubled 99 times is taller than the universe is wide",
+  "caption": "A US penny is 1.52 mm thick. Double the stack every step. 10 doublings: 1.56 m. 23 doublings: 12.75 km, taller than Everest (8,848.86 m). 30 doublings: 1,632 km of pennies, way above the space station (about 250 miles up), and 1,073,741,824 pennies is $10,737,418.24. 38 doublings: 417,814 km, past the Moon (384,400 km). 47: past the Sun. 65: past Proxima Centauri (4.22 light-years). 84: past Andromeda (2.5 million light-years). 99 doublings: about 102 billion light-years, more than the width of the observable universe (about 93 billion light-years). You can't actually try it: the US Mint struck its last pennies for circulation in November 2025. That's exponential growth: 2 to the power of 99.",
+  "hashtags": [
+    "math",
+    "exponentialgrowth",
+    "penny",
+    "space",
+    "science",
+    "shipwithpip"
+  ],
+  "sources": [
+    "https://usmint.gov/learn/coin-specifications",
+    "https://www.coinworld.com/news/us-coins/final-cent-for-circulation-struck-at-philadelphia-mint",
+    "https://abc13.com/post/last-penny-being-minted-philadelphia-wednesday/18148058/",
+    "https://kathmandupost.com/national/2020/12/08/it-s-official-mount-everest-is-8-848-86-metres-tall",
+    "https://www.timeforkids.com/g2/explore-iss/",
+    "https://www.rmg.co.uk/stories/space-astronomy/how-far-away-moon",
+    "https://ssd.jpl.nasa.gov/glossary/au.html",
+    "https://earthsky.org/astronomy-essentials/proxima-centauri-our-suns-nearest-neighbor/",
+    "https://science.nasa.gov/missions/hubble/nasas-hubble-traces-hidden-history-of-andromeda-galaxy/",
+    "https://britannica.com/topic/observable-universe"
+  ],
+  "facts": "start 0.00152 m, factor 2. step=ceil(log2(landmark/start)): Everest 23 (12,750.68 m), ISS 28 (408,022 m), Moon 38 (417,814,419 m), Sun 47 (2.139e11 m), Proxima 65 (5.61e16 m), Andromeda 84 (2.94e22 m), universe 99 (9.634e26 m = 101.84 billion ly at 9.46e15 m/ly). Step 10: 1.556 m. Step 30: 1,632,087.6 m, 2^30 pennies = $10,737,418.24. Coin World: final circulating cent struck Nov 12 2025; ABC: Nov 11 2025, so only 'November 2025' is stated."
+}
