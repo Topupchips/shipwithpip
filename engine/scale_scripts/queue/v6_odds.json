@@ -1,0 +1,135 @@
+{
+  "id": "v6_odds",
+  "dim": "odds",
+  "start_m": 1,
+  "factor": 10,
+  "unit_word": "ODDS: 1 IN",
+  "counter_fmt": "pow10",
+  "readout_word": "",
+  "col_rgb": [
+    74,
+    222,
+    128
+  ],
+  "col_rgb_d": [
+    22,
+    163,
+    74
+  ],
+  "landmarks": [
+    {
+      "name": "ROLL A SIX",
+      "m": 6,
+      "value": "1 in 6",
+      "icon": "dice"
+    },
+    {
+      "name": "STRUCK BY LIGHTNING",
+      "m": 15300,
+      "value": "lifetime, 1 in 15,300",
+      "icon": "bolt"
+    },
+    {
+      "name": "ROYAL FLUSH",
+      "m": 649740,
+      "value": "5 cards, 1 in 649,740",
+      "icon": "cards"
+    },
+    {
+      "name": "POWERBALL JACKPOT",
+      "m": 292201338,
+      "value": "1 in 292,201,338",
+      "icon": "ticket"
+    },
+    {
+      "name": "ALL 13 SPADES",
+      "m": 635013559600,
+      "value": "1 in 635 billion",
+      "icon": "cards"
+    }
+  ],
+  "beats": [
+    {
+      "to": 0,
+      "hook": [
+        "28 HEADS",
+        "IN A ROW",
+        "BEATS POWERBALL"
+      ],
+      "say": "Flipping twenty eight heads in a row is more likely than winning the Powerball jackpot.",
+      "key": [
+        "Powerball"
+      ]
+    },
+    {
+      "to": 1,
+      "say": "Every step adds a zero to the odds. Rolling a six on one die: one in six.",
+      "key": [
+        "six"
+      ]
+    },
+    {
+      "to": 5,
+      "say": "Getting struck by lightning in your lifetime: about one in fifteen thousand.",
+      "key": [
+        "lightning"
+      ]
+    },
+    {
+      "to": 6,
+      "say": "A royal flush in five cards: about one in six hundred and fifty thousand.",
+      "key": [
+        "royal"
+      ]
+    },
+    {
+      "to": 9,
+      "say": "Twenty eight heads in a row: one in two hundred and sixty eight million.",
+      "key": [
+        "heads"
+      ]
+    },
+    {
+      "to": 9,
+      "stamp": "1 IN 292,201,338",
+      "say": "The Powerball jackpot: one in two hundred and ninety two million. Even worse than the coin.",
+      "key": [
+        "worse"
+      ]
+    },
+    {
+      "to": 12,
+      "say": "Dealt all thirteen spades in a bridge hand? One in six hundred and thirty five billion.",
+      "key": [
+        "spades"
+      ]
+    },
+    {
+      "to": 12,
+      "say": "So next time you buy a ticket, try flipping a coin first.",
+      "key": [
+        "coin"
+      ]
+    },
+    {
+      "nocap": true,
+      "say": "Follow Ship With Pip for more.",
+      "to": 12
+    }
+  ],
+  "title": "28 heads in a row is more likely than winning Powerball",
+  "caption": "Each step adds a zero to the odds. Rolling a six: 1 in 6. Struck by lightning in your lifetime: about 1 in 15,300 (National Weather Service). A royal flush in a 5 card deal: 4 out of 2,598,960 hands, 1 in 649,740. 28 heads in a row: 1 in 2^28 = 1 in 268,435,456. Powerball jackpot: 1 in 292,201,338, so it is less likely than 28 heads in a row. All 13 spades in a 13 card bridge hand: 1 in 635,013,559,600.",
+  "hashtags": [
+    "math",
+    "probability",
+    "lottery",
+    "powerball",
+    "odds",
+    "shipwithpip"
+  ],
+  "sources": [
+    "https://www.powerball.com/Powerball-prize-chart",
+    "https://www.weather.gov/safety/lightning-odds"
+  ],
+  "facts": "royal flush = C(52,5)/4 = 2,598,960/4 = 649,740; 2^28 = 268,435,456 < 292,201,338 (Powerball, powerball.com); all spades = C(52,13) = 635,013,559,600. Steps (first n with 10^n >= odds): six 1, lightning 15,300 -> 5, royal 6, 28 heads 9, Powerball 9, spades 12."
+}

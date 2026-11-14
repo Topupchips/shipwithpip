@@ -39,6 +39,10 @@ COL_X0, COL_X1 = 250, 410
 
 
 def fmt_len(m):
+    if m < 1e-12: return f"{m * 1e15:.2f} fm"
+    if m < 1e-9: return f"{m * 1e12:,.1f} pm"
+    if m < 1e-6: return f"{m * 1e9:.1f} nm"
+    if m < 1e-3: return f"{m * 1e6:.1f} \u00b5m"
     if m < 0.01: return f"{m * 1000:.1f} mm"
     if m < 1: return f"{m * 1000:.1f} mm" if m < 0.1 else f"{m * 100:.1f} cm"
     if m < 1000: return f"{m:,.1f} m"
@@ -49,12 +53,40 @@ def fmt_len(m):
     return f"{ly / 1e9:,.0f} billion light-years"
 
 
+YEAR_S = 31557600  # Julian year (365.25 days) in seconds
+
+
+def fmt_time(s):
+    if s < 60: return f"{s:,.0f} second" + ("" if round(s) == 1 else "s")
+    if s < 3600: return f"{s / 60:,.1f} minutes"
+    if s < 86400: return f"{s / 3600:,.1f} hours"
+    y = s / YEAR_S
+    if y < 1: return f"{s / 86400:,.1f} days"
+    if y < 100: return f"{y:,.1f} years"
+    if y < 1e6: return f"{y:,.0f} years"
+    if y < 1e9: return f"{y / 1e6:,.1f} million years"
+    return f"{y / 1e9:,.1f} billion years"
+
+
+def fmt_val(S, v):
+    """Readout text for a value in the script's dimension (length in m, time in s, count, odds 1 in v)."""
+    dim = S.get("dim", "length")
+    if dim == "time": return fmt_time(v)
+    if dim == "count": return f"{round(v):,}"
+    if dim == "odds": return f"1 in {round(v):,}"
+    return fmt_len(v)
+
+
 SUP = str.maketrans("0123456789-", "\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079\u207b")
 
 
-def tick_label(e):
-    named = {-4: "0.1 mm", -3: "1 mm", -2: "1 cm", -1: "10 cm", 0: "1 m", 1: "10 m", 2: "100 m", 3: "1 km"}
-    return named.get(e, "10" + str(e).translate(SUP) + " m")
+def tick_label(e, dim="length"):
+    p = "10" + str(e).translate(SUP)
+    if dim == "time": return {0: "1 s", 1: "10 s", 2: "100 s"}.get(e, p + " s")
+    if dim == "count": return {0: "1", 1: "10", 2: "100", 3: "1,000"}.get(e, p)
+    if dim == "odds": return "1 in " + {0: "1", 1: "10", 2: "100", 3: "1,000"}.get(e, p)
+    named = {-9: "1 nm", -6: "1 \u00b5m", -4: "0.1 mm", -3: "1 mm", -2: "1 cm", -1: "10 cm", 0: "1 m", 1: "10 m", 2: "100 m", 3: "1 km"}
+    return named.get(e, p + " m")
 
 
 # ------------------------------------------------------------------ icons
@@ -94,6 +126,77 @@ def icon(d, kind, x, y, a):
             d.ellipse([px - 3, py - 3, px + 3, py + 3], fill=al(c, a))
         d.ellipse([x - 44, y - 44, x + 44, y + 44], outline=al((167, 139, 250), 0.7 * a), width=3)
 
+    elif kind == "hair":
+        d.line([(x - 50, y + 20), (x - 10, y - 5), (x + 20, y + 8), (x + 50, y - 20)], fill=al((120, 85, 60), a), width=7)
+    elif kind == "cell":
+        d.ellipse([x - 32, y - 22, x + 32, y + 22], fill=al((220, 38, 38), a))
+        d.ellipse([x - 16, y - 9, x + 16, y + 9], fill=al((153, 27, 27), a))
+    elif kind == "virus":
+        for k in range(10):
+            ang = k * 0.628; d.line([(x, y), (x + 34 * math.cos(ang), y + 34 * math.sin(ang))], fill=al((134, 239, 172), a), width=3)
+        d.ellipse([x - 22, y - 22, x + 22, y + 22], fill=al((34, 197, 94), a))
+    elif kind == "dna":
+        for k in range(24):
+            yy = y - 36 + k * 3; ph = k * 0.45
+            d.ellipse([x + 22 * math.sin(ph) - 3, yy - 3, x + 22 * math.sin(ph) + 3, yy + 3], fill=al((96, 165, 250), a))
+            d.ellipse([x - 22 * math.sin(ph) - 3, yy - 3, x - 22 * math.sin(ph) + 3, yy + 3], fill=al((244, 114, 182), a))
+    elif kind == "atom":
+        for k in range(3):
+            ov = Image.new("RGBA", (120, 120), (0, 0, 0, 0)); od = ImageDraw.Draw(ov)
+            od.ellipse([4, 42, 116, 78], outline=al((125, 211, 252), a), width=3)
+            ov = ov.rotate(k * 60, resample=Image.BICUBIC); d._image.paste(ov, (int(x - 60), int(y - 60)), ov)
+        d.ellipse([x - 7, y - 7, x + 7, y + 7], fill=al((250, 204, 21), a))
+    elif kind == "nucleus":
+        for cx, cy, c in ((-6, -5, (239, 68, 68)), (6, -5, (148, 163, 184)), (0, 6, (239, 68, 68)), (-7, 7, (148, 163, 184)), (7, 7, (239, 68, 68))):
+            d.ellipse([x + cx - 9, y + cy - 9, x + cx + 9, y + cy + 9], fill=al(c, a))
+    elif kind == "clock":
+        d.ellipse([x - 30, y - 30, x + 30, y + 30], outline=al((226, 232, 240), a), width=4)
+        d.line([(x, y), (x, y - 20)], fill=al((226, 232, 240), a), width=4); d.line([(x, y), (x + 14, y)], fill=al((226, 232, 240), a), width=4)
+    elif kind == "pyramid":
+        d.polygon([(x - 46, y + 26), (x, y - 30), (x + 46, y + 26)], fill=al((234, 179, 8), a))
+        d.polygon([(x, y - 30), (x + 46, y + 26), (x + 12, y + 26)], fill=al((161, 98, 7), a))
+    elif kind == "skull":
+        d.ellipse([x - 24, y - 30, x + 24, y + 14], fill=al((231, 229, 228), a)); d.rectangle([x - 14, y + 6, x + 14, y + 24], fill=al((231, 229, 228), a))
+        for s_ in (-1, 1): d.ellipse([x + s_ * 11 - 7, y - 12, x + s_ * 11 + 7, y + 2], fill=al((28, 25, 23), a))
+    elif kind == "dino":
+        d.ellipse([x - 30, y - 10, x + 20, y + 18], fill=al((74, 222, 128), a)); d.line([(x + 12, y - 2), (x + 30, y - 30)], fill=al((74, 222, 128), a), width=10)
+        d.ellipse([x + 22, y - 40, x + 44, y - 24], fill=al((74, 222, 128), a)); d.line([(x - 28, y + 4), (x - 50, y + 16)], fill=al((74, 222, 128), a), width=7)
+        for lx in (-18, 6): d.line([(x + lx, y + 14), (x + lx, y + 30)], fill=al((74, 222, 128), a), width=7)
+    elif kind == "earth":
+        d.ellipse([x - 30, y - 30, x + 30, y + 30], fill=al((37, 99, 235), a))
+        d.polygon([(x - 14, y - 22), (x + 4, y - 18), (x + 2, y), (x - 12, y + 6), (x - 20, y - 8)], fill=al((34, 197, 94), a))
+        d.polygon([(x + 10, y + 4), (x + 24, y + 2), (x + 16, y + 20)], fill=al((34, 197, 94), a))
+    elif kind in ("person", "crowd", "stadium"):
+        pts = [(0, 0)] if kind == "person" else [(-26, 6), (0, 0), (26, 6)] if kind == "crowd" else [(-30, 8), (-10, 2), (10, 2), (30, 8)]
+        for px, py in pts:
+            d.ellipse([x + px - 9, y + py - 30, x + px + 9, y + py - 12], fill=al((226, 232, 240), a))
+            d.rounded_rectangle([x + px - 13, y + py - 8, x + px + 13, y + py + 22], radius=8, fill=al((226, 232, 240), a))
+        if kind == "stadium": d.arc([x - 52, y - 20, x + 52, y + 40], 180, 360, fill=al((250, 204, 21), a), width=4)
+    elif kind == "flag":
+        d.rectangle([x - 36, y - 22, x + 36, y + 22], fill=al((255, 255, 255), a))
+        d.rectangle([x - 36, y - 22, x - 18, y + 22], fill=al((220, 38, 38), a)); d.rectangle([x + 18, y - 22, x + 36, y + 22], fill=al((220, 38, 38), a))
+        d.polygon([(x, y - 14), (x + 9, y + 6), (x - 9, y + 6)], fill=al((220, 38, 38), a))
+    elif kind == "dice":
+        d.rounded_rectangle([x - 28, y - 28, x + 28, y + 28], radius=10, fill=al((255, 255, 255), a))
+        for px in (-14, 14):
+            for py in (-14, 0, 14): d.ellipse([x + px - 5, y + py - 5, x + px + 5, y + py + 5], fill=al((15, 23, 42), a))
+    elif kind == "bolt":
+        d.polygon([(x + 6, y - 36), (x - 18, y + 4), (x - 2, y + 4), (x - 8, y + 36), (x + 18, y - 6), (x + 2, y - 6)], fill=al((250, 204, 21), a))
+    elif kind == "cards":
+        for k, c in ((-1, (255, 255, 255)), (0, (255, 255, 255)), (1, (255, 255, 255))):
+            d.rounded_rectangle([x + k * 16 - 18, y - 26 + abs(k) * 4, x + k * 16 + 18, y + 26 + abs(k) * 4], radius=5, fill=al(c, a), outline=al((100, 116, 139), a), width=2)
+        d.polygon([(x, y - 10), (x + 9, y + 2), (x, y + 12), (x - 9, y + 2)], fill=al((220, 38, 38), a))
+    elif kind == "ticket":
+        d.rounded_rectangle([x - 40, y - 20, x + 40, y + 20], radius=6, fill=al((239, 68, 68), a))
+        for k in range(5): d.ellipse([x - 28 + k * 14 - 5, y - 5, x - 28 + k * 14 + 5, y + 5], fill=al((255, 255, 255), a))
+    elif kind == "coin":
+        d.ellipse([x - 28, y - 28, x + 28, y + 28], fill=al((234, 179, 8), a), outline=al((161, 98, 7), a), width=4)
+    elif kind == "bang":
+        for r, op in ((50, 0.15), (34, 0.3), (18, 0.9)):
+            d.ellipse([x - r, y - r, x + r, y + r], fill=al((255, 255, 255) if r == 18 else (253, 186, 116), op * a))
+    elif kind != "universe":
+        d.ellipse([x - 12, y - 12, x + 12, y + 12], fill=al((226, 232, 240), a))
+
 
 # ------------------------------------------------------------------ timeline
 def step_at(t, tl):
@@ -116,7 +219,8 @@ def render_frame(t, S, tl, bg, total):
     b = seg["beat"]
     lf = math.log10(S["factor"])
     top = math.log10(S["start_m"]) + v * lf
-    cam = max(top, CAM_MIN)
+    shrink = S["factor"] < 1
+    cam = top if shrink else max(top, CAM_MIN)
     Y = lambda e: Y_TOP - (e - cam) * PXD
     img = bg.copy(); d = ImageDraw.Draw(img, "RGBA")
 
@@ -124,10 +228,10 @@ def render_frame(t, S, tl, bg, total):
     lo, hi = math.floor(cam - (Y_BOT - Y_TOP) / PXD) - 1, math.ceil(cam + Y_TOP / PXD) + 1
     for e in range(int(lo), int(hi) + 1):
         y = Y(e)
-        if 360 < y < Y_BOT:
+        if 360 < y < Y_BOT and not (e < 0 and S.get("dim", "length") != "length"):
             d.line([(160, y), (200, y)], fill=al(TH["muted"], 0.9), width=3)
             d.line([(200, y), (1040, y)], fill=al(TH["line"], 0.35), width=1)
-            tc(d, (140, y), tick_label(e), font(F_MED, 28), al(TH["muted"], 0.9), "rm")
+            tc(d, (140, y), tick_label(e, S.get("dim", "length")), font(F_MED, 28 if S.get("dim") != "odds" else 24), al(TH["muted"], 0.9), "rm")
     d.line([(200, 360), (200, Y_BOT)], fill=al(TH["muted"], 0.5), width=2)
 
     # stack column
@@ -157,7 +261,7 @@ def render_frame(t, S, tl, bg, total):
     for L in S["landmarks"]:
         e = math.log10(L["m"]); y = Y(e)
         if not (330 < y < Y_BOT + 40): continue
-        passed = top >= e - 1e-9
+        passed = (top <= e + 1e-9) if shrink else (top >= e - 1e-9)
         c = LIME if passed else (255, 255, 255)
         for x in range(COL_X1 + 20, 1040, 26):
             d.line([(x, y), (x + 14, y)], fill=al(c, 0.85), width=3)
@@ -175,9 +279,16 @@ def render_frame(t, S, tl, bg, total):
 
     # header: counter + thickness
     tc(d, (540, 92), S.get("unit_word", "FOLD"), font(F_SEMI, 40), al(TH["muted"], 1))
-    tc(d, (540, 192), f"{max(n, 0)}", font(F_BOLD, 150), al(YEL, 1))
+    if S.get("counter_fmt") == "pow10":  # big "10" with a superscript step: the value is exactly 10**n
+        fb, fe = font(F_BOLD, 150), font(F_BOLD, 78); e_s = str(max(n, 0))
+        wb, we = d.textlength("10", font=fb), d.textlength(e_s, font=fe); x0 = 540 - (wb + we + 6) / 2
+        d.text((x0, 192), "10", font=fb, fill=al(YEL, 1), anchor="lm"); d.text((x0 + wb + 6, 150), e_s, font=fe, fill=al(YEL, 1), anchor="lm")
+    else:
+        tc(d, (540, 192), f"{max(n, 0)}", font(F_BOLD, 150), al(YEL, 1))
     thick = S["start_m"] * S["factor"] ** max(n, 0)
-    txt = fmt_len(thick) + " " + S.get("readout_word", "thick")
+    rw = S.get("readout_word", "thick")
+    if rw == "people" and round(thick) == 1: rw = "person"
+    txt = fmt_val(S, thick) + (" " + rw if rw else "")
     f = font(F_SEMI, 46); w = d.textlength(txt, font=f)
     d.rounded_rectangle([540 - w / 2 - 34, 278, 540 + w / 2 + 34, 344], radius=33, fill=al(TH["card"], 1), outline=al(TH["line"], 1), width=2)
     tc(d, (540, 311), txt, f, al(TH["ink"], 1))
@@ -199,8 +310,10 @@ def render_frame(t, S, tl, bg, total):
     if b.get("hook"):
         g = clamp((seg["end"] - t) / 0.3)
         lines = b["hook"]
+        fh = font(F_BOLD, 92); wmax = max(d.textlength(ln, font=fh) for ln in lines)
+        if wmax > 640: fh = font(F_BOLD, int(92 * 640 / wmax))  # shrink long hooks to fit beside the column
         for i, ln in enumerate(lines):
-            tc(d, (720, 700 + i * 110), ln, font(F_BOLD, 92), al(YEL if i else TH["ink"], g))
+            tc(d, (720, 700 + i * 110), ln, fh, al(YEL if i else TH["ink"], g))
 
     if not b.get("nocap"):
         M.caption(d, seg, min(t, seg["end"]), TH)
@@ -211,7 +324,8 @@ def render_frame(t, S, tl, bg, total):
 LEX_ADD = {  # words the Kokoro US lexicon is missing (it silently skips them otherwise)
     "kilometers": "k ə l ˈ ɑ m ə ɾ ə ɹ z", "millimeters": "m ˈ ɪ l ə m ˌ i ɾ ə ɹ z", "that's": "ð ˈ æ t s",
     "britney": "b ɹ ˈ ɪ t n i", "gallivan": "ɡ ˈ æ l ɪ v ə n", "centimeters": "s ˈ ɛ n t ə m ˌ i ɾ ə ɹ z",
-    "doublings": "d ˈ ʌ b l ɪ ŋ z",
+    "doublings": "d ˈ ʌ b l ɪ ŋ z", "minutes": "m ˈ ɪ n ə t s", "zeros": "z ˈ ɪ ɹ O z", "here's": "h ˈ ɪ ɹ z",
+    "powerball": "p ˈ W ə ɹ b ˌ ɔ l", "dna": "d ˌ i ˌ ɛ n ˈ A",
 }
 
 

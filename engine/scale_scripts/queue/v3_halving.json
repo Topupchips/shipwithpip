@@ -1,0 +1,140 @@
+{
+  "id": "v3_halving",
+  "dim": "length",
+  "start_m": 0.2794,
+  "factor": 0.5,
+  "unit_word": "CUT",
+  "readout_word": "long",
+  "landmarks": [
+    {
+      "name": "HUMAN HAIR",
+      "m": 7.5e-05,
+      "value": "about 75 µm wide",
+      "icon": "hair"
+    },
+    {
+      "name": "RED BLOOD CELL",
+      "m": 7.7e-06,
+      "value": "about 7.7 µm across",
+      "icon": "cell"
+    },
+    {
+      "name": "FLU VIRUS",
+      "m": 1e-07,
+      "value": "about 100 nm",
+      "icon": "virus"
+    },
+    {
+      "name": "DNA",
+      "m": 2e-09,
+      "value": "2 nm wide",
+      "icon": "dna"
+    },
+    {
+      "name": "AN ATOM",
+      "m": 2e-10,
+      "value": "radius 1 to 2 Å",
+      "icon": "atom"
+    },
+    {
+      "name": "CARBON NUCLEUS",
+      "m": 4e-15,
+      "value": "about 4 fm across",
+      "icon": "nucleus"
+    }
+  ],
+  "beats": [
+    {
+      "to": 0,
+      "hook": [
+        "31 CUTS",
+        "FROM PAPER",
+        "TO AN ATOM"
+      ],
+      "say": "Cut a strip of paper in half just thirty one times, and you're down to the size of an atom.",
+      "key": [
+        "atom"
+      ]
+    },
+    {
+      "to": 6,
+      "say": "Start with eleven inches. Cut it in half, keep one piece, repeat. Six cuts: four point four millimeters.",
+      "key": [
+        "half"
+      ]
+    },
+    {
+      "to": 9,
+      "say": "Nine cuts: about half a millimeter. And you're not even a third of the way there.",
+      "key": [
+        "half"
+      ]
+    },
+    {
+      "to": 12,
+      "say": "Twelve cuts: thinner than a human hair.",
+      "key": [
+        "hair"
+      ]
+    },
+    {
+      "to": 16,
+      "say": "Sixteen: smaller than a red blood cell.",
+      "key": [
+        "blood"
+      ]
+    },
+    {
+      "to": 22,
+      "say": "Twenty two: smaller than a flu virus.",
+      "key": [
+        "virus"
+      ]
+    },
+    {
+      "to": 28,
+      "say": "Twenty eight: narrower than a strand of DNA.",
+      "key": [
+        "DNA"
+      ]
+    },
+    {
+      "to": 31,
+      "say": "Thirty one cuts: about the size of a single atom.",
+      "key": [
+        "atom"
+      ]
+    },
+    {
+      "to": 46,
+      "stamp": "15 MORE CUTS",
+      "say": "But an atom is mostly empty space. To get all the way down to a carbon nucleus at its center, you'd need fifteen more cuts. Forty six in total.",
+      "key": [
+        "empty"
+      ]
+    },
+    {
+      "nocap": true,
+      "say": "Follow Ship With Pip for more.",
+      "to": 46
+    }
+  ],
+  "title": "Cut paper in half 31 times and you reach an atom",
+  "caption": "Start with a strip of US Letter paper, 11 inches (279.4 mm) long. Cut it in half and keep one piece. 6 cuts: 4.4 mm. 9 cuts: 0.55 mm. 12 cuts: 68.2 µm, thinner than a human hair (about 75 µm). 16 cuts: 4.3 µm, smaller than a red blood cell (about 7.7 µm). 22 cuts: 66.6 nm, smaller than a flu virus (about 100 nm). 28 cuts: 1.04 nm, narrower than DNA (2 nm). 31 cuts: 0.13 nm, about the size of an atom (radius 1 to 2 Ångström). And the atom is mostly empty: a carbon nucleus is about 4 femtometres across, which takes 46 cuts, 15 more. That's exponential shrinking: 1 over 2 to the power of 31.",
+  "hashtags": [
+    "math",
+    "science",
+    "atoms",
+    "exponential",
+    "physics",
+    "shipwithpip"
+  ],
+  "sources": [
+    "https://www.dimensions.com/element/us-letter-paper-ansi-a-paper",
+    "https://www.pbs.org/spillover-zika-ebola-beyond/about-viruses/virus-explorer/influenza",
+    "https://bionumbers.hms.harvard.edu/bionumber.aspx?id=108239",
+    "https://www.lancaster.ac.uk/fas/psych/glossary/dna_double_helix/",
+    "https://www.britannica.com/science/atom"
+  ],
+  "facts": "start 0.2794 m (11 in), factor 0.5. cut n = first n with 0.2794/2^n below landmark: hair 75 um (PBS: hair about 75,000 nm) -> 12 (68.2 um); RBC 7.7 um (BioNumbers 108239) -> 16 (4.26 um); flu 100 nm (PBS/HHMI) -> 22 (66.6 nm); DNA 2 nm (Lancaster glossary) -> 28 (1.04 nm); atom: Britannica radius 1-2 A, so diameter >= 2e-10 m -> 31 (0.130 nm); carbon nucleus about 4 fm (Britannica) -> 46 (3.97 fm); 46-31 = 15. 6 cuts = 4.37 mm. 9 cuts = 0.546 mm; 9 < 31/3."
+}

@@ -28,5 +28,11 @@
     "platform": "INSTAGRAM",
     "username": "shipwithpip",
     "platformAccountId": "29510734025188123"
-  }
+  },
+  "visual_queue": [
+    "v3_halving",
+    "v4_seconds",
+    "v5_tripling",
+    "v6_odds"
+  ]
 }

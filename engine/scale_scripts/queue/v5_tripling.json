@@ -1,0 +1,137 @@
+{
+  "id": "v5_tripling",
+  "dim": "count",
+  "start_m": 1,
+  "factor": 3,
+  "unit_word": "ROUND",
+  "readout_word": "people",
+  "col_rgb": [
+    244,
+    114,
+    182
+  ],
+  "col_rgb_d": [
+    190,
+    24,
+    93
+  ],
+  "landmarks": [
+    {
+      "name": "MICHIGAN STADIUM",
+      "m": 107601,
+      "value": "107,601 seats",
+      "icon": "stadium"
+    },
+    {
+      "name": "CANADA",
+      "m": 41798407,
+      "value": "41.8 million people",
+      "icon": "flag"
+    },
+    {
+      "name": "UNITED STATES",
+      "m": 341800000.0,
+      "value": "341.8 million people",
+      "icon": "crowd"
+    },
+    {
+      "name": "EVERYONE ALIVE",
+      "m": 8200000000.0,
+      "value": "about 8.2 billion",
+      "icon": "earth"
+    },
+    {
+      "name": "EVERYONE EVER BORN",
+      "m": 117020448575,
+      "value": "about 117 billion",
+      "icon": "crowd"
+    }
+  ],
+  "beats": [
+    {
+      "to": 0,
+      "hook": [
+        "21 ROUNDS",
+        "TO TELL",
+        "ALL OF EARTH"
+      ],
+      "say": "Tell a secret to two friends, and in twenty one rounds, the whole planet knows.",
+      "key": [
+        "planet"
+      ]
+    },
+    {
+      "to": 5,
+      "say": "Everyone who knows tells two new people, so the number triples every round. Round five: two hundred and forty three.",
+      "key": [
+        "triples"
+      ]
+    },
+    {
+      "to": 11,
+      "say": "Round eleven: a hundred and seventy seven thousand. More than a packed Michigan Stadium.",
+      "key": [
+        "Stadium"
+      ]
+    },
+    {
+      "to": 16,
+      "say": "Round sixteen: forty three million. All of Canada.",
+      "key": [
+        "Canada"
+      ]
+    },
+    {
+      "to": 18,
+      "say": "Round eighteen: three hundred and eighty seven million. Everyone in the United States.",
+      "key": [
+        "States"
+      ]
+    },
+    {
+      "to": 21,
+      "say": "Round twenty one: over ten billion. Every person alive on Earth.",
+      "key": [
+        "Earth"
+      ]
+    },
+    {
+      "to": 24,
+      "say": "Three more rounds, and it's more than everyone who has ever been born. About a hundred and seventeen billion people.",
+      "key": [
+        "born"
+      ]
+    },
+    {
+      "to": 24,
+      "stamp": "NEARLY 7% ALIVE",
+      "say": "And here's the wild part: nearly seven percent of all humans ever born are alive right now.",
+      "key": [
+        "seven"
+      ]
+    },
+    {
+      "nocap": true,
+      "say": "Follow Ship With Pip for more.",
+      "to": 24
+    }
+  ],
+  "title": "Tell 2 friends a secret. In 21 rounds, all of Earth knows",
+  "caption": "Everyone who knows tells 2 new people, so the count triples each round (3 to the power of the round). Round 5: 243. Round 11: 177,147, more than Michigan Stadium holds (107,601). Round 16: 43,046,721, more than Canada (41,798,407 on July 1, 2026). Round 18: 387,420,489, more than the United States (341.8 million). Round 21: 10,460,353,203, more than everyone alive (about 8.2 billion). Round 24: 282,429,536,481, more than everyone ever born (about 117 billion, Population Reference Bureau). And nearly 7% of all humans ever born are alive today. Real gossip overlaps and stalls, but the math is why it spreads so fast.",
+  "hashtags": [
+    "math",
+    "exponentialgrowth",
+    "population",
+    "science",
+    "didyouknow",
+    "shipwithpip"
+  ],
+  "sources": [
+    "https://mgoblue.com/news/2015/8/7/u_m_announces_new_seating_capacity_for_michigan_stadium.aspx",
+    "https://thehub.ca/2026/09/25/statscan-reports-slowest-population-growth-since-second-world-war-as-immigration-cuts-take-hold/",
+    "https://www.worldatlas.com/articles/how-many-people-are-in-the-us.html",
+    "https://www.un.org/sustainabledevelopment/blog/2024/07/press-release-wpp2024/",
+    "https://www.prb.org/articles/how-many-people-have-ever-lived-on-earth/"
+  ],
+  "facts": "count after round n = 3^n. stadium 107,601 -> 11 (177,147); Canada 41,798,407 -> 16 (43,046,721); US 341.8M -> 18 (387,420,489); world 8.2B -> 21 (10,460,353,203); ever born 117,020,448,575 -> 24 (282,429,536,481). PRB: 6.8% of all ever born alive in 2022, 'nearly 7%'."
+}
