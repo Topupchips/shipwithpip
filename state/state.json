@@ -14,7 +14,6 @@
     "moon",
     "hoops",
     "lander",
-    "dino",
     "hunt",
     "snake",
     "drone",
@@ -23,7 +22,7 @@
     "keepups",
     "password"
   ],
-  "sim_index": 8,
+  "sim_index": 7,
   "account": {
     "platform": "INSTAGRAM",
     "username": "shipwithpip",
@@ -33,5 +32,8 @@
     "v4_seconds",
     "v5_tripling",
     "v6_odds"
+  ],
+  "retired_sims": [
+    "dino"
   ]
 }

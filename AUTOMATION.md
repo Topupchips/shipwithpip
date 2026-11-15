@@ -22,7 +22,7 @@ export KOKORO_DIR=$HOME/kokoro-multi-lang-v1_0
 Read `state/state.json`: the reel to make is `next = cycle[cycle_index % len(cycle)]` (cycle is sim, sim, visual) and the last 40 lines of `state/log.jsonl` (what was already posted).
 
 ## A. Simulation reel (`next` is "sim")
-Sim = `sim_rotation[sim_index % len]`. Work in `engine/goal2/`. Run ONE heavy process at a time (2 cores, 8 GB; two renders at once get OOM-killed).
+Sim = `sim_rotation[sim_index % len]`. Never make a sim listed in `retired_sims` (Ansh, Nov 15 2026: dino was reposted as a near-duplicate of a reel posted before this log began, so it is retired for good). When a sim already appears in the log, the new reel must not repeat itself: use a new seed, a hook and title that differ from every earlier reel of that sim in the log, and lead with what is different this time (the twist outcome, the numbers). If the arc you get would tell the same story as an earlier reel of that sim, try another seed. Work in `engine/goal2/`. Run ONE heavy process at a time (2 cores, 8 GB; two renders at once get OOM-killed).
 
 1. **Run with a fresh seed** (not used before for this sim in the log; pick e.g. a random number 10 to 9999):
    `python3 autosim.py run SIM SEED /tmp/r.json`
