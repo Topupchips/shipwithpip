@@ -1,11 +1,11 @@
 {
-  "next": "visual",
+  "next": "sim",
   "cycle": [
     "sim",
     "sim",
     "visual"
   ],
-  "cycle_index": 5,
+  "cycle_index": 6,
   "sim_rotation": [
     "maze",
     "flappy",
@@ -30,7 +30,6 @@
     "platformAccountId": "29510734025188123"
   },
   "visual_queue": [
-    "v3_halving",
     "v4_seconds",
     "v5_tripling",
     "v6_odds"
