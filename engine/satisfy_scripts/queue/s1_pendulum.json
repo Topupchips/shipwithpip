@@ -1,0 +1,134 @@
+{
+  "id": "s1_pendulum",
+  "kind": "pendulum",
+  "style": "physics",
+  "seed": 1,
+  "params": {
+    "n": 15,
+    "K": 51,
+    "cycle": 60
+  },
+  "sync": [
+    [
+      4,
+      0,
+      28.4
+    ],
+    [
+      4,
+      0.55,
+      31.0
+    ],
+    [
+      5,
+      0,
+      52.0
+    ],
+    [
+      5,
+      0.55,
+      59.3
+    ],
+    [
+      5,
+      0.95,
+      60.0
+    ],
+    [
+      6,
+      1,
+      60.8
+    ]
+  ],
+  "constants": [
+    52,
+    2
+  ],
+  "beats": [
+    {
+      "hook": [
+        "15 PENDULUMS.",
+        "NO MOTORS.",
+        "WATCH SECOND 60."
+      ],
+      "say": "Fifteen pendulums. No motors, no tricks. Just watch what happens at second sixty.",
+      "key": [
+        "sixty."
+      ],
+      "vis": {}
+    },
+    {
+      "head": [
+        "SAME START.",
+        "DIFFERENT LENGTHS."
+      ],
+      "chip": "34 CM TO 21 CM",
+      "say": "They all start together. But each string is a little shorter than the one before. Thirty four centimeters, down to twenty one.",
+      "key": [
+        "shorter"
+      ]
+    },
+    {
+      "head": [
+        "SHORTER MEANS",
+        "FASTER."
+      ],
+      "chip": "T = 2π√(L/g)",
+      "say": "A shorter pendulum swings faster. In one minute, the longest swings fifty one times. The next, fifty two. The shortest, sixty five.",
+      "key": [
+        "faster.",
+        "sixty"
+      ]
+    },
+    {
+      "head": [
+        "SO THEY",
+        "DRIFT APART."
+      ],
+      "say": "So they slowly drift out of step. First a snake. Then what looks like pure chaos. But it isn't.",
+      "key": [
+        "snake.",
+        "chaos."
+      ]
+    },
+    {
+      "head": [
+        "SECOND 30:",
+        "2 ROWS."
+      ],
+      "say": "At second thirty, they snap into two rows, swapping sides. Every other pendulum together.",
+      "key": [
+        "two"
+      ]
+    },
+    {
+      "head": [
+        "SECOND 60:",
+        "ALL 15."
+      ],
+      "say": "And at second sixty, every pendulum has finished a whole number of swings. So all fifteen line up again. Perfectly.",
+      "key": [
+        "perfectly."
+      ]
+    },
+    {
+      "say": "Follow Ship With Pip for more.",
+      "nocap": true
+    }
+  ],
+  "title": "15 pendulums, no motors. Watch what happens at second 60",
+  "caption": "15 pendulums, each a little shorter than the last. A shorter pendulum swings faster (T = 2π√(L/g)), so in 60 seconds the longest swings 51 times, the next 52, and the shortest 65. They drift into snakes and chaos, snap into 2 rows at second 30, and at second 60 every one has done a whole number of swings, so all 15 line up again. Lengths from 34 cm down to 21 cm. Same setup as the Harvard pendulum waves demo, simulated here.",
+  "hashtags": [
+    "physics",
+    "pendulum",
+    "oddlysatisfying",
+    "science",
+    "simulation",
+    "shipwithpip"
+  ],
+  "sources": [
+    "https://sciencedemonstrations.fas.harvard.edu/presentations/pendulum-waves",
+    "https://phys.libretexts.org/Bookshelves/College_Physics/Book%3A_College_Physics_(OpenStax)/16%3A_Oscillatory_Motion_and_Waves/16.05%3A_The_Simple_Pendulum"
+  ],
+  "notes": "Harvard demo: 15 pendulums, 60 s cycle, longest does 51 oscillations. Pendulum k swings 51+k times per 60 s. L = g*(T/(2*pi))^2 with g = 9.81: longest T = 60/51 = 1.18 s, L = 0.34 m; shortest T = 60/65 = 0.92 s, L = 0.21 m. At 30 s pendulum k has done 25.5 + k/2 (2 rows); at 60 s 51 + k (all whole, aligned). Video time is mapped to sim time (shown as t = ... s on screen), slightly faster than real time."
+}

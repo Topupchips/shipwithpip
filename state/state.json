@@ -35,5 +35,21 @@
   ],
   "retired_sims": [
     "dino"
+  ],
+  "visual_modes": [
+    "scale",
+    "satisfy"
+  ],
+  "visual_mode_index": 1,
+  "satisfy_rotation": [
+    "pendulum",
+    "fourier",
+    "pathfind",
+    "galton",
+    "sunflower"
+  ],
+  "satisfy_index": 0,
+  "satisfy_queue": [
+    "s1_pendulum"
   ]
 }

@@ -19,7 +19,7 @@ Because nobody reviews it, the checks below are the review. If any check fails a
 cd /home/claude/shipwithpip && bash tools/setup.sh
 export KOKORO_DIR=$HOME/kokoro-multi-lang-v1_0
 ```
-Read `state/state.json`: the reel to make is `next = cycle[cycle_index % len(cycle)]` (cycle is sim, sim, visual) and the last 40 lines of `state/log.jsonl` (what was already posted).
+Read `state/state.json`: the reel to make is `next = cycle[cycle_index % len(cycle)]` (cycle is sim, sim, visual). When `next` is "visual", the visual slot alternates between two modes: `mode = visual_modes[visual_mode_index % 2]`, "scale" (section B) or "satisfy" (section B2) and the last 40 lines of `state/log.jsonl` (what was already posted).
 
 ## A. Simulation reel (`next` is "sim")
 Sim = `sim_rotation[sim_index % len]`. Never make a sim listed in `retired_sims` (Ansh, Nov 15 2026: dino was reposted as a near-duplicate of a reel posted before this log began, so it is retired for good). When a sim already appears in the log, the new reel must not repeat itself: use a new seed, a hook and title that differ from every earlier reel of that sim in the log, and lead with what is different this time (the twist outcome, the numbers). If the arc you get would tell the same story as an earlier reel of that sim, try another seed. Work in `engine/goal2/`. Run ONE heavy process at a time (2 cores, 8 GB; two renders at once get OOM-killed).
@@ -50,13 +50,24 @@ Style: a dark "scale climb". Something changes by a fixed factor every step and 
 6. **Contact sheet**: `cd engine && python3 scale.py /tmp/v.json /tmp/sheet.png --model $KOKORO_DIR --stills 2>&1 | grep -v "^$"`, Read the PNG: labels readable, landmarks not overlapping each other, counter and readout matching the script.
 7. **Render**: `python3 scale.py /tmp/v.json /tmp/reel.mp4 --model $KOKORO_DIR` (about 3 to 5 min). Verify like A.7. Copy the final script into `engine/scale_scripts/` and commit it with the state.
 
+## B2. Satisfying visual reel (`next` is "visual" and the mode is "satisfy")
+Ansh, Nov 15 2026: highly visual, satisfying reels that explain something, in a mix of physics, algorithms and math art. Engine: `engine/satisfy.py`; every motion is computed in the engine and every number on screen or spoken must come from `satisfy.py stats` for that script (or `constants` with arithmetic in `notes`). Kinds: `pendulum` (pendulum wave), `fourier` (epicycles drawing a shape: per beat `vis.n` circles, `params.shape` heart or star), `pathfind` (seeded maze, BFS flood then A*: per beat `vis.algo`), `galton` (seeded Galton board, `vis.curve` draws the binomial curve), `sunflower` (seeds at a fixed angle: per beat `vis.angle` such as 137, 138, then "golden").
+
+**Queue first.** If `satisfy_queue` is non-empty, make `satisfy_queue[0]` from `engine/satisfy_scripts/queue/<id>.json`: re-open its `sources` and confirm the sourced facts, run steps 3 to 5, post, then `git mv` it to `engine/satisfy_scripts/` and remove it from the queue in the same commit. Otherwise write a new script for kind `satisfy_rotation[satisfy_index % len]`:
+1. Pick a fresh angle not already in the log (`"kind": "visual"` lines with `"mode": "satisfy"`): a new shape, seed, maze, number of rows, and a new hook. Never repeat a script's hook or title.
+2. Write `/tmp/s.json` like `engine/satisfy_scripts/s1_pendulum.json`: 6 to 8 beats plus the nocap follow beat; first beat has `hook` (3 short ALL CAPS lines, a specific surprising number or a "watch what happens at..." promise); later beats have `head` (2 lines), optional `chip`, `say`, `key`, `vis`. Use `sync` ([beat, u] or [beat, fraction, u]) to land the payoff on the line that announces it, and slow sim time around the payoff so it is visible. Any real-world fact (a demo, a formula, a claim about nature) needs a reputable source found in this run in `sources`; if it cannot be verified, cut it. Do not claim the visual is real time unless the sync rate is 1.
+3. `python3 engine/satisfy.py stats /tmp/s.json` then `check` must print `CHECK OK`. Also confirm visually that what each line says is on screen at that moment (for example, a top-down pendulum view cannot show 3 rows at one third of the cycle, so that line was cut).
+4. Contact sheet: `cd engine && python3 satisfy.py sheet /tmp/s.json /tmp/sheet.png --model $KOKORO_DIR 2>&1 | grep -E "OOV|s$"`; fix every OOV word (`speak` or `LEX_ADD` in `scale.py`); Read the PNG and check for overlaps and empty frames.
+5. Render: `python3 satisfy.py render /tmp/s.json /tmp/reel.mp4 --model $KOKORO_DIR` (about 4 min), then verify like A.7. Copy the script into `engine/satisfy_scripts/`.
+After posting: `visual_mode_index += 1` and (for a non-queued or queued satisfy reel alike) `satisfy_index += 1`. After a scale reel (section B): `visual_mode_index += 1`. Log line adds `"mode": "satisfy"` or `"mode": "scale"`. Caption: script `caption` + blank line + `Follow @shipwithpip for more.` + blank line + hashtags.
+
 ## C. Post (both kinds)
 1. `url=$(bash tools/host_video.sh /tmp/reel.mp4)` (prints a raw.githubusercontent.com URL).
 2. vidIQ `vidiq_video_upload` with `url` = that URL -> `videoUrl`.
 3. Caption: sims use `post.caption` + a blank line + `Follow @shipwithpip for more AI from scratch.` + blank line + hashtags (`#` + each tag). Visual reels use the script `caption` + blank line + `Follow @shipwithpip for more.` + blank line + hashtags. Max 2,200 chars, no em dashes.
 4. vidIQ `vidiq_instagram_publish_reel` with `platformAccountId` `29510734025188123`, `videoUrl`, `caption`. No trial params, no AI label. Continue with `containerId` / `mcpJobId` exactly as the tool says until `PUBLISHED`. Do not retry a failed publish with a new container; log the error and stop.
 5. Append one JSON line to `state/log.jsonl`: `{"date": ISO time, "kind": "sim"|"visual", "sim": name, "seed": n, "topic": title, "permalink": ..., "status": "posted"|"failed: reason"}`. Update `state/state.json` only when the reel was posted: `cycle_index += 1`, set `next` to the new `cycle[cycle_index % len(cycle)]` (for readability), and after a sim also `sim_index += 1`. A failed run leaves the state unchanged so the next run retries the same slot. Commit and push to `main`:
-   `git add state engine/scale_scripts && git commit -m "log: <title>" && git push origin HEAD:main`
+   `git add state engine/scale_scripts engine/satisfy_scripts && git commit -m "log: <title>" && git push origin HEAD:main`
 
 ## D. Report
 End the run with a 2 line summary: what was posted (title, permalink) or why nothing was.
