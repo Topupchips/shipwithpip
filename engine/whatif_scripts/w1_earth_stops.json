@@ -1,0 +1,277 @@
+{
+ "id": "w1_earth_stops",
+ "title": "If Earth stopped spinning, you would not stop",
+ "inputs": {
+  "R_eq_km": 6378.137,
+  "P_sidereal_h": 23.9345,
+  "sound_ms": 343,
+  "gust_record_kmh": 408,
+  "tide_ms_per_century": 1.7,
+  "lat_mid": 45,
+  "lat_pole": 90
+ },
+ "calc": [
+  [
+   "equator_km",
+   "2 * math.pi * R_eq_km"
+  ],
+  [
+   "v_kmh",
+   "equator_km / P_sidereal_h"
+  ],
+  [
+   "v_ms",
+   "v_kmh / 3.6"
+  ],
+  [
+   "mach",
+   "v_ms / sound_ms"
+  ],
+  [
+   "gust_ratio",
+   "v_kmh / gust_record_kmh"
+  ],
+  [
+   "v_mid_kmh",
+   "v_kmh * math.cos(math.radians(lat_mid))"
+  ],
+  [
+   "v_pole_kmh",
+   "v_kmh * math.cos(math.radians(lat_pole))"
+  ]
+ ],
+ "constants": [
+  0,
+  1,
+  6,
+  1996
+ ],
+ "beats": [
+  {
+   "hook": [
+    "EARTH STOPS.",
+    "YOU DON'T.",
+    "1,674 KM/H"
+   ],
+   "say": "If Earth suddenly stopped spinning, you would not stop. You would keep flying east at 1,674 kilometres per hour.",
+   "speak": "If Earth suddenly stopped spinning, you would not stop. You would keep flying east at one thousand six hundred and seventy four kilometres per hour.",
+   "key": [
+    "stop.",
+    "1,674"
+   ],
+   "vis": {
+    "scene": "stop",
+    "stop_at": 0.32,
+    "value": 1674,
+    "unit": "KM/H"
+   }
+  },
+  {
+   "head": [
+    "WHY THAT",
+    "NUMBER?"
+   ],
+   "say": "Earth is 40,075 kilometres around the equator, and it turns once every 23.93 hours. Divide one by the other.",
+   "speak": "Earth is forty thousand and seventy five kilometres around the equator, and it turns once every twenty three point nine three hours. Divide one by the other.",
+   "key": [
+    "40,075",
+    "23.93"
+   ],
+   "vis": {
+    "scene": "equator",
+    "labels": [
+     "40,075 KM",
+     "/ 23.93 HOURS",
+     "= 1,674 KM/H"
+    ]
+   }
+  },
+  {
+   "head": [
+    "465 METRES",
+    "EVERY SECOND."
+   ],
+   "say": "That is 465 metres every second. Faster than the speed of sound.",
+   "speak": "That is four hundred and sixty five metres every second. Faster than the speed of sound.",
+   "key": [
+    "465",
+    "sound."
+   ],
+   "chip": "MACH 1.36",
+   "vis": {
+    "scene": "bars",
+    "rows": [
+     {
+      "label": "SPEED OF SOUND",
+      "value": 343,
+      "unit": "M/S",
+      "col": "CYAN"
+     },
+     {
+      "label": "YOU",
+      "value": 465,
+      "unit": "M/S",
+      "col": "YEL"
+     }
+    ],
+    "globe": true
+   }
+  },
+  {
+   "head": [
+    "THE AIR",
+    "KEEPS GOING TOO."
+   ],
+   "say": "And the air does not stop either. The strongest gust ever measured was 408 kilometres per hour. This wind is four times faster.",
+   "speak": "And the air does not stop either. The strongest gust ever measured was four hundred and eight kilometres per hour. This wind is four times faster.",
+   "key": [
+    "408",
+    "four"
+   ],
+   "stamp": {
+    "text": "4.1x THE RECORD",
+    "at": 0.82,
+    "y": 1330,
+    "x": 540,
+    "angle": 6,
+    "size": 96
+   },
+   "vis": {
+    "scene": "bars",
+    "rows": [
+     {
+      "label": "RECORD GUST, 1996",
+      "value": 408,
+      "unit": "KM/H",
+      "col": "CYAN"
+     },
+     {
+      "label": "EARTH STOPS",
+      "value": 1674,
+      "unit": "KM/H",
+      "col": "RED"
+     }
+    ]
+   }
+  },
+  {
+   "head": [
+    "NOW WALK",
+    "NORTH."
+   ],
+   "say": "But it depends where you stand. At 45 degrees north, halfway to the pole, it is 1,184.",
+   "speak": "But it depends where you stand. At forty five degrees north, halfway to the pole, it is one thousand one hundred and eighty four.",
+   "key": [
+    "45",
+    "1,184."
+   ],
+   "vis": {
+    "scene": "lat",
+    "rows": [
+     {
+      "lat": 0,
+      "text": "EQUATOR: 1,674 KM/H",
+      "col": "RED"
+     },
+     {
+      "lat": 45,
+      "text": "45 N: 1,184 KM/H",
+      "col": "YEL"
+     }
+    ]
+   }
+  },
+  {
+   "head": [
+    "AND AT THE",
+    "NORTH POLE?"
+   ],
+   "say": "And at the North Pole? Zero. You would just stand there and watch everyone else leave.",
+   "key": [
+    "zero."
+   ],
+   "vis": {
+    "scene": "lat",
+    "still": false,
+    "rows": [
+     {
+      "lat": 0,
+      "text": "EQUATOR: 1,674 KM/H",
+      "col": "RED"
+     },
+     {
+      "lat": 45,
+      "text": "45 N: 1,184 KM/H",
+      "col": "YEL"
+     },
+     {
+      "lat": 90,
+      "text": "POLE: 0 KM/H",
+      "col": "LIME"
+     }
+    ]
+   }
+  },
+  {
+   "head": [
+    "1 DAY.",
+    "1 YEAR."
+   ],
+   "say": "And if it never started again, one day would last a whole year. About six months of sunlight, then six months of night.",
+   "key": [
+    "year.",
+    "six"
+   ],
+   "vis": {
+    "scene": "daynight",
+    "labels": [
+     "6 MONTHS LIGHT",
+     "6 MONTHS DARK"
+    ]
+   }
+  },
+  {
+   "head": [
+    "RELAX.",
+    "IT WON'T."
+   ],
+   "say": "Relax. Earth is slowing down, but tides only add 1.7 milliseconds to the day every century.",
+   "speak": "Relax. Earth is slowing down, but tides only add one point seven milliseconds to the day every century.",
+   "key": [
+    "1.7"
+   ],
+   "stamp": {
+    "text": "+1.7 MS / CENTURY",
+    "at": 0.7,
+    "y": 1330,
+    "x": 540,
+    "angle": -6,
+    "size": 92
+   },
+   "vis": {
+    "scene": "slow"
+   }
+  },
+  {
+   "say": "Follow Ship With Pip for more.",
+   "nocap": true
+  }
+ ],
+ "caption": "If Earth stopped spinning, everything on it would keep moving. Earth is 40,075 km around the equator and turns once every 23.93 hours, so the equator moves at 1,674 km/h (465 m/s, faster than sound). The air would keep going too: 4.1 times the strongest gust ever measured (408 km/h, Barrow Island, 1996). At 45 degrees north it is 1,184 km/h, at the North Pole 0. Do not worry: tides only add about 1.7 milliseconds to the day each century.",
+ "hashtags": [
+  "whatif",
+  "physics",
+  "earth",
+  "science",
+  "space",
+  "shipwithpip"
+ ],
+ "sources": [
+  "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+  "https://www.physicsclassroom.com/class/sound/u11l2c",
+  "https://www.guinnessworldrecords.com/world-records/93573-fastest-wind-speed-recorded-by-an-anemometer",
+  "https://www.space.com/what-would-happen-if-earth-stopped-spinning",
+  "https://scientificamerican.com/article/earth-rotation-summer-solstice/"
+ ],
+ "notes": "NASA Earth fact sheet: equatorial radius 6378.137 km, sidereal rotation 23.9345 h. Physics Classroom: sound 343 m/s at 20 C. Guinness/WMO: 408 km/h gust, Barrow Island, 10 Apr 1996, ratified 2010. Space.com (Andrew Layden, BGSU): in a stopped Earth days and nights would each last about six months. Scientific American: tides add 1.7 ms to the day each century. All derived values from whatif.py stats."
+}

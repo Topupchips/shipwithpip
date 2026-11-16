@@ -1,7 +1,7 @@
 # @shipwithpip auto-reels: runbook for each scheduled run
 
 Every run makes **one** reel and posts it to Instagram **@shipwithpip** with no human review.
-Ansh approved fully automatic posting, 3 reels a day (Ansh, Nov 13 2026: up from 2), in a repeating cycle of sim, sim, visual math reel (visual reels replaced the dark explainers on Nov 13 2026).
+Ansh approved fully automatic posting, 3 reels a day (Ansh, Nov 13 2026: up from 2), in a repeating cycle of sim, sim, visual math reel, what-if reel (visual reels replaced the dark explainers on Nov 13 2026; what-if reels added Nov 16 2026, Ansh: "make videos like this as well, they get so many views", referencing a viral "what if you swung a hammer at the speed of light" reel; "adjust it yourself based on response", see section E).
 Because nobody reviews it, the checks below are the review. If any check fails and you cannot fix it honestly, **post nothing** and log the failure.
 
 ## Hard rules (never break)
@@ -19,7 +19,7 @@ Because nobody reviews it, the checks below are the review. If any check fails a
 cd /home/claude/shipwithpip && bash tools/setup.sh
 export KOKORO_DIR=$HOME/kokoro-multi-lang-v1_0
 ```
-Read `state/state.json`: the reel to make is `next = cycle[cycle_index % len(cycle)]` (cycle is sim, sim, visual). When `next` is "visual", the visual slot alternates between two modes: `mode = visual_modes[visual_mode_index % 2]`, "scale" (section B) or "satisfy" (section B2) and the last 40 lines of `state/log.jsonl` (what was already posted).
+Read `state/state.json`: the reel to make is `next = cycle[cycle_index % len(cycle)]` (cycle is in state.json; Nov 16 2026: sim, sim, visual, whatif). When `next` is "whatif" follow section B3. Before choosing, run section E (performance review) if it is due. When `next` is "visual", the visual slot alternates between two modes: `mode = visual_modes[visual_mode_index % 2]`, "scale" (section B) or "satisfy" (section B2) and the last 40 lines of `state/log.jsonl` (what was already posted).
 
 ## A. Simulation reel (`next` is "sim")
 Sim = `sim_rotation[sim_index % len]`. Never make a sim listed in `retired_sims` (Ansh, Nov 15 2026: dino was reposted as a near-duplicate of a reel posted before this log began, so it is retired for good). When a sim already appears in the log, the new reel must not repeat itself: use a new seed, a hook and title that differ from every earlier reel of that sim in the log, and lead with what is different this time (the twist outcome, the numbers). If the arc you get would tell the same story as an earlier reel of that sim, try another seed. Work in `engine/goal2/`. Run ONE heavy process at a time (2 cores, 8 GB; two renders at once get OOM-killed).
@@ -61,13 +61,29 @@ Ansh, Nov 15 2026: highly visual, satisfying reels that explain something, in a 
 5. Render: `python3 satisfy.py render /tmp/s.json /tmp/reel.mp4 --model $KOKORO_DIR` (about 4 min), then verify like A.7. Copy the script into `engine/satisfy_scripts/`.
 After posting: `visual_mode_index += 1` and (for a non-queued or queued satisfy reel alike) `satisfy_index += 1`. After a scale reel (section B): `visual_mode_index += 1`. Log line adds `"mode": "satisfy"` or `"mode": "scale"`. Caption: script `caption` + blank line + `Follow @shipwithpip for more.` + blank line + hashtags.
 
+## B3. What-if reel (`next` is "whatif")
+Style: an escalating chain of "what if" hypotheticals with real physics, like `engine/whatif_scripts/w1_earth_stops.json`: a hook with a shocking specific number in the first 2 seconds ("EARTH STOPS. / YOU DON'T. / 1,674 KM/H"), then "why that number", then 3 to 5 escalations (each one changes one thing or pushes it further), a red `stamp` on the biggest payoff, and a reality-check ending with a real sourced fact. 8 to 9 beats plus the nocap follow beat, 40 to 60 s. Engine: `engine/whatif.py` (2D: real-coastline globe, bars, latitude rings, day/night, stick figure, stamps, word-by-word captions).
+**Queue first**: if `whatif_queue` is non-empty, make `whatif_queue[0]` from `engine/whatif_scripts/queue/<id>.json` (re-open its sources, then steps 3 to 5). Otherwise:
+1. **Pick a topic** not already in the log (`"kind": "whatif"` lines) with a big, specific, surprising number and a chain of escalations. Good families: Earth and space (Earth spins faster, Moon twice as close, Sun vanishes for 8 minutes), speed and energy (a raindrop with no air resistance, a penny at the speed of sound), scale (every human in one place). Prefer topics the existing scenes can show (`stop`, `equator`, `bars`, `lat`, `daynight`, `slow`); if a topic needs a new scene, add it to `SCENES` in `whatif.py` and check it on the contact sheet. Never claim what a scene cannot show.
+2. **Verify** every input with WebSearch/WebFetch in this run (NASA, NOAA, WMO, Guinness, Britannica, peer-reviewed or major science outlets). Put each sourced number in `inputs`, its URL in `sources`, and one line per source in `notes`. Opinions or scenarios from an expert article (e.g. "days would last six months") count only if that article says it; quote who said it in `notes`.
+3. **Compute** every derived number in `calc` (Python expressions evaluated by the engine). `python3 engine/whatif.py stats /tmp/w.json` prints them; every number on screen, spoken (`speak` with words, `say` with digits) or in the caption must be an input, a calc result (rounded to 0, 1 or 2 decimals) or in `constants` with the reason in `notes`. `python3 engine/whatif.py check /tmp/w.json` must print `CHECK OK`. Animations never show tweened in-between numbers, only real values.
+4. **Contact sheet**: `cd engine && python3 whatif.py sheet /tmp/w.json /tmp/sheet.png --model $KOKORO_DIR 2>&1 | grep -E "OOV|s$"`; fix every OOV word (`speak` or `LEX_ADD` in `scale.py`); Read the PNG: no text overlapping the caption band (y 1500 to 1650), labels readable, the scene matches what the line says.
+5. **Render**: `python3 whatif.py render /tmp/w.json /tmp/reel.mp4 --model $KOKORO_DIR` (about 4 min), verify like A.7, copy the script into `engine/whatif_scripts/`. Caption: script `caption` + blank line + `Follow @shipwithpip for more.` + blank line + hashtags. Log line: `"kind": "whatif"`, `"topic"`: title.
+
 ## C. Post (both kinds)
 1. `url=$(bash tools/host_video.sh /tmp/reel.mp4)` (prints a raw.githubusercontent.com URL).
 2. vidIQ `vidiq_video_upload` with `url` = that URL -> `videoUrl`.
 3. Caption: sims use `post.caption` + a blank line + `Follow @shipwithpip for more AI from scratch.` + blank line + hashtags (`#` + each tag). Visual reels use the script `caption` + blank line + `Follow @shipwithpip for more.` + blank line + hashtags. Max 2,200 chars, no em dashes.
 4. vidIQ `vidiq_instagram_publish_reel` with `platformAccountId` `29510734025188123`, `videoUrl`, `caption`. No trial params, no AI label. Continue with `containerId` / `mcpJobId` exactly as the tool says until `PUBLISHED`. Do not retry a failed publish with a new container; log the error and stop.
 5. Append one JSON line to `state/log.jsonl`: `{"date": ISO time, "kind": "sim"|"visual", "sim": name, "seed": n, "topic": title, "permalink": ..., "status": "posted"|"failed: reason"}`. Update `state/state.json` only when the reel was posted: `cycle_index += 1`, set `next` to the new `cycle[cycle_index % len(cycle)]` (for readability), and after a sim also `sim_index += 1`. A failed run leaves the state unchanged so the next run retries the same slot. Commit and push to `main`:
-   `git add state engine/scale_scripts engine/satisfy_scripts && git commit -m "log: <title>" && git push origin HEAD:main`
+   `git add state engine/scale_scripts engine/satisfy_scripts engine/whatif_scripts && git commit -m "log: <title>" && git push origin HEAD:main`
+
+## E. Performance review (Ansh, Nov 16 2026: "try posting 1 rn and based on response adjust it yourself")
+Due when `state.json` `last_review` is more than 48 hours old (or missing) and at least 3 what-if reels in the log are 24+ hours old. Fetch the account's recent reels with vidIQ (`vidiq_ig_profile_reels` for shipwithpip, or `vidiq_instagram_owner_insights`) and match them to log lines by permalink. Compare the median views of the last 3 what-if reels (24+ h old) with the median of the last 6 other reels (24+ h old):
+- what-if median at least 1.5x the others: give what-if more slots. Step 1: cycle `["sim", "whatif", "visual", "whatif"]`. Step 2 (if still 1.5x at the next review): `["sim", "whatif", "whatif"]`.
+- between 0.7x and 1.5x: keep the cycle.
+- below 0.7x: step back one level (fewest: `["sim", "sim", "visual", "whatif"]`, never remove what-ifs entirely without telling Ansh in the run summary).
+When the cycle changes, set `cycle_index` so the next slot is the one that keeps the order sensible, set `next`, set `last_review` to now, and append a line to `state/decisions.jsonl`: `{"date", "whatif_median", "other_median", "old_cycle", "new_cycle"}`. If the views cannot be fetched, skip the review and say so in the summary. Never change account, timing or honesty rules in a review.
 
 ## D. Report
 End the run with a 2 line summary: what was posted (title, permalink) or why nothing was.
