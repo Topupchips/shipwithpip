@@ -1,11 +1,11 @@
 {
-  "next": "visual",
+  "next": "sim",
   "cycle": [
     "sim",
     "sim",
     "visual"
   ],
-  "cycle_index": 8,
+  "cycle_index": 9,
   "sim_rotation": [
     "maze",
     "flappy",
@@ -40,7 +40,7 @@
     "scale",
     "satisfy"
   ],
-  "visual_mode_index": 1,
+  "visual_mode_index": 2,
   "satisfy_rotation": [
     "pendulum",
     "fourier",
@@ -48,8 +48,6 @@
     "galton",
     "sunflower"
   ],
-  "satisfy_index": 0,
-  "satisfy_queue": [
-    "s1_pendulum"
-  ]
+  "satisfy_index": 1,
+  "satisfy_queue": []
 }
