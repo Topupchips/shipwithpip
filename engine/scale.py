@@ -327,6 +327,9 @@ LEX_ADD = {  # words the Kokoro US lexicon is missing (it silently skips them ot
     "doublings": "d ˈ ʌ b l ɪ ŋ z", "minutes": "m ˈ ɪ n ə t s", "zeros": "z ˈ ɪ ɹ O z", "here's": "h ˈ ɪ ɹ z",
     "powerball": "p ˈ W ə ɹ b ˌ ɔ l", "dna": "d ˌ i ˌ ɛ n ˈ A",
     "pendulums": "p ˈ ɛ n ʤ ə l ə m z",
+    "degrees": "d ə ɡ ɹ ˈ i z", "spirals": "s p ˈ I ɹ ə l z", "sunflowers": "s ˈ ʌ n f l ˌ W ə ɹ z",
+    "predicts": "p ɹ i d ˈ ɪ k t s", "galton": "ɡ ˈ ɔ l t ə n", "cosines": "k ˈ O s ˌ I n z",
+    "fibonacci": "f ˌ ɪ b ə n ˈ ɑ ʧ i",
 }
 
 

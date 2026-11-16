@@ -1,0 +1,127 @@
+{
+  "id": "s3_fourier_star",
+  "kind": "fourier",
+  "style": "math art",
+  "seed": 1,
+  "params": {
+    "shape": "star"
+  },
+  "constants": [
+    2,
+    3,
+    10,
+    50
+  ],
+  "beats": [
+    {
+      "hook": [
+        "NO STRAIGHT LINES.",
+        "JUST SPINNING",
+        "CIRCLES."
+      ],
+      "vis": {
+        "n": 50
+      },
+      "say": "This star has no straight lines in it. It's drawn only by spinning circles. Here's how many it takes.",
+      "key": [
+        "circles."
+      ]
+    },
+    {
+      "head": [
+        "1 CIRCLE:",
+        "A CIRCLE."
+      ],
+      "vis": {
+        "n": 1
+      },
+      "say": "One spinning circle on its own draws, well, a circle. Nothing else.",
+      "key": [
+        "circle."
+      ]
+    },
+    {
+      "head": [
+        "2 CIRCLES:",
+        "IT BENDS."
+      ],
+      "vis": {
+        "n": 2
+      },
+      "say": "Put a second circle on the tip of the first, spinning faster. Now the path bends.",
+      "key": [
+        "bends."
+      ]
+    },
+    {
+      "head": [
+        "3 CIRCLES:",
+        "5 POINTS."
+      ],
+      "vis": {
+        "n": 3
+      },
+      "say": "Three circles. Five points start to show.",
+      "key": [
+        "five"
+      ]
+    },
+    {
+      "head": [
+        "10 CIRCLES:",
+        "SHARP."
+      ],
+      "vis": {
+        "n": 10
+      },
+      "say": "Ten circles, and the points get sharp. Each new circle is smaller than the one before.",
+      "key": [
+        "sharp."
+      ]
+    },
+    {
+      "head": [
+        "50 CIRCLES:",
+        "A STAR."
+      ],
+      "vis": {
+        "n": 50
+      },
+      "say": "Fifty circles. A clean star. Every single corner made from turning wheels.",
+      "key": [
+        "star."
+      ]
+    },
+    {
+      "head": [
+        "THIS IS A",
+        "FOURIER SERIES."
+      ],
+      "vis": {
+        "n": 50
+      },
+      "say": "This is a Fourier series, named for Joseph Fourier. Shapes and signals built from sines and cosines, and each spinning circle is one of them.",
+      "key": [
+        "fourier"
+      ]
+    },
+    {
+      "say": "Follow Ship With Pip for more.",
+      "nocap": true
+    }
+  ],
+  "title": "This star has no straight lines. Just spinning circles",
+  "caption": "Every circle spins at its own speed on the tip of the one before it. 1 circle draws a circle. 2 bend it. 3 show 5 points. 10 make them sharp, and 50 draw a clean star. This is a Fourier series: a sum of sines and cosines, named for Joseph Fourier, and each spinning circle is one term. The circles here come from a discrete Fourier transform of the star's outline, biggest first.",
+  "hashtags": [
+    "math",
+    "fourier",
+    "fourierseries",
+    "oddlysatisfying",
+    "mathart",
+    "shipwithpip"
+  ],
+  "sources": [
+    "https://www.britannica.com/science/Fourier-series"
+  ],
+  "notes": "Star: 5 points, inner radius 0.42, sampled at 1024 points, DFT, circles sorted by size (largest first, constant term excluded). Beats show n = 1, 2, 3, 10, 50 circles. Britannica: a Fourier series is an infinite sum of sines and cosines, named for Joseph Fourier. A spinning circle traces e^(ikt) = cos(kt) + i sin(kt)."
+}
