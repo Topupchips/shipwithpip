@@ -13,7 +13,7 @@ Script keys: id, title, caption, hashtags, sources (URLs, each opened in the run
   "inputs": {name: number}  sourced numbers only (each listed in "notes" with its source),
   "calc": [[name, "python expression over earlier names and math"], ...]  every derived number, evaluated here,
   "beats": [{"say", "speak"?, "key": [...], "hook": [3 lines] (first beat) | "head": [2 lines], "chip"?, "stamp"?: {"text", "at"},
-             "vis": {"scene": stop|equator|bars|lat|daynight|slow|bignum, ...}}],
+             "vis": {"scene": stop|equator|bars|lat|daynight|slow|float|bignum, ...}}],
   last beat {"say": "Follow Ship With Pip for more.", "nocap": true}.
 """
 import argparse
@@ -240,7 +240,36 @@ def sc_slow(img, d, v, p, t, ctx):
         if a > 0: bigtext(img, (540, 1320 + i * 90), lb, 76, WHITE if i else YEL, a=a)
 
 
-SCENES = dict(stop=sc_stop, equator=sc_equator, bars=sc_bars, lat=sc_lat, daynight=sc_daynight, slow=sc_slow)
+def sc_float(img, d, v, p, t, ctx):
+    """Globe spins faster and faster; the person on the equator limb lifts off (float) or is flung away (fling)."""
+    fling = v.get("mode") == "fling"
+    ctx_rate = 26 + (260 if fling else 170) * ease(clamp(p / 0.5))
+    rot = (-26 * t - (900 if fling else 600) * p * p) % 360 - 40
+    globe(img, GX, GY, GR, rot)
+    d = ImageDraw.Draw(img, "RGBA")
+    # speed streaks along the equator front
+    for k in range(10):
+        lo = ((t * ctx_rate * 0.9 - k * 18) % 180) - 90
+        x, y, z = surface_xy(GX, GY, GR, 0, lo)
+        d.ellipse([x - 7, y - 7, x + 7, y + 7], fill=al(WHITE, 0.55))
+    x0, y0, _ = surface_xy(GX, GY, GR, 0, 89.5)
+    lift = clamp((p - 0.4) / 0.6)
+    if fling:
+        q = ease(clamp((p - 0.45) / 0.4)); dx = 150 * q; dy = -430 * q
+        for k in range(12):
+            tr = max(0.0, q - k * 0.04)
+            d.line([(x0 + 150 * tr, y0 - 430 * tr), (x0 + 150 * max(0, tr - 0.04), y0 - 430 * max(0, tr - 0.04))], fill=al(YEL, 0.5 * (1 - k / 12)), width=6)
+        person(d, x0 + dx, y0 + dy, 46 * (1 - 0.5 * q), math.pi / 2 + q * 7, WHITE)
+    else:
+        dx = 70 * ease(lift) + 10 * math.sin(t * 2.2) * lift; dy = 14 * math.sin(t * 1.7) * lift
+        person(d, x0 + dx, y0 + dy, 46, math.pi / 2 + 0.35 * math.sin(t * 1.3) * lift, WHITE)
+        if lift > 0: tc(d, (x0 - 30, y0 - 120), "YOU", font(F_BOLD, 52), al(YEL, 1))
+    for i, lb in enumerate(v.get("labels", [])):
+        a = clamp((p - 0.5 - i * 0.2) / 0.1)
+        if a > 0: bigtext(img, (540, 1300 + i * 90), lb, 80, YEL if i == 0 else WHITE, a=a)
+
+
+SCENES = dict(stop=sc_stop, equator=sc_equator, bars=sc_bars, lat=sc_lat, daynight=sc_daynight, slow=sc_slow, float=sc_float)
 
 
 # ============================================================ facts + check

@@ -1,0 +1,288 @@
+{
+ "id": "w2_fast_spin",
+ "title": "Spin Earth until a day is 84 minutes and you weigh nothing",
+ "inputs": {
+  "GM_km3s2": 398600,
+  "R_eq_km": 6378.137,
+  "P_sidereal_h": 23.9345
+ },
+ "calc": [
+  [
+   "R_m",
+   "R_eq_km * 1000"
+  ],
+  [
+   "GM",
+   "GM_km3s2 * 1e9"
+  ],
+  [
+   "v_now_ms",
+   "2 * math.pi * R_m / (P_sidereal_h * 3600)"
+  ],
+  [
+   "v_orbit_ms",
+   "math.sqrt(GM / R_m)"
+  ],
+  [
+   "v_escape_ms",
+   "math.sqrt(2 * GM / R_m)"
+  ],
+  [
+   "times_faster",
+   "v_orbit_ms / v_now_ms"
+  ],
+  [
+   "float_day_min",
+   "2 * math.pi * R_m / v_orbit_ms / 60"
+  ],
+  [
+   "half_float_day_min",
+   "float_day_min / 2"
+  ],
+  [
+   "escape_day_min",
+   "2 * math.pi * R_m / v_escape_ms / 60"
+  ],
+  [
+   "lighter_now_pct",
+   "100 * (2 * math.pi / (P_sidereal_h * 3600)) ** 2 * R_m / (GM / R_m ** 2)"
+  ],
+  [
+   "today_day_min",
+   "P_sidereal_h * 60"
+  ]
+ ],
+ "constants": [
+  0,
+  1,
+  90,
+  1.4,
+  18,
+  24
+ ],
+ "beats": [
+  {
+   "hook": [
+    "84 MINUTE DAY.",
+    "YOU WEIGH",
+    "NOTHING."
+   ],
+   "say": "Spin Earth so fast that one day lasts 84 minutes, and at the equator you would weigh nothing. You would just float.",
+   "speak": "Spin Earth so fast that one day lasts eighty four minutes, and at the equator you would weigh nothing. You would just float.",
+   "key": [
+    "84",
+    "nothing."
+   ],
+   "vis": {
+    "scene": "float",
+    "labels": [
+     "1 DAY = 84 MIN"
+    ]
+   }
+  },
+  {
+   "head": [
+    "WHY 84",
+    "MINUTES?"
+   ],
+   "say": "Right now the equator moves at 465 metres per second. To float, it needs 7,905. That is orbit speed.",
+   "speak": "Right now the equator moves at four hundred and sixty five metres per second. To float, it needs seven thousand nine hundred and five. That is orbit speed.",
+   "key": [
+    "465",
+    "7,905",
+    "orbit"
+   ],
+   "stamp": {
+    "text": "17x FASTER",
+    "at": 0.8,
+    "y": 1330,
+    "x": 540,
+    "angle": 6,
+    "size": 100
+   },
+   "vis": {
+    "scene": "bars",
+    "rows": [
+     {
+      "label": "EQUATOR TODAY",
+      "value": 465,
+      "unit": "M/S",
+      "col": "CYAN"
+     },
+     {
+      "label": "ORBIT SPEED",
+      "value": 7905,
+      "unit": "M/S",
+      "col": "YEL"
+     }
+    ]
+   }
+  },
+  {
+   "head": [
+    "YOU ARE ALREADY",
+    "A BIT LIGHTER."
+   ],
+   "say": "Even today, the spin leaves you 0.35 percent lighter at the equator. Barely anything.",
+   "speak": "Even today, the spin leaves you zero point three five percent lighter at the equator. Barely anything.",
+   "key": [
+    "0.35",
+    "lighter"
+   ],
+   "vis": {
+    "scene": "equator",
+    "labels": [
+     "465 M/S",
+     "0.35% LIGHTER"
+    ]
+   }
+  },
+  {
+   "head": [
+    "SUNRISE TO SUNSET:",
+    "42 MINUTES."
+   ],
+   "say": "And your whole day would fly by. 42 minutes of sunlight, then 42 minutes of night.",
+   "speak": "And your whole day would fly by. Forty two minutes of sunlight, then forty two minutes of night.",
+   "key": [
+    "42",
+    "night."
+   ],
+   "vis": {
+    "scene": "daynight",
+    "labels": [
+     "42 MIN LIGHT",
+     "42 MIN DARK"
+    ]
+   }
+  },
+  {
+   "head": [
+    "BUT AT THE",
+    "NORTH POLE?"
+   ],
+   "say": "At the North Pole, nothing changes. You would keep your full weight and just spin on the spot.",
+   "key": [
+    "full",
+    "spot."
+   ],
+   "vis": {
+    "scene": "lat",
+    "rows": [
+     {
+      "lat": 0,
+      "text": "EQUATOR: WEIGHTLESS",
+      "col": "RED"
+     },
+     {
+      "lat": 90,
+      "text": "POLE: FULL WEIGHT",
+      "col": "LIME"
+     }
+    ]
+   }
+  },
+  {
+   "head": [
+    "NOW SPIN IT",
+    "EVEN FASTER."
+   ],
+   "say": "Now make the day 59.7 minutes. The equator hits 11,180 metres per second. Escape speed. You do not float. You leave Earth for good.",
+   "speak": "Now make the day fifty nine point seven minutes. The equator hits eleven thousand one hundred and eighty metres per second. Escape speed. You do not float. You leave Earth for good.",
+   "key": [
+    "59.7",
+    "11,180",
+    "good."
+   ],
+   "stamp": {
+    "text": "59.7 MIN DAY",
+    "at": 0.55,
+    "y": 1330,
+    "x": 540,
+    "angle": -6,
+    "size": 96
+   },
+   "vis": {
+    "scene": "float",
+    "mode": "fling"
+   }
+  },
+  {
+   "head": [
+    "THE SPACE STATION",
+    "ALREADY DOES THIS."
+   ],
+   "say": "This is how the space station stays up. It falls around Earth about every 90 minutes and never hits the ground.",
+   "speak": "This is how the space station stays up. It falls around Earth about every ninety minutes and never hits the ground.",
+   "key": [
+    "90",
+    "ground."
+   ],
+   "vis": {
+    "scene": "bars",
+    "rows": [
+     {
+      "label": "A DAY TODAY",
+      "value": 1436,
+      "unit": "MIN",
+      "col": "CYAN"
+     },
+     {
+      "label": "SPACE STATION ORBIT",
+      "value": 90,
+      "unit": "MIN",
+      "col": "LIME"
+     },
+     {
+      "label": "FLOAT DAY",
+      "value": 84,
+      "unit": "MIN",
+      "col": "YEL"
+     }
+    ]
+   }
+  },
+  {
+   "head": [
+    "RELAX.",
+    "IT'S SLOWING DOWN."
+   ],
+   "say": "Relax. Earth is going the other way. 1.4 billion years ago, a day lasted just over 18 hours. Now it is 24.",
+   "speak": "Relax. Earth is going the other way. One point four billion years ago, a day lasted just over eighteen hours. Now it is twenty four.",
+   "key": [
+    "18",
+    "24."
+   ],
+   "stamp": {
+    "text": "18 HOUR DAYS",
+    "at": 0.6,
+    "y": 1330,
+    "x": 540,
+    "angle": 6,
+    "size": 96
+   },
+   "vis": {
+    "scene": "slow"
+   }
+  },
+  {
+   "say": "Follow Ship With Pip for more.",
+   "nocap": true
+  }
+ ],
+ "caption": "Spin Earth fast enough and the equator becomes orbit. Today the equator moves at 465 m/s and the spin leaves you about 0.35 percent lighter there. At 7,905 m/s (17 times faster) gravity would only just hold you in a circle, so you would weigh nothing: that is a day of 84 minutes, with 42 minutes of light and 42 of dark. At the North Pole you would keep your full weight. Push it to a 59.7 minute day and the equator reaches 11,180 m/s, escape speed. The space station already lives like this, falling around Earth about every 90 minutes. Real Earth is going the other way: 1.4 billion years ago a day lasted just over 18 hours. Numbers from NASA's Earth fact sheet (GM 398,600 km3/s2, radius 6,378.137 km, rotation 23.9345 h), no air resistance.",
+ "hashtags": [
+  "whatif",
+  "physics",
+  "earth",
+  "space",
+  "science",
+  "shipwithpip"
+ ],
+ "sources": [
+  "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html?level=1",
+  "https://www.nasa.gov/international-space-station/space-station-facts-and-figures/",
+  "https://www.sciencedaily.com/releases/2018/06/180604151200.htm"
+ ],
+ "notes": "NASA Earth fact sheet (opened Nov 17 2026): GM 0.39860 x10^6 km3/s2, equatorial radius 6378.137 km, sidereal rotation 23.9345 h, escape velocity 11.186 km/s (our calc 11,180 m/s from GM and R, consistent). NASA ISS facts and figures: orbits 'about every 90 minutes' (constant 90). ScienceDaily (Meyers and Malinverno, PNAS 2018): '1.4 billion years ago, a day on Earth lasted just over 18 hours' (constants 1.4, 18). 24 = hours in today's mean solar day. 0 = weight at equator / beat text. Float day = circumference / orbital speed sqrt(GM/R); escape day uses sqrt(2GM/R); lighter_now = omega^2 R / (GM/R^2). Ignores air, Earth's oblateness."
+}
