@@ -1,12 +1,12 @@
 {
-  "next": "visual",
+  "next": "whatif",
   "cycle": [
     "sim",
     "sim",
     "visual",
     "whatif"
   ],
-  "cycle_index": 14,
+  "cycle_index": 15,
   "sim_rotation": [
     "maze",
     "flappy",
@@ -30,7 +30,6 @@
     "platformAccountId": "29510734025188123"
   },
   "visual_queue": [
-    "v4_seconds",
     "v5_tripling",
     "v6_odds"
   ],
@@ -41,7 +40,7 @@
     "scale",
     "satisfy"
   ],
-  "visual_mode_index": 2,
+  "visual_mode_index": 3,
   "satisfy_rotation": [
     "pendulum",
     "fourier",
