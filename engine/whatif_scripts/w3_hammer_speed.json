@@ -1,0 +1,309 @@
+{
+ "id": "w3_hammer_speed",
+ "title": "Swing a hammer at 10% of light speed and it hits like 4 Hiroshimas",
+ "inputs": {
+  "m_head_kg": 0.57,
+  "v_swing_ms": 2.01,
+  "sound_mph": 761,
+  "iss_mph": 17500,
+  "mph_ms": 0.44704,
+  "c_ms": 299792458,
+  "ton_tnt_J": 4184000000,
+  "hiroshima_tons": 15000
+ },
+ "calc": [
+  [
+   "ke_swing_J",
+   "0.5 * m_head_kg * v_swing_ms ** 2"
+  ],
+  [
+   "v_sound_ms",
+   "sound_mph * mph_ms"
+  ],
+  [
+   "ke_sound_J",
+   "0.5 * m_head_kg * v_sound_ms ** 2"
+  ],
+  [
+   "sound_vs_swing",
+   "ke_sound_J / ke_swing_J"
+  ],
+  [
+   "v_iss_ms",
+   "iss_mph * mph_ms"
+  ],
+  [
+   "ke_iss_J",
+   "(1 / math.sqrt(1 - (v_iss_ms / c_ms) ** 2) - 1) * m_head_kg * c_ms ** 2"
+  ],
+  [
+   "ke_iss_MJ",
+   "ke_iss_J / 1e6"
+  ],
+  [
+   "iss_tnt_kg",
+   "ke_iss_J / (ton_tnt_J / 1000)"
+  ],
+  [
+   "v10_kms",
+   "0.1 * c_ms / 1000"
+  ],
+  [
+   "ke10_J",
+   "(1 / math.sqrt(1 - 0.1 ** 2) - 1) * m_head_kg * c_ms ** 2"
+  ],
+  [
+   "ke10_tons",
+   "ke10_J / ton_tnt_J"
+  ],
+  [
+   "ke10_hiroshimas",
+   "ke10_tons / hiroshima_tons"
+  ],
+  [
+   "v99_kms",
+   "0.99 * c_ms / 1000"
+  ],
+  [
+   "ke99_J",
+   "(1 / math.sqrt(1 - 0.99 ** 2) - 1) * m_head_kg * c_ms ** 2"
+  ],
+  [
+   "ke99_Mtons",
+   "ke99_J / ton_tnt_J / 1e6"
+  ],
+  [
+   "ke99_hiroshimas",
+   "ke99_J / ton_tnt_J / hiroshima_tons"
+  ],
+  [
+   "c_kms",
+   "c_ms / 1000"
+  ]
+ ],
+ "constants": [
+  10,
+  99
+ ],
+ "beats": [
+  {
+   "hook": [
+    "HAMMER AT 10%",
+    "OF LIGHT SPEED:",
+    "4 HIROSHIMAS."
+   ],
+   "say": "Swing a hammer at 10% of the speed of light, and it hits with the energy of more than 4 Hiroshima bombs.",
+   "speak": "Swing a hammer at ten percent of the speed of light, and it hits with the energy of more than four Hiroshima bombs.",
+   "key": [
+    "10%",
+    "4",
+    "Hiroshima"
+   ],
+   "vis": {
+    "scene": "hammer",
+    "mode": "flash",
+    "hit": 0.1,
+    "town": true,
+    "whiteout": false
+   }
+  },
+  {
+   "head": [
+    "FIRST,",
+    "A REAL SWING."
+   ],
+   "say": "First, a real swing. Researchers tracked carpenters hammering: the head moved at 2.01 metres per second. A 0.57 kilogram head. That's 1.15 joules. The nail sinks.",
+   "speak": "First, a real swing. Researchers tracked carpenters hammering: the head moved at two point zero one metres per second. A zero point five seven kilogram head. That's one point one five joules. The nail sinks.",
+   "key": [
+    "2.01",
+    "1.15",
+    "joules."
+   ],
+   "vis": {
+    "scene": "hammer",
+    "mode": "sink",
+    "hit": 0.35,
+    "speed": "2.01 m/s",
+    "value": 1.15,
+    "dec": 2,
+    "unit": "JOULES"
+   }
+  },
+  {
+   "head": [
+    "NOW YOU AND THE",
+    "HAMMER CAN'T BREAK."
+   ],
+   "say": "Now make you and the hammer unbreakable, and swing as fast as sound: 340 metres per second. That's 28,646 times the energy.",
+   "speak": "Now make you and the hammer unbreakable, and swing as fast as sound: three hundred and forty metres per second. That's twenty eight thousand six hundred and forty six times the energy.",
+   "key": [
+    "sound:",
+    "28,646"
+   ],
+   "vis": {
+    "scene": "hammer",
+    "mode": "crack",
+    "hit": 0.3,
+    "speed": "340 m/s",
+    "value": 32984,
+    "unit": "JOULES"
+   }
+  },
+  {
+   "head": [
+    "FASTER:",
+    "SPACE STATION SPEED."
+   ],
+   "say": "Faster. Swing it at the speed of the space station: 7,823 metres per second. 17.4 million joules. About 4 kilograms of TNT.",
+   "speak": "Faster. Swing it at the speed of the space station: seven thousand eight hundred and twenty three metres per second. Seventeen point four million joules. About four kilograms of T N T.",
+   "key": [
+    "7,823",
+    "17.4",
+    "TNT."
+   ],
+   "vis": {
+    "scene": "hammer",
+    "mode": "fire",
+    "hit": 0.3,
+    "speed": "7,823 m/s",
+    "value": 17.4,
+    "dec": 1,
+    "unit": "MILLION J",
+    "labels": [
+     "ABOUT 4 KG OF TNT"
+    ]
+   }
+  },
+  {
+   "head": [
+    "NOW 10% OF",
+    "LIGHT SPEED."
+   ],
+   "say": "Now 10% of light speed. 61,683 tons of TNT. Hiroshima was 15,000 tons. More than 4 Hiroshimas, from one swing.",
+   "speak": "Now ten percent of light speed. Sixty one thousand six hundred and eighty three tons of T N T. Hiroshima was fifteen thousand tons. More than four Hiroshimas, from one swing.",
+   "key": [
+    "61,683",
+    "4",
+    "Hiroshimas,"
+   ],
+   "stamp": {
+    "text": "4 HIROSHIMAS",
+    "at": 0.72,
+    "x": 560,
+    "y": 640
+   },
+   "vis": {
+    "scene": "hammer",
+    "mode": "flash",
+    "hit": 0.2,
+    "town": true,
+    "speed": "29,979 km/s",
+    "value": 61683,
+    "unit": "TONS TNT"
+   }
+  },
+  {
+   "head": [
+    "YOU'RE FINE.",
+    "NOTHING ELSE IS."
+   ],
+   "say": "Remember, only you and the hammer are unbreakable. Nothing else in this town is.",
+   "key": [
+    "only",
+    "unbreakable."
+   ],
+   "vis": {
+    "scene": "hammer",
+    "mode": "after",
+    "town": true
+   }
+  },
+  {
+   "head": [
+    "NOW 99% OF",
+    "LIGHT SPEED."
+   ],
+   "say": "Push it to 99% of light speed: 74.6 million tons of TNT. 4,970 Hiroshimas.",
+   "speak": "Push it to ninety nine percent of light speed: seventy four point six million tons of T N T. Four thousand nine hundred and seventy Hiroshimas.",
+   "key": [
+    "74.6",
+    "4,970"
+   ],
+   "stamp": {
+    "text": "4,970 HIROSHIMAS",
+    "at": 0.7,
+    "x": 540,
+    "y": 640,
+    "size": 84
+   },
+   "vis": {
+    "scene": "hammer",
+    "mode": "mega",
+    "hit": 0.2,
+    "town": true,
+    "speed": "296,795 km/s",
+    "value": 74.6,
+    "dec": 1,
+    "unit": "MILLION TONS"
+   }
+  },
+  {
+   "head": [
+    "AND AT LIGHT",
+    "SPEED ITSELF?"
+   ],
+   "say": "And at the speed of light itself? You can't. Physics says it would take an infinite amount of energy. The hammer never lands.",
+   "key": [
+    "can't.",
+    "infinite"
+   ],
+   "vis": {
+    "scene": "hammer",
+    "mode": "frozen",
+    "speed": "299,792 km/s",
+    "labels": [
+     "INFINITE ENERGY"
+    ],
+    "label_at": 0.35
+   }
+  },
+  {
+   "say": "Follow Ship With Pip for more.",
+   "nocap": true,
+   "vis": {
+    "scene": "hammer",
+    "mode": "after",
+    "town": true
+   }
+  }
+ ],
+ "caption": "A real hammer swing: the head moves at about 2.01 m/s (measured on carpenters), and a 0.57 kg head carries 1.15 joules. Make you and the hammer unbreakable and speed it up. As fast as sound: 32,984 J, 28,646 times more. Space station speed: 17.4 million J, about 4 kg of TNT. 10% of light speed: 61,683 tons of TNT, more than 4 Hiroshimas. 99%: 74.6 million tons, 4,970 Hiroshimas. At light speed itself the energy needed is infinite, so the hammer never lands. Kinetic energy, with relativity for the fast ones.",
+ "hashtags": [
+  "physics",
+  "whatif",
+  "science",
+  "hammer",
+  "relativity",
+  "shipwithpip"
+ ],
+ "sources": [
+  "https://ergo.wisc.edu/wp-content/uploads/sites/901/2020/11/Buchanan-et-al-2016.pdf",
+  "https://www.grc.nasa.gov/www/k-12/BGP/sound.html",
+  "https://www.nasa.gov/missions/station/spot-the-station-frequently-asked-questions/",
+  "https://www.nist.gov/pml/special-publication-330/sp-330-section-2",
+  "https://en.wikipedia.org/wiki/TNT_equivalent",
+  "https://britannica.com/story/atomic-bombing-of-hiroshima",
+  "https://www.energy.gov/science/doe-explainsrelativity"
+ ],
+ "notes": [
+  "m_head_kg 0.57 and v_swing_ms 2.01: Buchanan et al 2016 (UW Madison ergonomics), 'All hammers had 0.57 kg heads'; 'The mean initial velocity was 2.01 m/s' (WH hammer, head tracked through impact with the nail).",
+  "sound_mph 761: NASA Glenn, speed of sound at sea level on a standard day 'about 761 mph'.",
+  "iss_mph 17500: NASA Spot the Station FAQ, 'about 17,500 mph'.",
+  "mph_ms 0.44704: exact definition (1 mile = 1609.344 m, per hour / 3600).",
+  "c_ms 299792458: NIST SP 330.",
+  "ton_tnt_J 4.184e9: TNT equivalent convention (4.184 GJ), attributed to NIST SP 811; kg of TNT = ton / 1000 (metric ton).",
+  "hiroshima_tons 15000: Britannica, 'the equivalent of 15,000 tons of TNT'.",
+  "Infinite energy at light speed: DOE Explains Relativity, 'an infinite amount of energy is required to make an object move at the speed of light'.",
+  "Constants 10 and 99 are the chosen premise speeds (percent of c). Relativistic KE (gamma-1)mc^2 used from ISS speed up (identical to classical there to 4 sig figs). Hook '4 Hiroshimas' = ke10_hiroshimas 4.11 rounded, spoken as 'more than four'."
+ ]
+}

@@ -272,6 +272,157 @@ def sc_float(img, d, v, p, t, ctx):
 SCENES = dict(stop=sc_stop, equator=sc_equator, bars=sc_bars, lat=sc_lat, daynight=sc_daynight, slow=sc_slow, float=sc_float)
 
 
+
+# ============================================================ hammer chain (Nov 18 2026, Ansh's nail reel model: one object, one change per beat)
+GROUND = 1250; NAIL_X = 650; PIV = (300, 905); HREACH = 392  # shoulder pivot, pivot to hammer face
+BROWN = (150, 96, 52); BROWN_D = (96, 58, 30); STEEL = (190, 200, 215); ORANGE = (255, 140, 40)
+_TOWN = None
+
+
+def town_houses():
+    global _TOWN
+    if _TOWN is None:
+        rs = np.random.RandomState(7); hs = []; x = -20
+        while x < 1100:
+            w = int(rs.randint(60, 120)); h = int(rs.randint(70, 190)); hs.append((x, w, h, int(rs.randint(0, 3)))); x += w + int(rs.randint(4, 16))
+        _TOWN = hs
+    return _TOWN
+
+
+def draw_town(d, wave_x=None, flat=0.0, glow=0.0):
+    """Skyline on the horizon. Houses the shockwave (|x - NAIL_X| < wave_x) has passed lean and collapse; flat=1 flattens everything."""
+    for x, w, h, k in town_houses():
+        cx = x + w / 2; hit = 0.0
+        if wave_x is not None and abs(cx - NAIL_X) < wave_x: hit = clamp((wave_x - abs(cx - NAIL_X)) / 160)
+        hit = max(hit, flat); hh = h * (1 - 0.9 * hit); lean = (1 if cx > NAIL_X else -1) * 60 * hit
+        base = (34, 40, 66) if k else (44, 50, 80); c = tuple(int(base[i] + (ORANGE[i] - base[i]) * 0.35 * glow) for i in range(3))
+        top = GROUND - 60 - hh
+        d.polygon([(x, GROUND - 60), (x + w, GROUND - 60), (x + w + lean, top), (x + lean, top)], fill=c + (255,))
+        if hit < 0.5 and k != 1: d.polygon([(x + lean - 6, top), (x + w + lean + 6, top), (x + w / 2 + lean, top - 34)], fill=c + (255,))
+        if hit < 0.3:
+            for wy in range(int(top) + 22, GROUND - 80, 42):
+                for wx in range(int(x) + 14, int(x + w) - 20, 30): d.rectangle([wx + lean * 0.3, wy, wx + 12 + lean * 0.3, wy + 16], fill=al(YEL, 0.35))
+        if hit > 0.5:  # rubble
+            rs = np.random.RandomState(x + 1000)
+            for _ in range(5):
+                rx = x + rs.rand() * w + lean; rw = 10 + rs.rand() * 22
+                d.rectangle([rx, GROUND - 60 - rw * 0.6, rx + rw, GROUND - 60], fill=c + (255,))
+    d.rectangle([0, GROUND - 60, W, GROUND - 52], fill=(28, 32, 52, 255))
+
+
+def draw_hammer(d, ang, glow=0.0, blur=0.0, a=1.0):
+    """ang: radians from straight down-right toward the nail (0 = striking the nail head)."""
+    tx, ty = NAIL_X - PIV[0], (GROUND - 70 - 96) - PIV[1]; base = math.atan2(ty, tx); th = base - ang
+    ux, uy = math.cos(th), math.sin(th); hand = (PIV[0] + ux * 170, PIV[1] + uy * 170); face = (PIV[0] + ux * HREACH, PIV[1] + uy * HREACH)
+    if blur > 0:  # motion arc: earlier hammer positions, fading
+        for k in range(1, 9):
+            t2 = th - k * blur * 0.09; px, py = PIV[0] + math.cos(t2) * HREACH, PIV[1] + math.sin(t2) * HREACH
+            d.ellipse([px - 14, py - 14, px + 14, py + 14], fill=al(ORANGE if glow > 0.3 else WHITE, 0.30 * (1 - k / 9) * a))
+    d.line([PIV, hand], fill=al(WHITE, a), width=20)  # arm
+    hc = tuple(int(BROWN[i] + (ORANGE[i] - BROWN[i]) * glow) for i in range(3))
+    d.line([hand, (PIV[0] + ux * (HREACH - 10), PIV[1] + uy * (HREACH - 10))], fill=hc + (int(255 * a),), width=18)  # handle
+    px, py = -uy, ux; hx, hy = face[0] - ux * 22, face[1] - uy * 22
+    hcol = tuple(int(STEEL[i] + (ORANGE[i] + 0 - STEEL[i]) * glow) for i in range(3))
+    poly = [(hx + px * 62 + ux * 22, hy + py * 62 + uy * 22), (hx + px * 62 - ux * 22, hy + py * 62 - uy * 22),
+            (hx - px * 70 - ux * 14, hy - py * 70 - uy * 14), (hx - px * 70 + ux * 14, hy - py * 70 + uy * 14)]
+    if glow > 0:
+        g = max(1, int(34 * glow)); d.ellipse([face[0] - g, face[1] - g, face[0] + g, face[1] + g], fill=al(ORANGE, 0.35 * glow * a))
+    d.polygon(poly, fill=hcol + (int(255 * a),))
+    d.ellipse([hand[0] - 16, hand[1] - 16, hand[0] + 16, hand[1] + 16], fill=al(WHITE, a))
+
+
+def draw_worker(d, a=1.0):
+    x, y = PIV[0] - 40, GROUND - 60; c = al(WHITE, a)
+    d.line([(x - 50, y), (x, y - 160), (x + 40, y)], fill=c, width=20, joint="curve")  # legs
+    d.line([(x, y - 160), (PIV[0], PIV[1])], fill=c, width=22)  # torso to shoulder
+    hx, hy = PIV[0] - 6, PIV[1] - 70; d.ellipse([hx - 44, hy - 44, hx + 44, hy + 44], fill=c)
+    d.chord([hx - 52, hy - 70, hx + 52, hy + 20], 180, 360, fill=al(YEL, a)); d.rectangle([hx - 62, hy - 26, hx + 62, hy - 18], fill=al(YEL, a))  # hard hat
+
+
+def draw_plank(d, sink, crack=0.0, gone=0.0):
+    if gone < 1:
+        a = 1 - gone
+        if crack <= 0:
+            d.rounded_rectangle([420, GROUND - 120, 900, GROUND - 60], radius=6, fill=al(BROWN, a)); d.line([(430, GROUND - 98), (890, GROUND - 98)], fill=al(BROWN_D, 0.6 * a), width=3)
+        else:  # split in two at the nail, halves tilting apart
+            o = 40 * crack
+            d.polygon([(420 - o, GROUND - 120 + o * 0.5), (NAIL_X - 6 - o * 0.4, GROUND - 120 - o * 0.6), (NAIL_X - 18 - o * 0.4, GROUND - 60), (420 - o, GROUND - 60)], fill=al(BROWN, a))
+            d.polygon([(NAIL_X + 6 + o * 0.4, GROUND - 120 - o * 0.6), (900 + o, GROUND - 120 + o * 0.5), (900 + o, GROUND - 60), (NAIL_X + 18 + o * 0.4, GROUND - 60)], fill=al(BROWN, a))
+    top = GROUND - 120 - 96 * (1 - sink)
+    d.line([(NAIL_X, top), (NAIL_X, top + 96)], fill=al(STEEL, 1), width=8)
+    d.rectangle([NAIL_X - 18, top - 6, NAIL_X + 18, top + 2], fill=al(STEEL, 1))
+
+
+def sc_hammer(img, d, v, p, t, ctx):
+    mode = v.get("mode", "sink"); hit = v.get("hit", 0.38); before = p < hit; q = clamp((p - hit) / (1 - hit)) if not before else 0
+    big = mode in ("flash", "mega", "after")
+    # sky glow for the big ones
+    if big and not before or mode == "after":
+        sky = Image.new("RGBA", (W, H), (0, 0, 0, 0)); sd = ImageDraw.Draw(sky)
+        sd.ellipse([NAIL_X - 900, GROUND - 900, NAIL_X + 900, GROUND + 700], fill=al(ORANGE, 0.35 if mode != "after" else 0.15)); img.alpha_composite(sky.filter(ImageFilter.GaussianBlur(120)))
+        d = ImageDraw.Draw(img, "RGBA")
+    if big or v.get("town"):
+        wave = None if before or mode == "after" else 1400 * ease(clamp((q - 0.08) / 0.7))
+        draw_town(d, wave, flat=1.0 if mode == "after" else 0.0, glow=0.0 if before else 1 - q * 0.5)
+    d.rectangle([0, GROUND - 60, W, H], fill=(16, 18, 32, 255)); d.line([(0, GROUND - 60), (W, GROUND - 60)], fill=al(LIME, 0.5), width=4)
+    # swing angle: wind up, then strike at `hit`
+    wind = math.radians(150)
+    if mode == "frozen":  # the hammer creeps toward the nail and never arrives
+        ang = math.radians(3 + 40 * math.exp(-p * 3.5))
+    elif before:
+        u = p / hit; ang = wind * (math.sin(u * math.pi / 0.75) if u < 0.75 * 0.5 else max(0, (1 - (u - 0.375) / 0.625)) ** 2)
+    else:
+        ang = math.radians(2) + (math.radians(25) * ease(clamp(q * 3)) if mode == "sink" else 0)
+    fast = mode in ("crack", "fire", "flash", "mega", "hook")
+    glow = 1.0 if mode in ("fire", "flash", "mega") else 0.0
+    sink = {"sink": 0.55, "crack": 1.0}.get(mode, 1.0) * (0 if before else 1)
+    crack = ease(clamp(q * 4)) if mode == "crack" and not before else 0
+    gone = 1.0 if (mode in ("fire", "flash", "mega") and not before) or mode == "after" else 0.0
+    if mode in ("fire", "flash", "mega") and not before:  # crater
+        cr = 160 if mode == "fire" else 260
+        d.ellipse([NAIL_X - cr, GROUND - 90, NAIL_X + cr, GROUND - 30], fill=(6, 6, 10, 255))
+    if mode == "after": d.ellipse([NAIL_X - 260, GROUND - 90, NAIL_X + 260, GROUND - 30], fill=(6, 6, 10, 255))
+    draw_plank(d, sink if mode != "frozen" else 0, crack, gone)
+    draw_worker(d)
+    draw_hammer(d, ang, glow=glow if (before or mode == "frozen") else glow * (1 - q), blur=(1.0 if fast and before and p / hit > 0.5 else 0) + (0.25 if mode == "frozen" else 0))
+    if not before and mode != "frozen":
+        if mode == "sink" and q < 0.2:
+            for k in range(6):
+                an = -math.pi / 2 + (k - 2.5) * 0.4; r = 30 + 120 * q * 5
+                d.line([(NAIL_X + math.cos(an) * r * 0.5, GROUND - 216 + math.sin(an) * r * 0.5), (NAIL_X + math.cos(an) * r, GROUND - 216 + math.sin(an) * r)], fill=al(YEL, 1 - q * 5), width=5)
+        if mode == "crack":
+            r = 60 + 260 * ease(clamp(q * 1.5)); a = 1 - clamp(q * 1.5)
+            d.ellipse([NAIL_X - r, GROUND - 130 - r, NAIL_X + r, GROUND - 130 + r], outline=al(WHITE, 0.8 * a), width=10)
+            rs = np.random.RandomState(3)
+            for _ in range(14):
+                an = -math.pi * rs.rand(); sp = 200 + 500 * rs.rand(); dist = sp * clamp(q * 1.3)
+                x0 = NAIL_X + math.cos(an) * dist; y0 = GROUND - 120 + math.sin(an) * dist + 900 * clamp(q * 1.3) ** 2 * 0.4
+                d.line([(x0, y0), (x0 + 22 * math.cos(an * 3), y0 + 10)], fill=al(BROWN, 1 - clamp(q * 1.2)), width=9)
+        if mode in ("fire", "flash", "mega"):
+            R = {"fire": 300, "flash": 760, "mega": 1250}[mode] * ease(clamp(q * 2.2)); fa = 1 - clamp((q - 0.3) / 0.7) * (0.7 if mode == "fire" else 0.35)
+            fb = Image.new("RGBA", (W, H), (0, 0, 0, 0)); fd = ImageDraw.Draw(fb)
+            fd.ellipse([NAIL_X - R, GROUND - 120 - R * 0.8, NAIL_X + R, GROUND - 120 + R * 0.5], fill=al((255, 190, 90), 0.85 * fa))
+            fd.ellipse([NAIL_X - R * 0.55, GROUND - 120 - R * 0.5, NAIL_X + R * 0.55, GROUND - 120 + R * 0.3], fill=al((255, 250, 220), 0.95 * fa))
+            fb = fb.filter(ImageFilter.GaussianBlur(30)); al_ = np.array(fb); al_[GROUND - 50:, :, 3] = 0; ramp = np.clip(0.3 + 0.7 * (np.arange(H) - 300) / 400, 0.3, 1.0)[:, None]; al_[..., 3] = (al_[..., 3] * ramp).astype(np.uint8); img.alpha_composite(Image.fromarray(al_))
+            d = ImageDraw.Draw(img, "RGBA")
+            draw_worker(d); draw_hammer(d, ang)  # you and the hammer are unbreakable: still standing in the blast
+            if mode != "fire" and v.get("whiteout", True):
+                wl = 0.9 * (1 - clamp(q * 6))  # white-out flash
+                if wl > 0: d.rectangle([0, 0, W, H], fill=al(WHITE, wl))
+    if mode == "after": draw_plank(d, 1.0, 0, 1.0)
+    # readouts: real values only, never tweened
+    if v.get("speed"): bigtext(img, (540, 470), v["speed"], 64, CYAN, outline=(5, 12, 24)); d = ImageDraw.Draw(img, "RGBA")
+    if "value" in v and (not before or mode in ("frozen", "after")):
+        g = clamp(q / 0.15) if mode not in ("frozen", "after") else clamp(p / 0.15)
+        bigtext(img, (540, 1340), fmt_num(v["value"], v.get("dec", 0)) + " " + v.get("unit", ""), v.get("size", 104), YEL, a=g, scale=1 + 0.4 * (1 - ease(g)), outline=(40, 30, 0))
+    y0 = 1430 if "value" in v else 1350
+    for i, lb in enumerate(v.get("labels", [])):
+        a = clamp((p - v.get("label_at", 0.55) - i * 0.12) / 0.08)
+        if a > 0: bigtext(img, (540, y0 - (len(v["labels"]) - 1 - i) * 76), lb, 58, WHITE if i else YEL, a=a)
+
+
+SCENES["hammer"] = sc_hammer
+
 # ============================================================ facts + check
 WORDNUM = {"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
            "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14, "fifteen": 15, "sixteen": 16, "seventeen": 17, "eighteen": 18,
@@ -329,7 +480,8 @@ def vis_texts(v):
     for r in v.get("rows", []):
         out += [r.get("label", ""), r.get("text", "")]
         if "value" in r: out.append(fmt_num(r["value"], r.get("dec", 0)))
-    if "value" in v: out.append(fmt_num(v["value"]))
+    if "value" in v: out.append(fmt_num(v["value"], v.get("dec", 0)))
+    if v.get("speed"): out.append(v["speed"])
     return out
 
 
