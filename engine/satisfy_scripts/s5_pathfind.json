@@ -1,0 +1,137 @@
+{
+ "id": "s5_pathfind",
+ "kind": "pathfind",
+ "style": "algorithm",
+ "seed": 11,
+ "params": {
+  "cols": 39,
+  "rows": 37,
+  "loops": 0.12
+ },
+ "constants": [
+  1968
+ ],
+ "beats": [
+  {
+   "hook": [
+    "687 SQUARES.",
+    "OR 94.",
+    "SAME MAZE."
+   ],
+   "say": "Six hundred and eighty seven squares, or ninety four. Same maze, same exit. Watch.",
+   "key": [
+    "ninety",
+    "watch."
+   ],
+   "vis": {
+    "algo": "bfs"
+   }
+  },
+  {
+   "head": [
+    "METHOD 1:",
+    "CHECK EVERYTHING."
+   ],
+   "chip": "BREADTH FIRST SEARCH",
+   "say": "The first method is breadth first search. It spreads out one step at a time, in every direction, like water.",
+   "key": [
+    "every",
+    "water."
+   ]
+  },
+  {
+   "head": [
+    "687 SQUARES",
+    "CHECKED."
+   ],
+   "say": "It finds the exit, but only after checking six hundred and eighty seven of the seven hundred and forty open squares. That is ninety three percent of the maze.",
+   "key": [
+    "eighty",
+    "ninety"
+   ]
+  },
+  {
+   "head": [
+    "METHOD 2:",
+    "A STAR."
+   ],
+   "chip": "STEPS TAKEN + GUESS LEFT",
+   "say": "Method two is called A star. Before every step, it adds the steps it has already taken to a guess of how far the exit still is.",
+   "key": [
+    "guess"
+   ],
+   "vis": {
+    "algo": "astar"
+   }
+  },
+  {
+   "head": [
+    "94 SQUARES.",
+    "SAME PATH."
+   ],
+   "say": "It checks just ninety four squares, and finds the exact same seventy eight step path.",
+   "key": [
+    "ninety",
+    "same"
+   ]
+  },
+  {
+   "head": [
+    "THE GUESS",
+    "NEVER LIES HIGH."
+   ],
+   "say": "The guess is the distance if there were no walls, so it can never overestimate. That is why A star still finds the shortest route.",
+   "key": [
+    "never",
+    "shortest"
+   ],
+   "vis": {
+    "algo": "astar",
+    "animate": false
+   }
+  },
+  {
+   "head": [
+    "593 FEWER",
+    "SQUARES."
+   ],
+   "chip": "14% OF THE WORK",
+   "say": "Five hundred and ninety three fewer squares checked. Fourteen percent of the work, same answer.",
+   "key": [
+    "fourteen",
+    "answer."
+   ]
+  },
+  {
+   "head": [
+    "BUILT IN 1968",
+    "FOR A ROBOT."
+   ],
+   "say": "It was published in 1968, to help a robot called Shakey plan its way around obstacles.",
+   "speak": "It was published in the late sixties, to help a robot called Shaky plan its way around obstacles.",
+   "key": [
+    "robot",
+    "shakey"
+   ]
+  },
+  {
+   "say": "Follow Ship With Pip for more.",
+   "nocap": true
+  }
+ ],
+ "title": "687 squares or 94: same maze, same exit, two algorithms",
+ "caption": "Same maze, same exit, two algorithms. Breadth first search spreads out one step at a time in every direction and checks 687 of the 740 open squares (93%) before it finds the exit. A* adds the steps taken so far to a guess of the distance left (here the distance ignoring walls, which can never overestimate), so it checks only 94 squares and still finds the exact same 78 step shortest path. That is 593 fewer squares, 14% of the work. A* was published in 1968 by Hart, Nilsson and Raphael, first proposed to plan how Shakey the Robot could move through a room with obstacles. Every square here is computed by the real algorithms on a seeded maze.",
+ "hashtags": [
+  "algorithm",
+  "coding",
+  "computerscience",
+  "pathfinding",
+  "oddlysatisfying",
+  "shipwithpip"
+ ],
+ "sources": [
+  "https://cacm.acm.org/opinion/a-search",
+  "https://brilliant.org/wiki/a-search/"
+ ],
+ "notes": "Seed 11, 39x37 maze, loops 0.12. Stats: open_cells 740, bfs_explored 687, astar_explored 94, path_len 78 (both), saved 593, astar_pct_of_bfs 14, bfs_pct_of_open 93. BFS here is the engine's search with h = 0 and FIFO tie order (unit cost grid), A* uses Manhattan distance. CACM: A* originally published in 1968 by Hart, Nilsson and Raphael; Raphael recalls Nilsson proposed it to show how Shakey the Robot could plan its route through a room containing obstacles. Brilliant: admissible heuristic can never overestimate; Manhattan distance ignores obstacles; h = 0 gives Dijkstra, guaranteed shortest path."
+}

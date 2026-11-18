@@ -332,6 +332,7 @@ LEX_ADD = {  # words the Kokoro US lexicon is missing (it silently skips them ot
     "fibonacci": "f ˌ ɪ b ə n ˈ ɑ ʧ i",
     "kilometres": "k ə l ˈ ɑ m ə ɾ ə ɹ z", "depends": "d ə p ˈ ɛ n d z", "milliseconds": "m ˈ ɪ l ə s ˌ ɛ k ə n d z",
     "hiroshimas": "h ˌ ɪ ɹ O ʃ ˈ i m ə z", "researchers": "ɹ ə s ˈ ɜ ɹ ʧ ə ɹ z",
+    "obstacles": "ˈ ɑ b z t ə k ᵊ l z", "sixties": "s ˈ ɪ k s t i z",
 }
 
 
