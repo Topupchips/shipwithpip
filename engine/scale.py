@@ -333,6 +333,8 @@ LEX_ADD = {  # words the Kokoro US lexicon is missing (it silently skips them ot
     "kilometres": "k ə l ˈ ɑ m ə ɾ ə ɹ z", "depends": "d ə p ˈ ɛ n d z", "milliseconds": "m ˈ ɪ l ə s ˌ ɛ k ə n d z",
     "hiroshimas": "h ˌ ɪ ɹ O ʃ ˈ i m ə z", "researchers": "ɹ ə s ˈ ɜ ɹ ʧ ə ɹ z",
     "obstacles": "ˈ ɑ b z t ə k ᵊ l z", "sixties": "s ˈ ɪ k s t i z",
+    "milligrams": "m ˈ ɪ l ə ɡ ɹ ˌ æ m z", "carries": "k ˈ ɛ ɹ i z", "millimetres": "m ˈ ɪ l ə m ˌ i ɾ ə ɹ z",
+    "megatons": "m ˈ ɛ ɡ ə t ˌ ʌ n z", "harvey": "h ˈ ɑ ɹ v i",
 }
 
 

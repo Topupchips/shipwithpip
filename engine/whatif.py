@@ -423,6 +423,147 @@ def sc_hammer(img, d, v, p, t, ctx):
 
 SCENES["hammer"] = sc_hammer
 
+
+# ============================================================ rain chain (Nov 18 2026, Ansh: "highly animated like the hammer one, a completely different topic")
+RAIN_BLUE = (120, 190, 255); UMB = (232, 60, 80); UMB_D = (150, 30, 50); CLOUD = (52, 58, 82); CLOUD_D = (36, 40, 60)
+PX = 540; CANOPY_Y = GROUND - 60 - 330; CANOPY_R = 160; ROOF_X0, ROOF_X1 = 330, 750
+
+
+def draw_cloud(d, y=470, dark=0.0, t=0.0):
+    rs = np.random.RandomState(11)
+    for k in range(16):
+        cx = -60 + k * 80 + 18 * math.sin(t * 0.6 + k); r = 80 + rs.randint(0, 70); cy = y + rs.randint(-30, 30)
+        c = tuple(int(CLOUD[i] * (1 - 0.35 * dark)) for i in range(3))
+        d.ellipse([cx - r, cy - r * 0.7, cx + r, cy + r * 0.7], fill=c + (255,))
+    for k in range(10):
+        cx = -20 + k * 120; r = 70 + rs.randint(0, 40)
+        d.ellipse([cx - r, y + 10, cx + r, y + 10 + r * 0.9], fill=CLOUD_D + (255,))
+
+
+def canopy_y(x):
+    dx = (x - PX) / CANOPY_R
+    return None if abs(dx) >= 1 else CANOPY_Y + 6 - CANOPY_R * 0.62 * math.sqrt(1 - dx * dx)
+
+
+def draw_umbrella(d, dmg=0.0, t=0.0):
+    """dmg 0..1: holes, then the canopy shreds away panel by panel (8 panels)."""
+    hx, hy = PX + 34, GROUND - 60 - 175
+    d.line([(PX + 34, CANOPY_Y), (hx, hy + 30)], fill=al((210, 210, 220), 1), width=7)
+    d.arc([hx - 22, hy + 14, hx + 2, hy + 44], 0, 180, fill=al((210, 210, 220), 1), width=6)
+    n = 8; rs = np.random.RandomState(5); order = rs.permutation(n)
+    for i in range(n):
+        lost = clamp((dmg - 0.35 - 0.08 * list(order).index(i)) / 0.12)
+        if lost >= 1: continue
+        x0 = PX - CANOPY_R + 2 * CANOPY_R * i / n; x1 = PX - CANOPY_R + 2 * CANOPY_R * (i + 1) / n
+        pts = [(x0 + (x1 - x0) * u / 6, canopy_y(x0 + (x1 - x0) * u / 6 + (0.5 if u == 0 else -0.5 if u == 6 else 0)) or CANOPY_Y) for u in range(7)]
+        sag = 30 * lost
+        pts = [(x, y + sag) for x, y in pts] + [(x1 - 4, CANOPY_Y + 6 + sag), (x0 + 4, CANOPY_Y + 6 + sag)]
+        d.polygon(pts, fill=al(UMB if i % 2 else UMB_D, 1 - lost))
+    for k in range(int(40 * clamp(dmg / 0.35))):  # holes punched through
+        x = PX - CANOPY_R * 0.9 + rs.rand() * CANOPY_R * 1.8; y = (canopy_y(x) or CANOPY_Y) + 8 + rs.rand() * 30
+        d.ellipse([x - 5, y - 5, x + 5, y + 5], fill=TH["bg"] + (255,))
+    if dmg > 0.35:  # scraps flying off
+        for k in range(10):
+            ph = (t * 1.3 + k * 0.37) % 1.0; ang = -math.pi * (0.15 + 0.7 * rs.rand())
+            x = PX + math.cos(ang) * (CANOPY_R + 420 * ph); y = CANOPY_Y + math.sin(ang) * 220 * ph + 500 * ph * ph
+            d.polygon([(x, y), (x + 22, y + 6), (x + 8, y + 20)], fill=al(UMB, 1 - ph))
+
+
+def draw_house(d, dmg=0.0, t=0.0):
+    wall_top = GROUND - 330; apex = GROUND - 520 + 190 * ease(clamp((dmg - 0.6) / 0.3))
+    d.rectangle([ROOF_X0 + 30, wall_top, ROOF_X1 - 30, GROUND - 60], fill=(70, 78, 112, 255))
+    d.rectangle([PX - 45, GROUND - 200, PX + 45, GROUND - 60], fill=(40, 44, 66, 255))
+    for wx in (ROOF_X0 + 75, ROOF_X1 - 145): d.rectangle([wx, wall_top + 60, wx + 70, wall_top + 130], fill=al(YEL, 0.55 * (1 - dmg)))
+    d.polygon([(ROOF_X0, wall_top + 4), (PX, apex), (ROOF_X1, wall_top + 4)], fill=(150, 70, 60, 255))
+    rs = np.random.RandomState(9)
+    for k in range(int(70 * clamp(dmg / 0.6))):
+        u = rs.rand(); x = ROOF_X0 + 40 + u * (ROOF_X1 - ROOF_X0 - 80); top = apex + (wall_top - apex) * abs(x - PX) / (PX - ROOF_X0)
+        y = top + 12 + rs.rand() * (wall_top - top - 20); r = 5 + rs.rand() * 9
+        d.ellipse([x - r, y - r, x + r, y + r], fill=(14, 14, 22, 255))
+
+
+def draw_rain(d, t, fast, n=110, umbrella=True, roof=False, ytop=560):
+    """Drops fall straight down; they stop on the umbrella canopy, the roof, or the ground, where they splash."""
+    rs = np.random.RandomState(21); spd = 3600 if fast else 900; ln = 150 if fast else 34
+    for k in range(n):
+        x = rs.rand() * W; ph = rs.rand(); span = GROUND - 60 - ytop
+        stop = GROUND - 60
+        if umbrella and canopy_y(x) is not None: stop = canopy_y(x)
+        if roof and ROOF_X0 < x < ROOF_X1: stop = GROUND - 330 - (190 * (1 - abs(x - PX) / (PX - ROOF_X0)))
+        y = ytop + ((ph * span + t * spd) % span)
+        if y > stop: continue
+        y0 = max(ytop, y - ln)
+        d.line([(x, y0), (x, y)], fill=al(RAIN_BLUE if not fast else (200, 230, 255), 0.75), width=3 if not fast else 4)
+    rs2 = np.random.RandomState(int(t * 30) + 7)  # splashes this frame
+    for k in range(26 if fast else 10):
+        x = rs2.rand() * W; y = GROUND - 60
+        if umbrella and canopy_y(x) is not None: y = canopy_y(x)
+        if roof and ROOF_X0 < x < ROOF_X1: y = GROUND - 330 - (190 * (1 - abs(x - PX) / (PX - ROOF_X0)))
+        if fast:
+            for j in range(5):
+                an = -math.pi * (0.1 + 0.8 * j / 4); r = 16 + rs2.rand() * 26
+                d.line([(x, y), (x + math.cos(an) * r, y + math.sin(an) * r)], fill=al((255, 240, 200), 0.9), width=3)
+            d.ellipse([x - 7, y - 7, x + 7, y + 7], fill=al(WHITE, 0.9))
+        else:
+            d.arc([x - 14, y - 10, x + 14, y + 6], 200, 340, fill=al(RAIN_BLUE, 0.8), width=3)
+
+
+def sc_rain(img, d, v, p, t, ctx):
+    mode = v.get("mode", "real"); hit = v.get("hit", 0.2); q = clamp((p - hit) / (1 - hit)) if p >= hit else 0.0
+    fast = mode in ("fast", "shred", "roof", "storm")
+    if v.get("town") or mode == "storm":
+        wave = 1400 * ease(clamp(q / 0.85)) if mode == "storm" else None
+        draw_town(d, wave, glow=0.0)
+    d.rectangle([0, GROUND - 60, W, H], fill=(16, 18, 32, 255)); d.line([(0, GROUND - 60), (W, GROUND - 60)], fill=al(RAIN_BLUE, 0.5), width=4)
+    if mode == "fall":  # one drop, 12 km column, free fall (y grows with time squared), no air to stop it
+        top, bot = 600, GROUND - 60; x = 600
+        draw_cloud(d, y=470, t=t)
+        d.line([(170, top), (170, bot)], fill=al(TH["muted"], 0.8), width=4)
+        for y in (top, bot): d.line([(150, y), (190, y)], fill=al(TH["muted"], 0.8), width=4)
+        if v.get("axis"): bigtext(img, (170, (top + bot) / 2), v["axis"], 50, WHITE, angle=90, outline=(5, 12, 24)); d = ImageDraw.Draw(img, "RGBA")
+        u = clamp(p / 0.75); y = top + (bot - top) * u * u
+        for k in range(14):  # trail: where the drop was in the last moments
+            u2 = max(0.0, u - k * 0.012); y2 = top + (bot - top) * u2 * u2
+            d.ellipse([x - 12 + k * 0.6, y2 - 12, x + 12 - k * 0.6, y2 + 12], fill=al(RAIN_BLUE, 0.5 * (1 - k / 14)))
+        if u < 1:
+            d.polygon([(x, y - 34), (x - 16, y), (x + 16, y)], fill=al((200, 235, 255), 1)); d.ellipse([x - 16, y - 16, x + 16, y + 16], fill=al((200, 235, 255), 1))
+        else:
+            qq = clamp((p - 0.75) / 0.25); r = 30 + 380 * ease(qq)
+            d.ellipse([x - r, bot - r * 0.35, x + r, bot + r * 0.35], outline=al(WHITE, 1 - qq), width=8)
+            for j in range(9):
+                an = -math.pi * (0.08 + 0.84 * j / 8); rr = 40 + 200 * ease(qq)
+                d.line([(x, bot), (x + math.cos(an) * rr, bot + math.sin(an) * rr)], fill=al((255, 240, 200), 1 - qq), width=5)
+        person(d, 820, GROUND - 60, 62, 0.0)
+    else:
+        draw_cloud(d, y=470, dark=1.0 if fast else 0.0, t=t)
+        if fast:  # lightning-white flicker on impact
+            fl = 0.22 * clamp(1 - (t % 2.7) / 0.12)  # one brief flash every 2.7 s
+            if fl > 0.01: img.alpha_composite(Image.new("RGBA", (W, H), al(WHITE, fl))); d = ImageDraw.Draw(img, "RGBA")
+        if mode == "roof":
+            draw_house(d, dmg=q, t=t); draw_rain(d, t, True, umbrella=False, roof=True)
+        elif mode == "storm":
+            draw_rain(d, t, True, n=170, umbrella=False)
+            dust = Image.new("RGBA", (W, H), (0, 0, 0, 0)); dd = ImageDraw.Draw(dust); a = 0.55 * ease(clamp(q / 0.6))
+            dd.ellipse([-300, GROUND - 420, W + 300, GROUND + 100], fill=al((150, 120, 90), a)); img.alpha_composite(dust.filter(ImageFilter.GaussianBlur(60)))
+            d = ImageDraw.Draw(img, "RGBA")
+        else:
+            dmg = 0.0
+            if mode == "shred": dmg = ease(clamp(q / 0.8))
+            person(d, PX, GROUND - 60, 74, 0.0)
+            draw_umbrella(d, dmg=dmg, t=t); draw_rain(d, t, fast)
+    if v.get("speed"): bigtext(img, (540, 590), v["speed"], 64, CYAN, outline=(5, 12, 24)); d = ImageDraw.Draw(img, "RGBA")
+    show = p >= (0.75 if mode == "fall" else hit)
+    if "value" in v and show:
+        g = clamp((p - (0.75 if mode == "fall" else hit)) / 0.12)
+        bigtext(img, (540, 1340), fmt_num(v["value"], v.get("dec", 0)) + " " + v.get("unit", ""), v.get("size", 104), YEL, a=g, scale=1 + 0.4 * (1 - ease(g)), outline=(40, 30, 0))
+    y0 = 1430 if "value" in v else 1350
+    for i, lb in enumerate(v.get("labels", [])):
+        a = clamp((p - v.get("label_at", 0.55) - i * 0.12) / 0.08)
+        if a > 0: bigtext(img, (540, y0 - (len(v["labels"]) - 1 - i) * 76), lb, 58, WHITE if i else YEL, a=a)
+
+
+SCENES["rain"] = sc_rain
+
 # ============================================================ facts + check
 WORDNUM = {"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
            "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14, "fifteen": 15, "sixteen": 16, "seventeen": 17, "eighteen": 18,
@@ -482,6 +623,7 @@ def vis_texts(v):
         if "value" in r: out.append(fmt_num(r["value"], r.get("dec", 0)))
     if "value" in v: out.append(fmt_num(v["value"], v.get("dec", 0)))
     if v.get("speed"): out.append(v["speed"])
+    if v.get("axis"): out.append(v["axis"])
     return out
 
 

@@ -1,0 +1,304 @@
+{
+ "id": "w4_rain_no_air",
+ "title": "If air stopped slowing rain, every drop would hit at 1,746 km/h",
+ "inputs": {
+  "drop_d_in": 0.25,
+  "v_real_ms": 10,
+  "storm_top_km": 12,
+  "g": 9.80665,
+  "sound_ms": 343,
+  "heavy_in_hr": 0.3,
+  "inch_m": 0.0254,
+  "gal_m3": 0.003785412,
+  "harvey_gal": 1000000000000.0,
+  "harvey_days": 4,
+  "ton_tnt_J": 4184000000,
+  "hiroshima_tons": 15000
+ },
+ "calc": [
+  [
+   "h_m",
+   "storm_top_km * 1000"
+  ],
+  [
+   "v_ms",
+   "math.sqrt(2 * g * h_m)"
+  ],
+  [
+   "v_kmh",
+   "v_ms * 3.6"
+  ],
+  [
+   "real_kmh",
+   "v_real_ms * 3.6"
+  ],
+  [
+   "x_sound",
+   "v_ms / sound_ms"
+  ],
+  [
+   "drop_r_m",
+   "drop_d_in * inch_m / 2"
+  ],
+  [
+   "drop_kg",
+   "4 / 3 * math.pi * drop_r_m ** 3 * 1000"
+  ],
+  [
+   "drop_mg",
+   "drop_kg * 1e6"
+  ],
+  [
+   "ke_real_J",
+   "0.5 * drop_kg * v_real_ms ** 2"
+  ],
+  [
+   "ke_fast_J",
+   "0.5 * drop_kg * v_ms ** 2"
+  ],
+  [
+   "ke_ratio",
+   "ke_fast_J / ke_real_J"
+  ],
+  [
+   "heavy_mm_hr",
+   "heavy_in_hr * inch_m * 1000"
+  ],
+  [
+   "roof_kg_hr",
+   "heavy_mm_hr / 1000 * 100 * 1000"
+  ],
+  [
+   "roof_J_hr",
+   "roof_kg_hr * g * h_m"
+  ],
+  [
+   "roof_tnt_kg",
+   "roof_J_hr / (ton_tnt_J / 1000)"
+  ],
+  [
+   "harvey_kg",
+   "harvey_gal * gal_m3 * 1000"
+  ],
+  [
+   "harvey_J",
+   "harvey_kg * g * h_m"
+  ],
+  [
+   "harvey_Mt",
+   "harvey_J / ton_tnt_J / 1e6"
+  ],
+  [
+   "harvey_hiro",
+   "harvey_J / ton_tnt_J / hiroshima_tons"
+  ],
+  [
+   "air_pct",
+   "100 * (1 - ke_real_J / ke_fast_J)"
+  ]
+ ],
+ "constants": [
+  100
+ ],
+ "beats": [
+  {
+   "hook": [
+    "RAIN, NO AIR.",
+    "EVERY DROP:",
+    "1,746 KM/H"
+   ],
+   "say": "If air stopped slowing rain down, every single drop would hit you at 1,746 kilometres an hour.",
+   "speak": "If air stopped slowing rain down, every single drop would hit you at one thousand seven hundred and forty six kilometres an hour.",
+   "key": [
+    "every",
+    "1,746"
+   ],
+   "vis": {
+    "scene": "rain",
+    "mode": "shred",
+    "hit": 0.12,
+    "town": true
+   }
+  },
+  {
+   "head": [
+    "REAL RAIN",
+    "IS GENTLE."
+   ],
+   "say": "Real rain is gentle. Even the biggest drops, a quarter inch across, land at about 10 metres per second. Your umbrella does fine.",
+   "speak": "Real rain is gentle. Even the biggest drops, a quarter inch across, land at about ten metres per second. Your umbrella does fine.",
+   "key": [
+    "gentle.",
+    "10",
+    "fine."
+   ],
+   "vis": {
+    "scene": "rain",
+    "mode": "real",
+    "town": true,
+    "speed": "10 M/S",
+    "value": 36,
+    "unit": "KM/H",
+    "hit": 0.45
+   }
+  },
+  {
+   "head": [
+    "NOW SWITCH",
+    "OFF AIR DRAG."
+   ],
+   "say": "Now switch off air drag, and drop it from the top of a thunderstorm, 12 kilometres up. Nothing slows it down.",
+   "speak": "Now switch off air drag, and drop it from the top of a thunderstorm, twelve kilometres up. Nothing slows it down.",
+   "key": [
+    "off",
+    "12",
+    "nothing"
+   ],
+   "vis": {
+    "scene": "rain",
+    "mode": "fall",
+    "axis": "12 KM",
+    "value": 485,
+    "unit": "M/S"
+   }
+  },
+  {
+   "head": [
+    "485 M/S.",
+    "FASTER THAN SOUND."
+   ],
+   "say": "It lands at 485 metres per second. 1.41 times the speed of sound. And so does every drop behind it.",
+   "speak": "It lands at four hundred and eighty five metres per second. One point four one times the speed of sound. And so does every drop behind it.",
+   "key": [
+    "485",
+    "sound.",
+    "every"
+   ],
+   "vis": {
+    "scene": "rain",
+    "mode": "fast",
+    "town": true,
+    "speed": "1,746 KM/H",
+    "hit": 0.0
+   }
+  },
+  {
+   "head": [
+    "ONE DROP NOW HITS",
+    "2,354X HARDER."
+   ],
+   "say": "One 134 milligram drop now carries 15.78 joules. That's 2,354 times the energy of real rain. Your umbrella is gone.",
+   "speak": "One drop, a hundred and thirty four milligrams, now carries fifteen point seven eight joules. That's two thousand three hundred and fifty four times the energy of real rain. Your umbrella is gone.",
+   "key": [
+    "15.78",
+    "2,354",
+    "gone."
+   ],
+   "vis": {
+    "scene": "rain",
+    "mode": "shred",
+    "hit": 0.15,
+    "town": true,
+    "value": 15.78,
+    "dec": 2,
+    "unit": "JOULES"
+   }
+  },
+  {
+   "head": [
+    "HEAVY RAIN",
+    "ON YOUR ROOF."
+   ],
+   "say": "Heavy rain starts at 7.6 millimetres an hour. On a 100 square metre roof, that's the energy of 21.4 kilograms of TNT, every hour.",
+   "speak": "Heavy rain starts at seven point six millimetres an hour. On a one hundred square metre roof, that's the energy of twenty one point four kilograms of T N T, every hour.",
+   "key": [
+    "7.6",
+    "21.4",
+    "hour."
+   ],
+   "vis": {
+    "scene": "rain",
+    "mode": "roof",
+    "hit": 0.1,
+    "town": true,
+    "value": 21.4,
+    "dec": 1,
+    "unit": "KG TNT / HOUR"
+   }
+  },
+  {
+   "head": [
+    "NOW A",
+    "HURRICANE."
+   ],
+   "stamp": {
+    "text": "7,098 HIROSHIMAS",
+    "at": 0.72,
+    "x": 540,
+    "y": 640,
+    "size": 84,
+    "angle": 8
+   },
+   "say": "Hurricane Harvey dropped 1 trillion gallons on one Texas county in 4 days. With no air, that rain hits with 106.5 megatons. 7,098 Hiroshimas.",
+   "speak": "Hurricane Harvey dropped one trillion gallons on one Texas county in four days. With no air, that rain hits with a hundred and six point five megatons. Seven thousand and ninety eight Hiroshimas.",
+   "key": [
+    "trillion",
+    "106.5",
+    "7,098"
+   ],
+   "vis": {
+    "scene": "rain",
+    "mode": "storm",
+    "hit": 0.1,
+    "value": 106.5,
+    "dec": 1,
+    "unit": "MEGATONS"
+   }
+  },
+  {
+   "head": [
+    "SO WHY ARE",
+    "YOU STILL DRY?"
+   ],
+   "say": "Back to reality. On the way down, air takes 99.96% of every big drop's energy. That's the only reason rain feels like rain.",
+   "speak": "Back to reality. On the way down, air takes ninety nine point nine six percent of the energy of every big drop. That's the only reason rain feels like rain.",
+   "key": [
+    "99.96%",
+    "only"
+   ],
+   "vis": {
+    "scene": "rain",
+    "mode": "real",
+    "town": true,
+    "value": 99.96,
+    "dec": 2,
+    "unit": "% TO AIR",
+    "hit": 0.4
+   }
+  },
+  {
+   "say": "Follow Ship With Pip for more.",
+   "nocap": true
+  }
+ ],
+ "caption": "What if air stopped slowing rain down? Real raindrops top out at about a quarter inch across and land at about 10 m/s (36 km/h). Switch off air drag and drop one from the top of a thunderstorm, 12 km up, and it lands at 485 m/s, or 1,746 km/h: 1.41 times the speed of sound. A 134 mg drop then carries 15.78 joules, 2,354 times the energy of real rain. Heavy rain (7.6 mm an hour) on a 100 square metre roof would hit with the energy of 21.4 kg of TNT every hour. And the 1 trillion gallons Hurricane Harvey dropped on Harris County, Texas in 4 days would hit with 106.5 megatons, 7,098 Hiroshimas. In reality, air takes 99.96% of a big drop's energy on the way down. With no drag, all the energy of the fall turns into speed.",
+ "hashtags": [
+  "physics",
+  "whatif",
+  "rain",
+  "science",
+  "weather",
+  "shipwithpip"
+ ],
+ "sources": [
+  "https://gpm.nasa.gov/resources/faq/how-fast-do-raindrops-fall",
+  "https://wxguys.ssec.wisc.edu/2018/07/16/raindrop-speed",
+  "https://www.weather.gov/spotterguide/life",
+  "https://www.noaa.gov/jetstream/appendix/weather-glossary-r",
+  "https://www.climate.gov/news-features/event-tracker/reviewing-hurricane-harveys-catastrophic-rain-and-flooding",
+  "https://www.osti.gov/opennet/manhattan-project-history/Events/1945/hiroshima.htm",
+  "https://www.nist.gov/node/777661",
+  "https://hypertextbook.com/facts/2000/CheukWong.shtml"
+ ],
+ "notes": "NASA GPM: max terminal speed about 10 m/s for the largest drops. UW-Madison SSEC (wxguys): no raindrop bigger than about a quarter inch; a quarter inch drop falls at about 10 m/s; larger drops break apart. NWS spotter guide: mature thunderstorms often reach 40,000 to 60,000 ft (12 to 18 km); we use the low end, 12 km, as the hypothetical drop height. NOAA JetStream glossary: heavy rain is over 0.30 in/hr (over 7.6 mm/hr). climate.gov (Harris County Flood Control District estimate): one trillion gallons fell in Harris County in four days. OSTI: Hiroshima yield 15 kilotons (15,000 tons of TNT). NIST: g = 9.80665 m/s2 (exact), gallon = 3.785412e-3 m3, ton of TNT = 4.184e9 J (exact), inch = 0.0254 m (exact). Physics Factbook: sound 343 m/s at sea level, 20 C. Constants: water density 1000 kg/m3 (1 litre of water is about 1 kg, used in drop_kg, roof_kg_hr, harvey_kg); roof area 100 m2 is a chosen example size, stated on screen. With no drag, all potential energy m*g*h becomes kinetic, v = sqrt(2gh). The Harvey energy assumes all of that rain fell the full 12 km with no air, a hypothetical. Real rain energy uses the 10 m/s terminal speed of the largest drops."
+}
