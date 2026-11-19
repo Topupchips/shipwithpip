@@ -1,0 +1,294 @@
+{
+ "id": "w5_jump_worlds",
+ "title": "Jump on this moon of Mars and you fly 2,865 metres up",
+ "inputs": {
+  "jump_m": 0.5,
+  "g": 9.80665,
+  "GM_moon": 4900000000000.0,
+  "R_moon": 1737400,
+  "GM_pluto": 870000000000.0,
+  "R_pluto": 1188000,
+  "GM_phobos": 708700,
+  "R_phobos": 11080,
+  "GM_deimos": 96200,
+  "R_deimos": 6200,
+  "esc_67p": 0.5,
+  "philae_cm_s": 38,
+  "philae_km": 1,
+  "philae_hr": 1,
+  "philae_min": 50,
+  "burj_m": 828
+ },
+ "calc": [
+  [
+   "v0",
+   "math.sqrt(2 * g * jump_m)"
+  ],
+  [
+   "hang_earth",
+   "2 * v0 / g"
+  ],
+  [
+   "g_moon",
+   "GM_moon / R_moon ** 2"
+  ],
+  [
+   "h_moon",
+   "1 / (1 / R_moon - v0 ** 2 / (2 * GM_moon)) - R_moon"
+  ],
+  [
+   "hang_moon",
+   "2 * v0 / g_moon"
+  ],
+  [
+   "g_pluto",
+   "GM_pluto / R_pluto ** 2"
+  ],
+  [
+   "h_pluto",
+   "1 / (1 / R_pluto - v0 ** 2 / (2 * GM_pluto)) - R_pluto"
+  ],
+  [
+   "hang_pluto",
+   "2 * v0 / g_pluto"
+  ],
+  [
+   "h_phobos",
+   "1 / (1 / R_phobos - v0 ** 2 / (2 * GM_phobos)) - R_phobos"
+  ],
+  [
+   "h_deimos",
+   "1 / (1 / R_deimos - v0 ** 2 / (2 * GM_deimos)) - R_deimos"
+  ],
+  [
+   "x_deimos",
+   "h_deimos / jump_m"
+  ],
+  [
+   "esc_deimos",
+   "math.sqrt(2 * GM_deimos / R_deimos)"
+  ],
+  [
+   "x_67p",
+   "v0 / esc_67p"
+  ]
+ ],
+ "constants": [
+  2014,
+  67
+ ],
+ "beats": [
+  {
+   "hook": [
+    "SAME JUMP.",
+    "ON A MOON OF MARS:",
+    "2,865 M UP"
+   ],
+   "say": "The jump that lifts you half a metre on Earth would launch you 2,865 metres up on Deimos, a tiny moon of Mars.",
+   "speak": "The jump that lifts you half a metre on Earth would launch you two thousand eight hundred and sixty five metres up on Deimos, a tiny moon of Mars.",
+   "key": [
+    "half",
+    "2,865",
+    "Deimos,"
+   ],
+   "vis": {
+    "scene": "jump",
+    "world": "deimos",
+    "h": 2864.5,
+    "R": 6200,
+    "value": 2865,
+    "unit": "M",
+    "value_at": 0.45
+   }
+  },
+  {
+   "head": [
+    "ON EARTH:",
+    "HALF A METRE."
+   ],
+   "say": "On Earth, a good jump is half a metre. You leave the ground at 3.13 metres per second, and you're back down in 0.64 seconds.",
+   "speak": "On Earth, a good jump is half a metre. You leave the ground at three point one three metres per second, and you're back down in zero point six four seconds.",
+   "key": [
+    "half",
+    "3.13",
+    "0.64"
+   ],
+   "vis": {
+    "scene": "jump",
+    "world": "earth",
+    "h": 0.5,
+    "R": 6371000,
+    "value": 0.64,
+    "dec": 2,
+    "unit": "S IN THE AIR",
+    "size": 90,
+    "value_at": 0.86
+   }
+  },
+  {
+   "head": [
+    "SAME LEGS.",
+    "THE MOON."
+   ],
+   "say": "Same legs, same take-off speed, on the Moon: 3.02 metres up, and 3.86 seconds in the air.",
+   "speak": "Same legs, same take-off speed, on the Moon: three point zero two metres up, and three point eight six seconds in the air.",
+   "key": [
+    "same",
+    "3.02",
+    "3.86"
+   ],
+   "vis": {
+    "scene": "jump",
+    "world": "moon",
+    "h": 3.02,
+    "R": 1737400,
+    "value": 3.02,
+    "dec": 2,
+    "unit": "M"
+   }
+  },
+  {
+   "head": [
+    "NOW",
+    "PLUTO."
+   ],
+   "say": "Pluto: 7.95 metres. You hang there for 10.16 seconds.",
+   "speak": "Pluto: seven point nine five metres. You hang there for ten point one six seconds.",
+   "key": [
+    "7.95",
+    "10.16"
+   ],
+   "vis": {
+    "scene": "jump",
+    "world": "pluto",
+    "h": 7.95,
+    "R": 1188000,
+    "value": 7.95,
+    "dec": 2,
+    "unit": "M"
+   }
+  },
+  {
+   "head": [
+    "PHOBOS,",
+    "A MOON OF MARS."
+   ],
+   "say": "Phobos, a moon of Mars: 920 metres. Taller than the Burj Khalifa, 828 metres, in one jump.",
+   "speak": "Phobos, a moon of Mars: nine hundred and twenty metres. Taller than the Burj Khalifa, eight hundred and twenty eight metres, in one jump.",
+   "key": [
+    "920",
+    "Burj"
+   ],
+   "vis": {
+    "scene": "jump",
+    "world": "phobos",
+    "h": 919.9,
+    "R": 11080,
+    "value": 920,
+    "unit": "M"
+   }
+  },
+  {
+   "head": [
+    "DEIMOS:",
+    "EVEN SMALLER."
+   ],
+   "stamp": {
+    "text": "5,729X HIGHER",
+    "at": 0.62,
+    "x": 560,
+    "y": 600,
+    "size": 84,
+    "angle": 8
+   },
+   "say": "Deimos is even smaller. 2,865 metres. That's 5,729 times higher than the same jump on Earth.",
+   "speak": "Deimos is even smaller. Two thousand eight hundred and sixty five metres. That's five thousand seven hundred and twenty nine times higher than the same jump on Earth.",
+   "key": [
+    "2,865",
+    "5,729"
+   ],
+   "vis": {
+    "scene": "jump",
+    "world": "deimos",
+    "h": 2864.5,
+    "R": 6200,
+    "value": 2865,
+    "unit": "M"
+   }
+  },
+  {
+   "head": [
+    "COMET 67P:",
+    "YOU NEVER LAND."
+   ],
+   "stamp": {
+    "text": "GONE",
+    "at": 0.7,
+    "x": 540,
+    "y": 640,
+    "size": 110,
+    "angle": -8
+   },
+   "say": "Now comet 67P. To escape it, you only need 0.5 metres per second. Your jump is 6.26 times faster than that. You never come back down.",
+   "speak": "Now comet sixty seven P. To escape it, you only need zero point five metres per second. Your jump is six point two six times faster than that. You never come back down.",
+   "key": [
+    "0.5",
+    "6.26",
+    "never"
+   ],
+   "vis": {
+    "scene": "jump",
+    "mode": "escape",
+    "world": "comet",
+    "h": 1,
+    "R": 2000
+   }
+  },
+  {
+   "head": [
+    "THIS REALLY",
+    "HAPPENED."
+   ],
+   "say": "In 2014, the Philae lander touched down on 67P, bounced off at 38 centimetres per second, and drifted about 1 kilometre before landing again, 1 hour 50 minutes later.",
+   "speak": "In two thousand and fourteen, the Philae lander touched down on sixty seven P, bounced off at thirty eight centimetres per second, and drifted about one kilometre before landing again, one hour fifty minutes later.",
+   "key": [
+    "2014,",
+    "38",
+    "50"
+   ],
+   "vis": {
+    "scene": "jump",
+    "mode": "philae",
+    "world": "comet",
+    "labels": [
+     "PHILAE, 2014",
+     "1 HR 50 MIN IN THE AIR"
+    ],
+    "label_at": 0.35
+   }
+  },
+  {
+   "say": "Follow Ship With Pip for more.",
+   "nocap": true
+  }
+ ],
+ "caption": "What if you jumped on other worlds? A half metre jump on Earth means leaving the ground at 3.13 m/s and landing 0.64 seconds later. Keep that same take-off speed and you go 3.02 m up on the Moon (3.86 s in the air), 7.95 m on Pluto (10.16 s), 920 m on Phobos (taller than the 828 m Burj Khalifa) and 2,865 m on Deimos, 5,729 times higher than on Earth. On comet 67P the escape speed is only 0.5 m/s, so a 3.13 m/s jump is 6.26 times too fast: you never land. It really happened to a spacecraft: in 2014 ESA's Philae lander bounced off 67P at 38 cm/s, drifted about 1 km and landed again 1 hour 50 minutes later. Heights use each world's real mass and size, with gravity weakening as you rise.",
+ "hashtags": [
+  "space",
+  "physics",
+  "whatif",
+  "mars",
+  "science",
+  "shipwithpip"
+ ],
+ "sources": [
+  "https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html",
+  "https://nssdc.gsfc.nasa.gov/planetary/factsheet/plutofact.html",
+  "https://ssd.jpl.nasa.gov/sats/phys_par",
+  "https://www.space.com/27767-philae-comet-landing-nearly-failed-infographic.html",
+  "https://sci.esa.int/web/rosetta/-/54953-three-touchdowns-for-rosetta-s-lander",
+  "https://www.burjkhalifa.ae:443/en/assets/FACT-SHEET.pdf",
+  "https://www.nist.gov/node/777661"
+ ],
+ "notes": "NASA NSSDC Moon fact sheet: GM 0.00490 x10^6 km3/s2, mean radius 1737.4 km. NSSDC Pluto fact sheet: GM 0.000870 x10^6 km3/s2, mean radius 1188 km. JPL SSD satellite parameters: Phobos GM 0.0007087 km3/s2, mean radius 11.08 km; Deimos GM 0.0000962 km3/s2, mean radius 6.2 km. Space.com (Nov 2014): escape velocity from comet 67P is 50 cm per second. ESA (sci.esa.int, Three touchdowns): Philae first touchdown 15:34, second 17:25 GMT, first bounce lasted 1 hour 50 minutes at 38 cm/s and covered about 1 km. Burj Khalifa official fact sheet: total height 828 m. NIST: standard gravity 9.80665 m/s2. The half metre jump is a chosen example, stated on screen. Assumption, stated in the reel as 'same legs, same take-off speed': the take-off speed (sqrt(2 g h) = 3.13 m/s) is the same on every world. Heights use energy conservation with gravity falling off as 1/r^2 (h = 1/(1/R - v^2/(2GM)) - R), not constant gravity; for Deimos constant gravity would give only 1,959 m, so the exact form matters. Hang times use surface gravity (fine when the height is tiny compared with the radius: Moon, Pluto). 2014 is the year of the Philae landing (ESA). The animation is not real time. 67 is part of the comet's name (67P/Churyumov-Gerasimenko), not a measurement."
+}

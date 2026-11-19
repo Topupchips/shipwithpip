@@ -1,8 +1,8 @@
 {
-  "next": "sim",
+  "next": "whatif",
   "cycle": [
     "sim",
-    "sim",
+    "whatif",
     "visual",
     "whatif"
   ],
@@ -50,6 +50,9 @@
   ],
   "satisfy_index": 3,
   "satisfy_queue": [],
-  "whatif_queue": [],
+  "whatif_queue": [
+    "w6_elevator_snap",
+    "w7_tunnel_earth"
+  ],
   "last_review": "2026-11-16T19:03:58Z"
 }

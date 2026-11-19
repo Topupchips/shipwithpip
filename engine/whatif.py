@@ -13,7 +13,7 @@ Script keys: id, title, caption, hashtags, sources (URLs, each opened in the run
   "inputs": {name: number}  sourced numbers only (each listed in "notes" with its source),
   "calc": [[name, "python expression over earlier names and math"], ...]  every derived number, evaluated here,
   "beats": [{"say", "speak"?, "key": [...], "hook": [3 lines] (first beat) | "head": [2 lines], "chip"?, "stamp"?: {"text", "at"},
-             "vis": {"scene": stop|equator|bars|lat|daynight|slow|float|bignum, ...}}],
+             "vis": {"scene": stop|equator|bars|lat|daynight|slow|float|hammer|rain|jump|elevator|tunnel, ...}}],
   last beat {"say": "Follow Ship With Pip for more.", "nocap": true}.
 """
 import argparse
@@ -563,6 +563,256 @@ def sc_rain(img, d, v, p, t, ctx):
 
 
 SCENES["rain"] = sc_rain
+
+# ============================================================ jump chain (Nov 19 2026, Ansh: "more like the rain and earth ones")
+JGY = 1150  # ground line for the jump scene
+WORLD_COL = dict(earth=((58, 112, 72), (38, 78, 50)), moon=((150, 150, 160), (104, 104, 116)), pluto=((214, 192, 160), (160, 138, 112)),
+                 phobos=((124, 104, 92), (84, 70, 62)), deimos=((154, 134, 112), (106, 90, 76)), comet=((84, 84, 92), (56, 56, 64)))
+GOLD = (255, 196, 60)
+
+
+def draw_stars(d, n=110, seed=4, a=0.75, ymax=1250):
+    rs = np.random.RandomState(seed)
+    for _ in range(n):
+        x, y, r = rs.rand() * W, rs.rand() * ymax, 1 + rs.rand() * 2.2
+        d.ellipse([x - r, y - r, x + r, y + r], fill=al(WHITE, a * (0.25 + 0.75 * rs.rand())))
+
+
+def draw_body(d, kind, cx, top, R):
+    """A world seen from the side: circle (or two-lobed comet) of radius R px whose top touches y = top."""
+    c1, c2 = WORLD_COL[kind]
+    if kind == "comet":
+        r2 = R * 0.72; d.ellipse([cx + R * 0.35 - r2, top + R * 1.05, cx + R * 0.35 + r2, top + R * 1.05 + 1.7 * r2], fill=c2 + (255,))
+        d.ellipse([cx - R, top, cx + R, top + 1.6 * R], fill=c1 + (255,))
+    else:
+        if kind == "earth": d.ellipse([cx - R - 26, top - 26, cx + R + 26, top + 2 * R + 26], fill=al((80, 160, 255), 0.25))
+        d.ellipse([cx - R, top, cx + R, top + 2 * R], fill=c1 + (255,))
+    rs = np.random.RandomState(len(kind) * 7)
+    if kind != "earth":
+        for _ in range(26):
+            x = cx + (rs.rand() * 2 - 1) * R * 0.95; y = top + 14 + rs.rand() * min(R, 420)
+            if (x - cx) ** 2 + (y - top - R) ** 2 > (R * 0.97) ** 2: continue
+            r = 6 + rs.rand() * min(40, R * 0.12); d.ellipse([x - r, y - r * 0.45, x + r, y + r * 0.45], fill=c2 + (255,))
+
+
+def draw_lander(d, x, y, s=1.0, ang=0.0):
+    """Small box lander with three legs and a solar-panel lid; (x, y) = feet."""
+    def P(u, v): return (x + (u * math.cos(ang) - v * math.sin(ang)) * s, y + (u * math.sin(ang) + v * math.cos(ang)) * s)
+    d.polygon([P(-30, -30), P(30, -30), P(30, -66), P(-30, -66)], fill=al(GOLD, 1))
+    d.polygon([P(-38, -66), P(38, -66), P(30, -76), P(-30, -76)], fill=al((70, 90, 160), 1))
+    for u in (-26, 0, 26): d.line([P(u * 0.6, -30), P(u * 1.5, 0)], fill=al(STEEL, 1), width=max(2, int(4 * s)))
+
+
+def fade_bottom(img, y0=1190, y1=1450):
+    """Fade everything below y0 into the background so the caption band stays readable."""
+    a = np.zeros((H, 1), np.float32); a[y0:y1, 0] = np.linspace(0, 1, y1 - y0); a[y1:, 0] = 1
+    ov = np.zeros((H, W, 4), np.uint8); ov[..., :3] = TH["bg"]; ov[..., 3] = (np.repeat(a, W, axis=1) * 255).astype(np.uint8)
+    img.alpha_composite(Image.fromarray(ov))
+
+
+def fade_top(img, y0=300, y1=420):
+    """Fade the scene out above y1 so the two-line head stays readable."""
+    a = np.zeros((H, 1), np.float32); a[:y0, 0] = 1; a[y0:y1, 0] = np.linspace(1, 0, y1 - y0)
+    ov = np.zeros((H, W, 4), np.uint8); ov[..., :3] = TH["bg"]; ov[..., 3] = (np.repeat(a, W, axis=1) * 255).astype(np.uint8)
+    img.alpha_composite(Image.fromarray(ov))
+
+
+def sc_jump(img, d, v, p, t, ctx):
+    """Same jump (same take-off speed) on different worlds. h = peak height in m sets the camera scale; R = world radius in m."""
+    mode = v.get("mode", "jump"); kind = v.get("world", "earth"); h = float(v.get("h", 0.5)); Rm = float(v.get("R", 6.371e6))
+    draw_stars(d, a=0.35 if kind == "earth" else 0.8)
+    u = clamp((p - 0.14) / 0.7)
+    if mode == "philae":
+        R = 380; top = 1000; draw_body(d, "comet", 540, top, R)
+        x = 250 + 560 * u; arc = 520 * 4 * u * (1 - u); y = top + 30 - arc
+        for k in range(1, 12):  # dotted path behind it
+            u2 = max(0.0, u - k * 0.03); x2 = 250 + 560 * u2; y2 = top + 30 - 520 * 4 * u2 * (1 - u2); d.ellipse([x2 - 5, y2 - 5, x2 + 5, y2 + 5], fill=al(GOLD, 0.5 * (1 - k / 12)))
+        fade_bottom(img); d = ImageDraw.Draw(img, "RGBA")
+        draw_lander(d, x, y, 1.0, ang=0.6 * math.sin(t * 1.3))
+        if u >= 1: d.arc([x - 60, y - 16, x + 60, y + 16], 200, 340, fill=al(WHITE, 0.6), width=4)
+    else:
+        pxpm = min(560.0 / max(h, 1e-6), 114.0); s = 1.75 * pxpm / 2.7; Rpx = min(Rm * pxpm, 12000.0)
+        if mode == "escape":  # you never come back: the comet shrinks below you
+            Rc = 300 * (1 - 0.88 * ease(u)); top = JGY + 700 * ease(u)
+            draw_body(d, "comet", 540, top, Rc); fade_bottom(img); d = ImageDraw.Draw(img, "RGBA"); fy = JGY - 30 - 520 * ease(clamp(u * 1.4)); s = max(10.0, 46 * (1 - 0.5 * u))
+            for k in range(1, 10):
+                d.ellipse([540 - 6, fy + k * 26 - 6, 540 + 6, fy + k * 26 + 6], fill=al(CYAN, 0.45 * (1 - k / 10)))
+            person(d, 540, fy, s, 0.0, col=WHITE)
+        else:
+            draw_body(d, kind, 540, JGY, Rpx); fade_bottom(img); d = ImageDraw.Draw(img, "RGBA")
+            rise = h * 4 * u * (1 - u) * pxpm if 0 < u < 1 else 0.0
+            if p < 0.14 or u >= 1: rise = 0.0
+            fy = JGY - rise
+            if 0 < u < 1:  # trail
+                for k in range(1, 10):
+                    u2 = max(0.0, u - k * 0.025); y2 = JGY - h * 4 * u2 * (1 - u2) * pxpm - (s * 1.3 if s >= 8 else 0)
+                    d.ellipse([540 - 7, y2 - 7, 540 + 7, y2 + 7], fill=al(CYAN, 0.4 * (1 - k / 10)))
+            if s >= 8: person(d, 540, fy, s, 0.0)
+            else:
+                d.ellipse([540 - 22, fy - 22, 540 + 22, fy + 22], fill=al(CYAN, 0.25)); d.ellipse([540 - 7, fy - 7, 540 + 7, fy + 7], fill=al(WHITE, 1))
+                bigtext(img, (540 + 92, fy - 10), "YOU", 40, WHITE, outline=(5, 12, 24)); d = ImageDraw.Draw(img, "RGBA")
+            # ruler: ground to the real peak height on this scale
+            top_y = JGY - h * pxpm; a = clamp((p - 0.3) / 0.1)
+            if a > 0:
+                d.line([(820, JGY), (820, top_y)], fill=al(YEL, 0.8 * a), width=5)
+                for y in (JGY, top_y): d.line([(796, y), (844, y)], fill=al(YEL, 0.8 * a), width=5)
+            if u >= 1 and p < 0.98:  # landing dust
+                q = clamp((p - 0.84) / 0.14); r = 30 + 140 * ease(q)
+                d.arc([540 - r, JGY - 18, 540 + r, JGY + 18], 180, 360, fill=al(c := WORLD_COL[kind][0], 1 - q), width=6)
+    if v.get("speed"): bigtext(img, (540, 470), v["speed"], 60, CYAN, outline=(5, 12, 24)); d = ImageDraw.Draw(img, "RGBA")
+    at = v.get("value_at", 0.5)
+    if "value" in v and p >= at:
+        g = clamp((p - at) / 0.12)
+        bigtext(img, (540, 1340), fmt_num(v["value"], v.get("dec", 0)) + " " + v.get("unit", ""), v.get("size", 104), YEL, a=g, scale=1 + 0.4 * (1 - ease(g)), outline=(40, 30, 0))
+    y0 = 1430 if "value" in v else 1350
+    for i, lb in enumerate(v.get("labels", [])):
+        a = clamp((p - v.get("label_at", 0.55) - i * 0.12) / 0.08)
+        if a > 0: bigtext(img, (540, y0 - (len(v["labels"]) - 1 - i) * 76), lb, 58, WHITE if i else YEL, a=a)
+
+
+SCENES["jump"] = sc_jump
+
+
+# ============================================================ elevator chain (Nov 19 2026)
+SH_X0, SH_X1 = 330, 750; CAR_W, CAR_H = 300, 360; CAR_TOP = 600; FLOOR_GAP = 250
+
+
+def sc_elevator(img, d, v, p, t, ctx):
+    """Inside a shaft, camera on the car. mode: ride | fall | jump | impact | coil | brake. hit = beat fraction where the cable snaps / brake bites;
+    land = fraction where the pit floor arrives (impact, coil, jump)."""
+    mode = v.get("mode", "fall"); hit = v.get("hit", 0.12); land = v.get("land", 0.8)
+    snapped = mode != "ride" and p >= hit; q = (p - hit) if snapped else 0.0
+    landed = mode in ("impact", "coil", "jump") and p >= land
+    # how far the car has moved (px, for scrolling the shaft): steady ride, or free fall (grows with time squared)
+    if mode == "ride": off = 900 * p
+    elif mode == "brake": off = 60 * ease(clamp(q / 0.06)) if snapped else 0.0
+    else: off = 9000 * q * q if not landed else 9000 * (land - hit) ** 2
+    shake = 0.0
+    if landed: shake = 18 * max(0.0, 1 - (p - land) / 0.12) * (0.4 if mode == "coil" else 1.0)
+    sx = shake * math.sin(t * 90); sy = shake * math.cos(t * 77)
+    # shaft walls and floors scrolling up past the car
+    d.rectangle([SH_X0 - 40 + sx, 0, SH_X0 + sx, 1470], fill=(30, 34, 54, 255)); d.rectangle([SH_X1 + sx, 0, SH_X1 + 40 + sx, 1470], fill=(30, 34, 54, 255))
+    for k in range(-2, 12):
+        y = (k * FLOOR_GAP - off) % (FLOOR_GAP * 8) - FLOOR_GAP + sy
+        if y > 1470: continue
+        d.rectangle([SH_X0 - 40 + sx, y, SH_X0 + 10 + sx, y + 14], fill=(60, 66, 96, 255)); d.rectangle([SH_X1 - 10 + sx, y, SH_X1 + 40 + sx, y + 14], fill=(60, 66, 96, 255))
+        d.rectangle([SH_X1 + 4 + sx, y - 150, SH_X1 + 34 + sx, y], outline=(70, 76, 110, 255), width=3)  # landing door edge
+    for x in (SH_X0 + 24, SH_X1 - 24): d.line([(x + sx, 0), (x + sx, 1470)], fill=al(STEEL, 0.35), width=6)  # guide rails
+    cx0, cx1 = 540 - CAR_W / 2 + sx, 540 + CAR_W / 2 + sx; ctop = CAR_TOP + sy; cbot = ctop + CAR_H
+    if landed and mode == "impact": cbot_c = cbot; ctop = ctop + 70 * ease(clamp((p - land) / 0.05))  # crumple
+    # pit floor and coiled cable
+    if mode in ("impact", "coil", "jump"):
+        floor_y = cbot + max(0.0, (land - p) * 3200) if not landed else cbot
+        if floor_y < 1470:
+            d.rectangle([SH_X0 - 40 + sx, floor_y, SH_X1 + 40 + sx, 1470], fill=(22, 24, 40, 255)); d.line([(SH_X0 - 40, floor_y), (SH_X1 + 40, floor_y)], fill=al(RED, 0.6), width=4)
+            if mode == "coil":
+                for k in range(7):  # a spring of coiled cable on the pit floor
+                    yy = floor_y - 10 - k * 12; d.ellipse([440 + sx, yy - 10, 640 + sx, yy + 10], outline=al(STEEL, 0.9), width=5)
+    # cable
+    if not snapped or mode == "brake":
+        d.line([(540 + sx, 0), (540 + sx, ctop)], fill=al(STEEL, 1), width=8)
+    elif mode != "brake":
+        whip = clamp(q / 0.25)
+        d.line([(540 + sx, max(0, ctop - 1500 * whip - 400)), (540 + sx, 0)], fill=al(STEEL, 0.9), width=8)
+        pts = [(540 + sx + 60 * math.sin(k * 0.9 + t * 9) * (k / 8), ctop - k * 40) for k in range(9)]; d.line(pts, fill=al(STEEL, 0.9), width=7, joint="curve")
+        if q < 0.08: bigtext(img, (540, ctop - 120), "SNAP", 90, RED, angle=-8, outline=(60, 0, 0)); d = ImageDraw.Draw(img, "RGBA")
+    if mode == "brake" and snapped:  # safety brake jaws bite the rails
+        for x in (SH_X0 + 24, SH_X1 - 24):
+            for k in range(4): d.polygon([(x - 18 + sx, ctop + 20 + k * 24), (x + 18 + sx, ctop + 32 + k * 24), (x - 18 + sx, ctop + 44 + k * 24)], fill=al(YEL, 1))
+        if q < 0.15:
+            rs = np.random.RandomState(int(t * 30))
+            for _ in range(14):
+                x = (SH_X0 + 24 if rs.rand() < 0.5 else SH_X1 - 24) + sx; an = rs.rand() * math.pi * 2; r = 20 + rs.rand() * 50
+                d.line([(x, ctop + 60), (x + math.cos(an) * r, ctop + 60 + math.sin(an) * r)], fill=al(ORANGE, 0.9), width=3)
+    # the car
+    d.rectangle([cx0, ctop, cx1, cbot], fill=(52, 58, 88, 255), outline=al(WHITE, 0.9), width=6)
+    d.rectangle([cx0 + 14, ctop + 14, cx1 - 14, cbot - 14], fill=(26, 30, 50, 255))
+    d.line([(540 + sx, ctop + 14), (540 + sx, cbot - 14)], fill=al(WHITE, 0.15), width=3)
+    # the rider: stands, floats in free fall, kicks up for the last-second jump
+    floating = snapped and mode not in ("brake",) and not landed
+    fl = ease(clamp(q / 0.3)) if floating else 0.0
+    rot = 0.35 * math.sin(t * 2.2) * fl
+    fy = cbot - 18 - 70 * fl
+    if mode == "jump" and land - 0.1 < p < land: fy = cbot - 18 - 70 * fl - 40 * clamp((p - land + 0.1) / 0.05)
+    if landed: fy = cbot - 18
+    person(d, 540 + sx, fy, 52 if not (landed and mode == "impact") else 40, rot)
+    if floating and mode != "ride":
+        for k in range(10):  # speed lines rushing up past the car
+            x = SH_X0 + 40 + (k * 67) % (SH_X1 - SH_X0 - 80); y = ((k * 211 + t * 2600) % 1500)
+            if not (cx0 < x < cx1 and ctop < y < cbot): d.line([(x, y), (x, y - 90 * min(1.0, q * 6))], fill=al(WHITE, 0.25), width=3)
+    if landed and mode in ("impact", "jump"):  # dust burst
+        qq = clamp((p - land) / 0.3); r = 60 + 420 * ease(qq)
+        dust = Image.new("RGBA", (W, H), (0, 0, 0, 0)); dd = ImageDraw.Draw(dust)
+        dd.ellipse([540 - r, cbot - r * 0.5, 540 + r, cbot + r * 0.5], fill=al((170, 150, 130), 0.7 * (1 - qq))); img.alpha_composite(dust.filter(ImageFilter.GaussianBlur(24)))
+        d = ImageDraw.Draw(img, "RGBA")
+        if p - land < 0.03: img.alpha_composite(Image.new("RGBA", (W, H), al(WHITE, 0.3))); d = ImageDraw.Draw(img, "RGBA")
+    fade_top(img); d = ImageDraw.Draw(img, "RGBA")
+    if v.get("speed"): bigtext(img, (540, 470), v["speed"], 60, CYAN, outline=(5, 12, 24)); d = ImageDraw.Draw(img, "RGBA")
+    at = v.get("value_at", land if mode in ("impact", "coil", "jump") else 0.5)
+    if "value" in v and p >= at:
+        g = clamp((p - at) / 0.12)
+        bigtext(img, (540, 1340), fmt_num(v["value"], v.get("dec", 0)) + " " + v.get("unit", ""), v.get("size", 104), YEL, a=g, scale=1 + 0.4 * (1 - ease(g)), outline=(40, 30, 0))
+    y0 = 1430 if "value" in v else 1350
+    for i, lb in enumerate(v.get("labels", [])):
+        a = clamp((p - v.get("label_at", 0.55) - i * 0.12) / 0.08)
+        if a > 0: bigtext(img, (540, y0 - (len(v["labels"]) - 1 - i) * 76), lb, 58, WHITE if i else YEL, a=a)
+
+
+SCENES["elevator"] = sc_elevator
+
+
+# ============================================================ tunnel through a world (Nov 19 2026)
+TCX, TCY, TR = 540, 830, 330
+
+
+def sc_tunnel(img, d, v, p, t, ctx):
+    """Cross-section with a straight tunnel; a faller does simple harmonic motion (uniform density). mode: drop | back | chord | kola.
+    world: earth | moon."""
+    mode = v.get("mode", "drop"); world = v.get("world", "earth"); R = TR if world == "earth" else 250
+    draw_stars(d, n=70, a=0.5)
+    if world == "earth":
+        layers = [(1.0, (70, 110, 160)), (0.985, (196, 88, 48)), (0.55, (238, 148, 52)), (0.19, (255, 222, 120))]
+    else:
+        layers = [(1.0, (150, 150, 160)), (0.97, (118, 118, 130)), (0.2, (170, 120, 90))]
+    for f, c in layers: d.ellipse([TCX - R * f, TCY - R * f, TCX + R * f, TCY + R * f], fill=c + (255,))
+    u = clamp((p - 0.08) / 0.8)
+    def runner(a0, a1, uu, col):
+        x0, y0 = TCX + R * math.sin(a0), TCY - R * math.cos(a0); x1, y1 = TCX + R * math.sin(a1), TCY - R * math.cos(a1)
+        d.line([(x0, y0), (x1, y1)], fill=(10, 10, 16, 255), width=26)
+        s = (1 - math.cos(math.pi * uu)) / 2  # simple harmonic motion: slow at the ends, fastest in the middle
+        for k in range(1, 9):
+            u2 = max(0.0, uu - k * 0.02); s2 = (1 - math.cos(math.pi * u2)) / 2; xx, yy = x0 + (x1 - x0) * s2, y0 + (y1 - y0) * s2
+            d.ellipse([xx - 9, yy - 9, xx + 9, yy + 9], fill=al(col, 0.45 * (1 - k / 9)))
+        x, y = x0 + (x1 - x0) * s, y0 + (y1 - y0) * s
+        d.ellipse([x - 26, y - 26, x + 26, y + 26], fill=al(col, 0.3)); d.ellipse([x - 12, y - 12, x + 12, y + 12], fill=al(WHITE, 1))
+    if mode == "kola":
+        d.line([(TCX, TCY - R), (TCX, TCY - R + 2)], fill=(10, 10, 16, 255), width=4)  # the real hole: under 1 px at this scale
+        a = clamp(p / 0.2); bx0, by0, bx1, by1 = 170, 1010, 910, 1250
+        d.line([(TCX, TCY - R), ((bx0 + bx1) / 2, by0)], fill=al(YEL, 0.6 * a), width=3)
+        d.ellipse([TCX - 18, TCY - R - 18, TCX + 18, TCY - R + 18], outline=al(YEL, a), width=4)
+        d.rectangle([bx0, by0, bx1, by1], fill=al((14, 16, 28), a), outline=al(YEL, a), width=4)
+        d.rectangle([bx0 + 4, by0 + 70, bx1 - 4, by1 - 4], fill=al((70, 110, 160), a))
+        hd = (by1 - by0 - 74) * clamp((p - 0.2) / 0.4) * 0.5  # inset spans twice the hole depth
+        d.rectangle([(bx0 + bx1) / 2 - 6, by0 + 70, (bx0 + bx1) / 2 + 6, by0 + 70 + hd], fill=(8, 8, 12, 255))
+    elif mode == "chord":
+        runner(0.0, math.pi, u, CYAN); runner(-2.2, 1.0, u, LIME)
+    elif mode == "back":
+        uu = clamp(u * 2) if u < 0.5 else 1 - clamp((u - 0.5) * 2)
+        runner(0.0, math.pi, uu, CYAN)
+    else:
+        runner(0.0, math.pi, u, CYAN)
+    if v.get("speed"): bigtext(img, (540, 1240), v["speed"], 60, CYAN, outline=(5, 12, 24)); d = ImageDraw.Draw(img, "RGBA")
+    at = v.get("value_at", 0.5)
+    if "value" in v and p >= at:
+        g = clamp((p - at) / 0.12)
+        bigtext(img, (540, 1340), fmt_num(v["value"], v.get("dec", 0)) + " " + v.get("unit", ""), v.get("size", 104), YEL, a=g, scale=1 + 0.4 * (1 - ease(g)), outline=(40, 30, 0))
+    y0 = 1430 if "value" in v else 1350
+    for i, lb in enumerate(v.get("labels", [])):
+        a = clamp((p - v.get("label_at", 0.55) - i * 0.12) / 0.08)
+        if a > 0: bigtext(img, (540, y0 - (len(v["labels"]) - 1 - i) * 76), lb, 58, WHITE if i else YEL, a=a)
+
+
+SCENES["tunnel"] = sc_tunnel
 
 # ============================================================ facts + check
 WORDNUM = {"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
