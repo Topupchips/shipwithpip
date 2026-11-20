@@ -130,8 +130,8 @@
     "https://mgoblue.com/news/2015/8/7/u_m_announces_new_seating_capacity_for_michigan_stadium.aspx",
     "https://thehub.ca/2026/09/25/statscan-reports-slowest-population-growth-since-second-world-war-as-immigration-cuts-take-hold/",
     "https://www.worldatlas.com/articles/how-many-people-are-in-the-us.html",
-    "https://www.un.org/sustainabledevelopment/blog/2024/07/press-release-wpp2024/",
+    "https://news.un.org/en/story/2024/07/1151971",
     "https://www.prb.org/articles/how-many-people-have-ever-lived-on-earth/"
   ],
-  "facts": "count after round n = 3^n. stadium 107,601 -> 11 (177,147); Canada 41,798,407 -> 16 (43,046,721); US 341.8M -> 18 (387,420,489); world 8.2B -> 21 (10,460,353,203); ever born 117,020,448,575 -> 24 (282,429,536,481). PRB: 6.8% of all ever born alive in 2022, 'nearly 7%'."
+  "facts": "count after round n = 3^n. stadium 107,601 -> 11 (177,147); Canada 41,798,407 -> 16 (43,046,721); US 341.8M -> 18 (387,420,489); world 8.2B -> 21 (10,460,353,203); ever born 117,020,448,575 -> 24 (282,429,536,481). PRB: 6.8% of all ever born alive in 2022, 'nearly 7%'. Nov 20 2026 run: re-verified all; UN blog URL failed to load, replaced with UN News 11 Jul 2024 ('nearly 8.2 billion by mid-2024')."
 }
