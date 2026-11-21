@@ -13,7 +13,7 @@ Script keys: id, title, caption, hashtags, sources (URLs, each opened in the run
   "inputs": {name: number}  sourced numbers only (each listed in "notes" with its source),
   "calc": [[name, "python expression over earlier names and math"], ...]  every derived number, evaluated here,
   "beats": [{"say", "speak"?, "key": [...], "hook": [3 lines] (first beat) | "head": [2 lines], "chip"?, "stamp"?: {"text", "at"},
-             "vis": {"scene": stop|equator|bars|lat|daynight|slow|float|hammer|rain|jump|elevator|tunnel, ...}}],
+             "vis": {"scene": stop|equator|bars|lat|daynight|slow|float|hammer|rain|jump|elevator|tunnel|bolt, ...}}],
   last beat {"say": "Follow Ship With Pip for more.", "nocap": true}.
 """
 import argparse
@@ -814,6 +814,144 @@ def sc_tunnel(img, d, v, p, t, ctx):
 
 SCENES["tunnel"] = sc_tunnel
 
+# ============================================================ bolt chain (Nov 21 2026: catch one lightning bolt, stakes climb bulb -> house -> country -> planet)
+JAR_X = 200; BOLT_Y0 = 560; BGND = 1190
+
+
+def bolt_path(x0, y0, x1, y1, seed, n=11, jag=70):
+    rs = np.random.RandomState(seed); pts = [(x0, y0)]
+    for i in range(1, n):
+        u = i / n; pts.append((x0 + (x1 - x0) * u + (rs.rand() - 0.5) * jag * 2 * (1 - u * 0.6), y0 + (y1 - y0) * u + (rs.rand() - 0.5) * 18))
+    pts.append((x1, y1)); return pts
+
+
+def draw_bolt(img, x1, y1, seed, a=1.0, x0=None, w=10):
+    """A jagged bolt from the cloud base to (x1, y1), drawn as a soft glow plus a white core."""
+    x0 = x1 + 120 if x0 is None else x0; pts = bolt_path(x0, BOLT_Y0, x1, y1, seed)
+    gl = Image.new("RGBA", (W, H), (0, 0, 0, 0)); gd = ImageDraw.Draw(gl)
+    gd.line(pts, fill=al((150, 190, 255), 0.9 * a), width=w * 4, joint="curve")
+    rs = np.random.RandomState(seed + 99)  # side branches
+    for k in range(3):
+        i = 2 + rs.randint(0, len(pts) - 4); bx, by = pts[i]; b2 = bolt_path(bx, by, bx + (rs.rand() - 0.5) * 360, by + 120 + rs.rand() * 160, seed + k, n=5, jag=40)
+        gd.line(b2, fill=al((150, 190, 255), 0.6 * a), width=w * 2, joint="curve")
+    img.alpha_composite(gl.filter(ImageFilter.GaussianBlur(14)))
+    d = ImageDraw.Draw(img, "RGBA"); d.line(pts, fill=al(WHITE, a), width=w, joint="curve")
+    rs = np.random.RandomState(seed + 99)
+    for k in range(3):
+        i = 2 + rs.randint(0, len(pts) - 4); bx, by = pts[i]; b2 = bolt_path(bx, by, bx + (rs.rand() - 0.5) * 360, by + 120 + rs.rand() * 160, seed + k, n=5, jag=40)
+        d.line(b2, fill=al(WHITE, 0.8 * a), width=max(3, w // 2), joint="curve")
+
+
+def draw_jar(d, fill, glow=0.0, x=JAR_X):
+    """A big glass capture jar with a lightning rod on top; fill 0..1 = stored charge (glowing yellow)."""
+    top, bot = BGND - 300, BGND
+    d.line([(x, top - 160), (x, top)], fill=al(STEEL, 1), width=10); d.polygon([(x - 12, top - 160), (x + 12, top - 160), (x, top - 200)], fill=al(STEEL, 1))
+    if glow > 0: d.rounded_rectangle([x - 120, top - 20, x + 120, bot + 20], radius=40, fill=al(YEL, 0.18 * glow))
+    d.rounded_rectangle([x - 95, top, x + 95, bot], radius=30, fill=(20, 26, 46, 255), outline=al((170, 200, 240), 0.9), width=6)
+    if fill > 0:
+        fy = bot - 12 - (bot - top - 24) * fill
+        d.rounded_rectangle([x - 82, fy, x + 82, bot - 12], radius=22, fill=al(YEL, 0.85))
+        for k in range(4): d.line([(x - 60 + k * 40, fy + 20), (x - 40 + k * 40, fy + 60), (x - 50 + k * 40, fy + 60), (x - 30 + k * 40, fy + 100)], fill=al(WHITE, 0.7), width=4)
+    d.rectangle([x - 70, top - 14, x + 70, top + 4], fill=al(STEEL, 1))
+
+
+def draw_cable(d, x0, x1, y=BGND - 20, live=0.0, t=0.0):
+    d.line([(x0, y), (x1, y)], fill=(60, 64, 90, 255), width=10)
+    if live > 0:
+        for k in range(8):
+            u = ((t * 1.6 + k / 8) % 1.0); x = x0 + (x1 - x0) * u
+            d.ellipse([x - 9, y - 9, x + 9, y + 9], fill=al(YEL, live))
+
+
+def draw_bulb(img, x, y, on=0.0):
+    if on > 0:
+        gl = Image.new("RGBA", (W, H), (0, 0, 0, 0)); gd = ImageDraw.Draw(gl); r = 260
+        gd.ellipse([x - r, y - r, x + r, y + r], fill=al(YEL, 0.55 * on)); img.alpha_composite(gl.filter(ImageFilter.GaussianBlur(60)))
+    d = ImageDraw.Draw(img, "RGBA")
+    d.ellipse([x - 110, y - 120, x + 110, y + 100], fill=al((255, 236, 150), 1) if on > 0.5 else (60, 66, 92, 255), outline=al(WHITE, 0.8), width=5)
+    d.polygon([(x - 60, y + 80), (x + 60, y + 80), (x + 45, y + 140), (x - 45, y + 140)], fill=al((255, 236, 150), 1) if on > 0.5 else (60, 66, 92, 255))
+    for k in range(4): d.rectangle([x - 48, y + 140 + k * 22, x + 48, y + 154 + k * 22], fill=al(STEEL, 1))
+    d.line([(x, y + 228), (x, BGND - 20)], fill=(60, 64, 90, 255), width=10)
+    if on > 0.5: d.line([(x - 40, y - 10), (x - 15, y + 30), (x + 15, y - 10), (x + 40, y + 30)], fill=al(ORANGE, 1), width=6)
+
+
+def draw_lit_globe(img, t, p, n_rate=40.0, seed=3):
+    """Earth with flashes popping up at random places, mostly between 40 S and 40 N, at n_rate per second of video."""
+    globe(img, GX, GY - 40, GR, spin_rot(t, rate=8.0), tilt=12.0, night=0.18, light=(-0.3, -0.2, 0.9), glow=0.8)
+    d = ImageDraw.Draw(img, "RGBA"); rs = np.random.RandomState(seed); N = 2000
+    lat = (rs.rand(N) - 0.5) * 80; lon = (rs.rand(N) - 0.5) * 170; ts = rs.rand(N) * (N / n_rate)  # N flashes spread at n_rate per second
+    for la, lo, t0 in zip(lat, lon, ts):
+        dt = (t % (N / n_rate)) - t0
+        if 0 <= dt < 0.25:
+            x, y, z = surface_xy(GX, GY - 40, GR, la, lo, tilt=12.0)
+            if z <= 0.05: continue
+            a = 1 - dt / 0.25; r = 10 + 26 * (1 - a)
+            d.ellipse([x - r, y - r, x + r, y + r], fill=al((200, 225, 255), 0.5 * a)); d.ellipse([x - 6, y - 6, x + 6, y + 6], fill=al(WHITE, a))
+
+
+def sc_bolt(img, d, v, p, t, ctx):
+    mode = v.get("mode", "bulb"); hit = v.get("hit", 0.2); after = p >= hit
+    q = clamp((p - hit) / (1 - hit)) if after else 0.0
+    if mode in ("earth", "clock"):
+        draw_stars(d, a=0.6); draw_lit_globe(img, t, p); d = ImageDraw.Draw(img, "RGBA")
+        if mode == "clock":  # stopwatch ring filling over the beat
+            cx, cy, r = 880, 1200 - 40, 90; d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(14, 16, 30, 255), outline=al(WHITE, 0.9), width=8)
+            d.pieslice([cx - r + 14, cy - r + 14, cx + r - 14, cy + r - 14], -90, -90 + 360 * ease(clamp(p / 0.8)), fill=al(RED, 0.85))
+            d.rectangle([cx - 16, cy - r - 30, cx + 16, cy - r - 6], fill=al(WHITE, 0.9))
+    else:
+        dark = mode in ("why", "bulb", "house", "town", "miss")
+        draw_cloud(d, y=470, dark=1.0 if dark else 0.0, t=t)
+        if mode == "town":
+            draw_town(d, None, glow=0.0)
+        d.rectangle([0, BGND, W, H], fill=(16, 18, 32, 255)); d.line([(0, BGND), (W, BGND)], fill=al(CYAN, 0.4), width=4)
+        if mode == "town" and not after:  # the grid is dark until the bolt lands
+            ov = Image.new("RGBA", (W, H), (0, 0, 0, 0)); od = ImageDraw.Draw(ov); od.rectangle([0, 700, W, BGND - 2], fill=TH["bg"] + (150,)); img.alpha_composite(ov); d = ImageDraw.Draw(img, "RGBA")
+        sa = 0.0
+        if after:
+            dt = (p - hit) * v.get("_len", 6.0)
+            sa = 1.0 if any(abs(dt - s) < 0.06 for s in (0.0, 0.15, 0.3, 0.44)) else (0.3 if dt < 0.5 else 0.0)
+        fill = ease(clamp(q * 3)) if after and mode != "miss" else 0.0
+        if mode == "bulb":
+            draw_cable(d, JAR_X + 95, 760, live=fill, t=t); draw_jar(d, fill, glow=fill); draw_bulb(img, 760, 830, on=fill); d = ImageDraw.Draw(img, "RGBA")
+        elif mode == "why":
+            draw_jar(d, fill, glow=fill)
+        elif mode == "house":
+            draw_house(d, 0.0, t)
+            if not after:
+                wt = GROUND - 330
+                for wx in (ROOF_X0 + 75, ROOF_X1 - 145): d.rectangle([wx, wt + 60, wx + 70, wt + 130], fill=(24, 26, 40, 255))
+            else:
+                gl = Image.new("RGBA", (W, H), (0, 0, 0, 0)); gd = ImageDraw.Draw(gl); gd.ellipse([300, 700, 780, 1180], fill=al(YEL, 0.25 * fill)); img.alpha_composite(gl.filter(ImageFilter.GaussianBlur(50))); d = ImageDraw.Draw(img, "RGBA")
+            draw_cable(d, JAR_X + 95, ROOF_X0 + 30, live=fill, t=t); draw_jar(d, fill, glow=fill)
+        elif mode == "town":
+            draw_jar(d, fill, glow=fill)
+        elif mode == "miss":
+            draw_jar(d, 0.0)
+        if mode == "miss":  # bolts land everywhere except the rod
+            for k, (hx, ph) in enumerate([(620, 0.06), (900, 0.22), (420, 0.38), (760, 0.52), (520, 0.68), (960, 0.84)]):
+                if p >= ph:
+                    dt = (p - ph) * v.get("_len", 6.0); a = 1.0 if dt < 0.12 else (0.3 if dt < 0.35 else 0.0)
+                    if a > 0: draw_bolt(img, hx, BGND, 40 + k, a=a, x0=hx + 80 - k * 60); d = ImageDraw.Draw(img, "RGBA")
+        elif sa > 0:
+            if sa >= 1: img.alpha_composite(Image.new("RGBA", (W, H), al(WHITE, 0.25)))
+            draw_bolt(img, JAR_X, BGND - 500, 7 + int(v.get("seed", 0)), a=sa, x0=JAR_X + 260); d = ImageDraw.Draw(img, "RGBA")
+        fade_bottom(img, 1260, 1300); d = ImageDraw.Draw(img, "RGBA")
+    if v.get("speed"): bigtext(img, (540, 650), v["speed"], 60, CYAN, outline=(5, 12, 24)); d = ImageDraw.Draw(img, "RGBA")
+    at = v.get("value_at", hit + 0.08)
+    if "value" in v and p >= at:
+        g = clamp((p - at) / 0.12)
+        bigtext(img, (540, 1340), fmt_num(v["value"], v.get("dec", 0)) + " " + v.get("unit", ""), v.get("size", 100), YEL, a=g, scale=1 + 0.4 * (1 - ease(g)), outline=(40, 30, 0))
+    y0 = 1430 if "value" in v else 1350
+    for i, lb in enumerate(v.get("labels", [])):
+        a = clamp((p - v.get("label_at", 0.55) - i * 0.12) / 0.08)
+        if a <= 0: continue
+        if mode == "why": bigtext(img, (680, 800 + i * 110), lb, 62, YEL if i else WHITE, a=a, outline=(5, 12, 24))  # beside the jar, clear of the value
+        else: bigtext(img, (540, y0 - (len(v["labels"]) - 1 - i) * 76), lb, 58, WHITE if i else YEL, a=a)
+
+
+SCENES["bolt"] = sc_bolt
+
+
 # ============================================================ facts + check
 WORDNUM = {"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
            "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14, "fifteen": 15, "sixteen": 16, "seventeen": 17, "eighteen": 18,
@@ -911,7 +1049,9 @@ def frame(t, S, tl, bg, total):
     v_end = next((tl[j]["start"] for j in range(vj + 1, len(tl)) if "vis" in tl[j]["beat"]), total)
     p = clamp((t - tl[vj]["start"] + 0.1) / max(v_end - tl[vj]["start"] - 0.15, 0.1))
     vis = tl[vj]["beat"].get("vis", {})
-    if vis.get("scene"): SCENES[vis["scene"]](img, d, vis, p, t, {})
+    if vis.get("scene"):
+        vis = dict(vis); vis["_len"] = max(v_end - tl[vj]["start"], 0.5)
+        SCENES[vis["scene"]](img, d, vis, p, t, {})
     d = ImageDraw.Draw(img, "RGBA")
     head = next((tl[j]["beat"]["head"] for j in range(bi, -1, -1) if tl[j]["beat"].get("head")), None)
     if bi == 0 and b.get("hook"):

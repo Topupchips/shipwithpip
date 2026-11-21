@@ -1,0 +1,298 @@
+{
+ "id": "w8_catch_lightning",
+ "title": "Catch one lightning bolt and a light bulb stays on for 116 days",
+ "inputs": {
+  "typ_lo_MJ": 1000,
+  "typ_hi_MJ": 5000,
+  "volts_million": 300,
+  "amps": 30000,
+  "bulb_W": 100,
+  "home_kwh_yr": 10791,
+  "us_cg_yr": 20000000,
+  "flashes_s": 40,
+  "hiro_tons": 15000,
+  "ton_tnt_J": 4184000000,
+  "us_states": 48
+ },
+ "calc": [
+  [
+   "E_J",
+   "typ_lo_MJ * 1e6"
+  ],
+  [
+   "E_bil",
+   "E_J / 1e9"
+  ],
+  [
+   "bulb_days",
+   "E_J / bulb_W / 86400"
+  ],
+  [
+   "E_kwh",
+   "E_J / 3.6e6"
+  ],
+  [
+   "home_kwh_day",
+   "home_kwh_yr / 365"
+  ],
+  [
+   "home_days",
+   "E_kwh / home_kwh_day"
+  ],
+  [
+   "us_kwh",
+   "us_cg_yr * E_kwh"
+  ],
+  [
+   "us_homes",
+   "us_kwh / home_kwh_yr"
+  ],
+  [
+   "earth_W",
+   "flashes_s * E_J"
+  ],
+  [
+   "earth_GW",
+   "earth_W / 1e9"
+  ],
+  [
+   "home_W",
+   "home_kwh_yr * 1000 / 8760"
+  ],
+  [
+   "homes_M",
+   "earth_W / home_W / 1e6"
+  ],
+  [
+   "hiro_J",
+   "hiro_tons * ton_tnt_J"
+  ],
+  [
+   "hiro_min",
+   "hiro_J / earth_W / 60"
+  ],
+  [
+   "us_cg_million",
+   "us_cg_yr / 1e6"
+  ],
+  [
+   "hiro_kt",
+   "hiro_tons / 1000"
+  ]
+ ],
+ "constants": [],
+ "beats": [
+  {
+   "hook": [
+    "CATCH 1 LIGHTNING BOLT.",
+    "A BULB STAYS ON",
+    "116 DAYS"
+   ],
+   "say": "Catch one lightning bolt in a jar, and a 100 watt light bulb stays on for 116 days.",
+   "speak": "Catch one lightning bolt in a jar, and a one hundred watt light bulb stays on for a hundred and sixteen days.",
+   "key": [
+    "one",
+    "116"
+   ],
+   "vis": {
+    "scene": "bolt",
+    "mode": "bulb",
+    "hit": 0.22,
+    "value": 116,
+    "unit": "DAYS"
+   }
+  },
+  {
+   "head": [
+    "WHY THAT",
+    "NUMBER?"
+   ],
+   "say": "A typical flash carries 1,000 to 5,000 megajoules, says a government lightning expert. We take the low end: 1 billion joules.",
+   "speak": "A typical flash carries one thousand to five thousand mega joules, says a government lightning expert. We take the low end: one billion joules.",
+   "key": [
+    "typical",
+    "low",
+    "billion"
+   ],
+   "vis": {
+    "scene": "bolt",
+    "mode": "why",
+    "hit": 0.15,
+    "seed": 3,
+    "value": 1,
+    "unit": "BILLION JOULES",
+    "value_at": 0.6,
+    "labels": [
+     "300 MILLION VOLTS",
+     "30,000 AMPS"
+    ],
+    "label_at": 0.25
+   }
+  },
+  {
+   "head": [
+    "NOW PLUG IN",
+    "YOUR HOUSE."
+   ],
+   "say": "Now plug in your whole house. The average American home uses 10,791 kilowatt hours a year. One bolt runs it for 9.4 days.",
+   "speak": "Now plug in your whole house. The average American home uses ten thousand seven hundred and ninety one kilowatt hours a year. One bolt runs it for nine point four days.",
+   "key": [
+    "house.",
+    "9.4"
+   ],
+   "vis": {
+    "scene": "bolt",
+    "mode": "house",
+    "hit": 0.2,
+    "seed": 5,
+    "value": 9.4,
+    "dec": 1,
+    "unit": "DAYS",
+    "value_at": 0.7
+   }
+  },
+  {
+   "head": [
+    "NOW CATCH EVERY",
+    "GROUND BOLT IN THE US."
+   ],
+   "say": "Now catch every bolt that hits the ground in the lower 48 states: 20 million a year. That powers 514,832 homes for a whole year.",
+   "speak": "Now catch every bolt that hits the ground in the lower forty eight states: twenty million a year. That powers five hundred and fourteen thousand eight hundred and thirty two homes for a whole year.",
+   "key": [
+    "every",
+    "20",
+    "514,832"
+   ],
+   "vis": {
+    "scene": "bolt",
+    "mode": "town",
+    "hit": 0.25,
+    "seed": 9,
+    "value": 514832,
+    "unit": "HOMES",
+    "value_at": 0.62
+   }
+  },
+  {
+   "head": [
+    "NOW CATCH EVERY",
+    "BOLT ON EARTH."
+   ],
+   "stamp": {
+    "text": "32.47 MILLION HOMES",
+    "at": 0.72,
+    "x": 540,
+    "y": 520,
+    "size": 76,
+    "angle": 8
+   },
+   "say": "Now every bolt on Earth. About 40 flashes every second. That's 40 gigawatts, nonstop, enough for 32.47 million homes.",
+   "speak": "Now every bolt on Earth. About forty flashes every second. That's forty gigawatts, nonstop, enough for thirty two point four seven million homes.",
+   "key": [
+    "Earth.",
+    "40",
+    "32.47"
+   ],
+   "vis": {
+    "scene": "bolt",
+    "mode": "earth",
+    "value": 40,
+    "unit": "GIGAWATTS",
+    "value_at": 0.4
+   }
+  },
+  {
+   "head": [
+    "AND EVERY",
+    "26 MINUTES..."
+   ],
+   "stamp": {
+    "text": "1 HIROSHIMA",
+    "at": 0.6,
+    "x": 540,
+    "y": 560,
+    "size": 92,
+    "angle": -8
+   },
+   "say": "Add it up. Every 26 minutes, Earth's lightning releases as much energy as the Hiroshima bomb.",
+   "speak": "Add it up. Every twenty six minutes, the lightning on Earth gives off as much energy as the Hiroshima bomb.",
+   "key": [
+    "26",
+    "Hiroshima"
+   ],
+   "vis": {
+    "scene": "bolt",
+    "mode": "clock",
+    "value": 26,
+    "unit": "MINUTES",
+    "value_at": 0.25
+   }
+  },
+  {
+   "head": [
+    "SO WHY DON'T",
+    "WE CATCH IT?"
+   ],
+   "say": "Back to reality. A whole flash is over in about half a second, and the next one lands somewhere else.",
+   "key": [
+    "half",
+    "somewhere"
+   ],
+   "vis": {
+    "scene": "bolt",
+    "mode": "miss",
+    "labels": [
+     "NEVER THE SAME",
+     "SPOT TWICE"
+    ],
+    "label_at": 0.5
+   }
+  },
+  {
+   "head": [
+    "NO GRID",
+    "CAN CATCH IT."
+   ],
+   "say": "One lightning researcher put it simply: it's so sporadic and unpredictable that no power grid will ever harness it.",
+   "key": [
+    "sporadic",
+    "unpredictable",
+    "never"
+   ],
+   "vis": {
+    "scene": "bolt",
+    "mode": "miss",
+    "labels": [
+     "ALL THAT POWER,",
+     "GONE IN A FLASH"
+    ],
+    "label_at": 0.45
+   }
+  },
+  {
+   "say": "Follow Ship With Pip for more.",
+   "nocap": true
+  }
+ ],
+ "caption": "What if you could catch a lightning bolt? NOAA lightning expert Don MacGorman puts a typical flash at 1,000 to 5,000 megajoules (National Geographic). Taking the low end, 1 billion joules, one bolt would keep a 100 watt bulb on for 116 days, or run the average American home (10,791 kWh a year, EIA) for 9.4 days. About 20 million bolts hit the ground in the lower 48 states each year (NOAA NSSL): caught, that is enough for 514,832 homes for a year. Worldwide, about 40 flashes happen every second (NOAA): 40 gigawatts nonstop, enough for 32.47 million homes, and the energy of the 15 kiloton Hiroshima bomb every 26 minutes. In reality, a flash is over in about half a second and strikes a new spot each time, and as one researcher wrote in The Conversation, it is too sporadic and unpredictable for any power grid to harness.",
+ "hashtags": [
+  "lightning",
+  "whatif",
+  "physics",
+  "science",
+  "energy",
+  "shipwithpip"
+ ],
+ "sources": [
+  "https://www.nationalgeographic.com/science/article/120308-energy-in-forces-of-nature",
+  "https://van.physics.illinois.edu/ask/listing/2280",
+  "https://www.weather.gov/safety/lightning-power",
+  "https://www.eia.gov/tools/FAQs/faq.php?id=97&t=3",
+  "https://nssl.noaa.gov/education/svrwx101/lightning/faq",
+  "https://www.noaa.gov/jetstream/lightning",
+  "https://www.osti.gov/opennet/manhattan-project-history/Events/1945/hiroshima.htm",
+  "https://www.nist.gov/node/777661",
+  "https://theconversation.com/catching-lightning-in-a-fossil-and-calculating-how-much-energy-a-strike-contains-64152"
+ ],
+ "notes": "National Geographic (Lagesse and Lavelle, 2012), quoting Don MacGorman, NOAA lightning expert: a flash carries 'from 100 megajoules to as high as 30,000 megajoules'; 'A typical range would be 1,000 to 5,000 megajoules'; a flash 'is actually made up of several strokes of lightning, enough to last nearly a half second'. We use the low end of the typical range, 1,000 MJ = 1e9 J. UIUC Physics Van: average strike one to ten billion joules; 'With one billion joules, the light bulb [100 W] will be lit for 116 days' (our calc gives 115.74, matches). NWS: 'A typical lightning flash is about 300 million Volts and about 30,000 Amps.' EIA FAQ: 2022 average US residential customer 10,791 kWh a year. NOAA NSSL FAQ: 'an average of 20,000,000 cloud-to-ground flashes have been detected every year' (contiguous 48 states). NOAA JetStream: 'lightning flashes about 40 times a second worldwide' (NASA satellite research). OSTI: Hiroshima 15 kilotons. NIST: ton of TNT = 4.184e9 J. The Conversation (fossil fulgurite article, first-person researcher): 'given its sporadic and unpredictable nature, no power grid will ever be able to harness lightning effectively'. Bulb 100 W is the UIUC example. The 40 flashes/s rate counts all flashes (cloud and ground), each taken at the 1e9 J low end; this is the hypothetical 'catch every bolt'. Hiroshima comparison is energy equivalence only."
+}
