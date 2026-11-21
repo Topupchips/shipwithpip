@@ -1,0 +1,128 @@
+{
+ "id": "s6_galton_tilted",
+ "kind": "galton",
+ "style": "physics",
+ "seed": 4477,
+ "params": {
+  "rows": 12,
+  "balls": 1000,
+  "p": 0.7,
+  "release_s": 24,
+  "fall_s": 1.6
+ },
+ "sync": [
+  [
+   2,
+   0.5,
+   25.6
+  ]
+ ],
+ "constants": [],
+ "beats": [
+  {
+   "hook": [
+    "1000 BALLS.",
+    "ONE EDGE: 14.",
+    "THE OTHER: 0."
+   ],
+   "say": "A thousand balls. Fourteen landed on one edge. Not a single ball landed on the other.",
+   "key": [
+    "Fourteen",
+    "single"
+   ],
+   "vis": {}
+  },
+  {
+   "head": [
+    "EVERY PEG IS",
+    "TILTED 70 / 30."
+   ],
+   "chip": "70% RIGHT",
+   "say": "The catch: every peg is tilted. Seventy percent of bounces go right. Thirty percent go left. Twelve rows of pegs.",
+   "key": [
+    "tilted.",
+    "Seventy"
+   ]
+  },
+  {
+   "head": [
+    "A FAIR BOARD",
+    "PEAKS IN THE MIDDLE."
+   ],
+   "say": "On a fair board, the middle bin should catch about two hundred and twenty six balls. This one caught eighty six.",
+   "key": [
+    "middle",
+    "eighty"
+   ]
+  },
+  {
+   "head": [
+    "THE PEAK",
+    "MOVED RIGHT."
+   ],
+   "chip": "70% x 12 = 8.4",
+   "say": "The whole pile moved right. The tallest bin is 8 right bounces out of 12. The math says the average is seventy percent of twelve: 8.4.",
+   "speak": "The whole pile moved right. The tallest bin is eight right bounces out of twelve. The math says the average is seventy percent of twelve. Eight point four.",
+   "key": [
+    "tallest",
+    "average"
+   ]
+  },
+  {
+   "head": [
+    "RIGHT EDGE:",
+    "1 IN 72."
+   ],
+   "say": "Twelve right bounces in a row is a one in seventy two shot. So about fourteen balls should get there. Fourteen did.",
+   "key": [
+    "seventy",
+    "Fourteen did."
+   ]
+  },
+  {
+   "head": [
+    "LEFT EDGE:",
+    "1 IN 1,881,676."
+   ],
+   "say": "Twelve left bounces in a row? One in 1,881,676. With a thousand balls, zero made it.",
+   "speak": "Twelve left bounces in a row? One in nearly two million. With a thousand balls, zero made it.",
+   "key": [
+    "million.",
+    "zero"
+   ]
+  },
+  {
+   "head": [
+    "SAME CURVE.",
+    "JUST SHIFTED."
+   ],
+   "vis": {
+    "curve": true
+   },
+   "say": "Draw the math on top. The same kind of curve, just shifted. A small tilt at every peg moved the whole crowd. Francis Galton invented this board.",
+   "key": [
+    "shifted.",
+    "crowd."
+   ]
+  },
+  {
+   "say": "Follow Ship With Pip for more.",
+   "nocap": true
+  }
+ ],
+ "title": "Tilt every peg 70/30: 14 balls hit one edge, 0 hit the other",
+ "caption": "A Galton board with a twist: every peg is tilted, so a ball bounces right 70% of the time and left 30%. 1000 balls, 12 rows. A fair board expects about 226 balls in the middle bin; this one caught 86. The tallest bin is 8 right bounces out of 12, next to the average the math predicts (70% of 12 = 8.4). Reaching the right edge takes 12 right bounces in a row, a 1 in 72 shot, so about 14 balls should get there: 14 did. The left edge is 1 in 1,881,676, and 0 of 1000 made it. The curve drawn on top is the binomial distribution for 12 bounces at 70%. Every bounce here is simulated with a seeded weighted coin flip, sped up.",
+ "hashtags": [
+  "math",
+  "probability",
+  "galtonboard",
+  "oddlysatisfying",
+  "statistics",
+  "shipwithpip"
+ ],
+ "sources": [
+  "https://en.wikipedia.org/wiki/Galton_board",
+  "https://www.ucl.ac.uk/culture/galton-collection/galtons-quincunx"
+ ],
+ "notes": "Seed 4477, 12 rows, 1000 balls, p(right) = 0.7. Bin counts by number of right bounces: [0, 0, 0, 2, 10, 31, 86, 148, 245, 231, 154, 79, 14]. Fair board expected middle = 1000 * C(12,6) / 4096 = 225.6, about 226. Mean rights 12 * 0.7 = 8.4; most likely bin = 9 rights (24.0%), with 8 rights close behind (23.1%); observed tallest = 8 rights (245), 9 rights 231. Script only claims the tallest observed bin and the 8.4 average. Right edge odds 1 / 0.7^12 = 72.25, about 1 in 72; expected 1000 * 0.7^12 = 13.8, about 14; observed 14. Left edge odds 1 / 0.3^12 = 1,881,676; observed 0. Sources: Wikipedia Galton board and UCL Galton collection (Galton's quincunx) for Galton inventing the board. Sync: all balls released by sim 24 s, last lands 25.6 s at the middle of beat 2; video is sped up, not real time."
+}

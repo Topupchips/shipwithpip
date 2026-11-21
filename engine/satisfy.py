@@ -91,18 +91,38 @@ class Galton:
     def __init__(s, P, seed):
         s.rows, s.N = P.get("rows", 12), P.get("balls", 800)
         rng = np.random.default_rng(seed)
-        s.ch = rng.random((s.N, s.rows)) < 0.5  # True = bounce right
+        s.p = P.get("p", 0.5)  # chance of bouncing right at each peg (0.5 = fair board)
+        s.ch = rng.random((s.N, s.rows)) < s.p  # True = bounce right
         s.bin = s.ch.sum(1); s.counts = np.bincount(s.bin, minlength=s.rows + 1)
         s.release = P.get("release_s", 40.0); s.fall = P.get("fall_s", 1.6); s.event_u = s.release + s.fall
         s.top, s.pegy1 = VY0 + 20, VY0 + 470; s.dx = 66; s.binw = s.dx
         s.cap = int(s.counts.max() * 1.1) + 1; s.per_row = 6
 
     def stats(s):
+        return s._biased() or s._fair()
+
+    def _fair(s):
         mid = s.rows // 2; exp = math.comb(s.rows, mid) / 2 ** s.rows
         return dict(balls=s.N, rows=s.rows, bins=s.rows + 1, middle_bin=int(s.counts[mid]), middle_pct=round(100 * s.counts[mid] / s.N, 1),
                     expected_middle_pct=round(100 * exp, 1), left_edge=int(s.counts[0]), right_edge=int(s.counts[-1]),
                     edges_total=int(s.counts[0] + s.counts[-1]), edge_odds_1_in=2 ** s.rows, paths=2 ** s.rows,
                     middle_paths=math.comb(s.rows, mid), counts=[int(c) for c in s.counts], max_bin=int(s.counts.max()))
+
+    def _biased(s):
+        if s.p != 0.5:  # biased board: exact binomial(rows, p) predictions
+            p, n = s.p, s.rows; pmf = [math.comb(n, j) * p ** j * (1 - p) ** (n - j) for j in range(n + 1)]
+            ex = [s.N * q for q in pmf]; pk = int(np.argmax(s.counts)); epk = int(np.argmax(pmf))
+            st = dict(balls=s.N, rows=n, bins=n + 1, p_right_pct=round(100 * p), p_left_pct=round(100 * (1 - p)),
+                      counts=[int(c) for c in s.counts], max_bin=int(s.counts.max()), peak_bin=pk, expected_peak_bin=epk,
+                      peak_bin_label=pk + 1, expected_peak_label=epk + 1, expected_peak_count=round(ex[epk]),
+                      mean_rights=round(n * p, 1), left_edge=int(s.counts[0]), right_edge=int(s.counts[-1]),
+                      expected_right_edge=round(ex[-1], 1), expected_left_edge=round(ex[0], 4),
+                      right_edge_odds_1_in=round(1 / p ** n), left_edge_odds_1_in=round(1 / (1 - p) ** n),
+                      paths=2 ** n, fair_middle_paths=math.comb(n, n // 2), fair_edge_odds_1_in=2 ** n,
+                      fair_expected_edge=round(s.N / 2 ** n, 2), middle_bin=int(s.counts[n // 2]),
+                      expected_middle=round(ex[n // 2]), fair_expected_middle=round(s.N * math.comb(n, n // 2) / 2 ** n))
+            return st
+        return None
 
     def ballpos(s, i, u):
         t0 = i * s.release / s.N; a = (u - t0) / s.fall
@@ -139,7 +159,7 @@ class Galton:
         if vis.get("curve"):
             g = clamp(bp * 2.5); mid = s.rows // 2; pts = []
             for j in range(nb):
-                h = s.N * math.comb(s.rows, j) / 2 ** s.rows / s.per_row * rowh
+                h = s.N * math.comb(s.rows, j) * s.p ** j * (1 - s.p) ** (s.rows - j) / s.per_row * rowh
                 pts.append((x0 + (j + 0.5) * s.binw, by1 - 4 - h))
             n = max(2, int(len(pts) * g)); d.line(pts[:n], fill=al(YEL, 0.95), width=7, joint="curve")
         if vis.get("count", True):
