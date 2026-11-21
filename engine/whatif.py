@@ -13,7 +13,7 @@ Script keys: id, title, caption, hashtags, sources (URLs, each opened in the run
   "inputs": {name: number}  sourced numbers only (each listed in "notes" with its source),
   "calc": [[name, "python expression over earlier names and math"], ...]  every derived number, evaluated here,
   "beats": [{"say", "speak"?, "key": [...], "hook": [3 lines] (first beat) | "head": [2 lines], "chip"?, "stamp"?: {"text", "at"},
-             "vis": {"scene": stop|equator|bars|lat|daynight|slow|float|hammer|rain|jump|elevator|tunnel|bolt, ...}}],
+             "vis": {"scene": stop|equator|bars|lat|daynight|slow|float|hammer|rain|jump|elevator|tunnel|bolt|dive, ...}}],
   last beat {"say": "Follow Ship With Pip for more.", "nocap": true}.
 """
 import argparse
@@ -950,6 +950,110 @@ def sc_bolt(img, d, v, p, t, ctx):
 
 
 SCENES["bolt"] = sc_bolt
+
+
+# ============================================================ dive chain (Nov 21 2026, w9: one balloon going down, the pressure climbs every beat)
+SEA_TOP = 430; SEA_BOT = 1470; OBJ = (560, 840)
+WATER = [(0, (30, 110, 185)), (12, (22, 90, 165)), (1000, (8, 34, 78)), (3810, (4, 14, 38)), (11000, (2, 4, 14))]
+
+
+def water_col(depth):
+    for (d0, c0), (d1, c1) in zip(WATER, WATER[1:]):
+        if depth <= d1:
+            u = clamp((depth - d0) / max(d1 - d0, 1e-6)); return tuple(int(c0[i] + (c1[i] - c0[i]) * u) for i in range(3))
+    return WATER[-1][1]
+
+
+def draw_balloon(d, x, y, r, a=1.0):
+    d.line([(x, y + r * 1.12), (x + 10, y + r * 1.12 + 90), (x - 6, y + r * 1.12 + 170)], fill=al((230, 230, 240), 0.8 * a), width=4, joint="curve")
+    d.ellipse([x - r, y - r * 1.12, x + r, y + r * 1.12], fill=al(UMB, a))
+    d.polygon([(x - 12, y + r * 1.12 + 14), (x + 12, y + r * 1.12 + 14), (x, y + r * 1.12 - 4)], fill=al(UMB_D, a))
+    d.ellipse([x - r * 0.55, y - r * 0.8, x - r * 0.15, y - r * 0.2], fill=al(WHITE, 0.35 * a))
+
+
+def draw_cup(d, x, y, s, a=1.0, ghost=False):
+    w0, w1, h = 120 * s, 80 * s, 200 * s
+    pts = [(x - w0, y - h / 2), (x + w0, y - h / 2), (x + w1, y + h / 2), (x - w1, y + h / 2)]
+    if ghost: d.polygon(pts, outline=al(WHITE, 0.45 * a), width=4); return
+    d.polygon(pts, fill=al((238, 238, 230), a)); d.ellipse([x - w0, y - h / 2 - 16 * s, x + w0, y - h / 2 + 16 * s], fill=al((205, 205, 198), a))
+    for k, c in enumerate((UMB, CYAN, LIME)):
+        yy = y - h / 2 + h * (0.3 + 0.2 * k); ww = w0 + (w1 - w0) * (0.3 + 0.2 * k)
+        d.line([(x - ww * 0.8, yy), (x + ww * 0.8, yy)], fill=al(c, a), width=max(3, int(8 * s)))
+
+
+def press_arrows(d, cx, cy, rad, level, a=1.0, phase=0.0):
+    n = 12; L = 40 + 60 * level
+    for k in range(n):
+        an = 2 * math.pi * k / n + 0.13; wob = 8 * math.sin(phase * 6 + k)
+        r1 = rad + 30 + L + wob; r0 = rad + 26 + wob
+        x1, y1 = cx + math.cos(an) * r1, cy + math.sin(an) * r1; x0, y0 = cx + math.cos(an) * r0, cy + math.sin(an) * r0
+        d.line([(x1, y1), (x0, y0)], fill=al(CYAN, 0.75 * a), width=int(5 + 6 * level))
+        px, py = -math.sin(an), math.cos(an); hs = 14 + 10 * level
+        d.polygon([(x0, y0), (x0 + math.cos(an) * hs + px * hs * 0.7, y0 + math.sin(an) * hs + py * hs * 0.7),
+                   (x0 + math.cos(an) * hs - px * hs * 0.7, y0 + math.sin(an) * hs - py * hs * 0.7)], fill=al(CYAN, 0.85 * a))
+
+
+def sc_dive(img, d, v, p, t, ctx):
+    mode = v.get("mode", "balloon"); arr = v.get("arrive", 0.4); u = ease(clamp(p / arr)) if arr > 0 else 1.0; there = p >= arr
+    d0, d1 = v.get("from", 0), v.get("depth", 0)
+    dep = d0 + (d1 - d0) * u
+    d.rectangle([0, SEA_TOP, W, SEA_BOT], fill=water_col(dep) + (255,))
+    if dep < 40:  # surface line with sky above
+        sy = SEA_TOP + 0 + dep * 6
+        if sy < SEA_BOT: d.rectangle([0, SEA_TOP, W, min(SEA_BOT, sy)], fill=(14, 20, 40, 255)); d.line([(0, sy), (W, sy)], fill=al(WHITE, 0.6), width=4)
+    # marine snow drifts upward while we sink
+    rs = np.random.RandomState(5); spd = (0 if there else 900) + 30
+    for _ in range(70):
+        x = rs.rand() * W; y0 = rs.rand() * (SEA_BOT - SEA_TOP); r = 2 + rs.rand() * 4
+        y = SEA_TOP + (y0 - t * spd * (0.5 + rs.rand())) % (SEA_BOT - SEA_TOP)
+        d.ellipse([x - r, y - r, x + r, y + r], fill=al(WHITE, 0.25 + 0.2 * rs.rand()))
+    lvl = clamp(math.log10(1 + dep / 10.06) / math.log10(1100))
+    if mode in ("balloon", "cup", "hook", "deep"):
+        cx, cy = OBJ
+        if mode == "balloon":
+            v0, v1 = v.get("vol0", 1.0), v.get("vol", 1.0); vol = v0 + (v1 - v0) * u; r = max(8, 150 * vol ** (1 / 3))
+            if v.get("ghost", True) and v1 < 1: d.ellipse([cx - 150, cy - 168, cx + 150, cy + 168], outline=al(WHITE, 0.35), width=4)
+            draw_balloon(d, cx, cy, r); rad = r * 1.12
+        elif mode == "cup":
+            s = 1.0 + (v.get("cup", 0.6) - 1.0) * ease(clamp((p - arr) / 0.3)) if there else 1.0
+            draw_cup(d, cx, cy, 1.0, ghost=True); draw_cup(d, cx, cy + 100 * (1 - s), s); rad = 150 * s
+        else:
+            rad = 100; person(d, cx, cy + 85, 62, 0.0, col=YEL)  # you, at the bottom
+        if dep > 1: press_arrows(d, cx, cy, rad, lvl, a=clamp(0.3 + lvl), phase=t)
+    if mode in ("everest", "life"):
+        FL = 1300; top = SEA_TOP + 40
+        d.rectangle([0, FL, W, SEA_BOT], fill=(20, 16, 26, 255))
+        if mode == "everest":
+            fr = v.get("peak_frac", 0.8); g = ease(clamp(p / 0.5)); py = FL - (FL - top) * fr * g
+            d.polygon([(120, FL), (430, py + 160 * g), (560, py), (700, py + 120 * g), (960, FL)], fill=(70, 74, 96, 255))
+            d.polygon([(560, py), (520, py + 60 * g), (545, py + 50 * g), (600, py + 70 * g), (628, py + 60 * g)], fill=(235, 240, 250, 255))
+            if p > 0.55:  # bracket: water still above the summit
+                a = clamp((p - 0.55) / 0.1); bx = 800
+                d.line([(bx, top), (bx, py)], fill=al(YEL, a), width=6); d.line([(bx - 20, top), (bx + 20, top)], fill=al(YEL, a), width=6); d.line([(bx - 20, py), (bx + 20, py)], fill=al(YEL, a), width=6)
+            d.line([(0, top), (W, top)], fill=al(WHITE, 0.5), width=3)
+        else:
+            for k in range(3):  # small glowing amphipods hopping over the floor
+                x = 300 + k * 230 + 40 * math.sin(t * 1.3 + k); y = FL - 40 - 30 * abs(math.sin(t * 2.1 + k * 1.7))
+                g = Image.new("RGBA", (160, 160), (0, 0, 0, 0)); gd = ImageDraw.Draw(g); gd.ellipse([30, 30, 130, 130], fill=al(CYAN, 0.35)); g = g.filter(ImageFilter.GaussianBlur(18)); img.alpha_composite(g, (int(x - 80), int(y - 80)))
+                d = ImageDraw.Draw(img, "RGBA")
+                for j in range(5): d.ellipse([x - 34 + j * 12, y - 12 + 3 * abs(j - 2), x - 14 + j * 12, y + 8 + 3 * abs(j - 2)], fill=al((210, 240, 255), 1))
+                for j in range(4): d.line([(x - 20 + j * 12, y + 10), (x - 26 + j * 12, y + 26)], fill=al((210, 240, 255), 0.9), width=3)
+    # depth gauge: a bar on the left, the marker slides, the depth readout appears only on arrival (no tweened numbers)
+    gx, gy0, gy1 = 70, SEA_TOP + 40, SEA_BOT - 190
+    d.line([(gx, gy0), (gx, gy1)], fill=al(WHITE, 0.35), width=6)
+    my = gy0 + (gy1 - gy0) * clamp(math.log10(1 + dep) / math.log10(11001)); d.ellipse([gx - 16, my - 16, gx + 16, my + 16], fill=al(YEL, 1))
+    fade_top(img, SEA_TOP - 20, SEA_TOP + 60); fade_bottom(img, 1330, 1480); d = ImageDraw.Draw(img, "RGBA")
+    if v.get("speed") and (there or v.get("speed_now")): bigtext(img, (540, 500), v["speed"], 64, CYAN, a=clamp((p - arr) / 0.08) if not v.get("speed_now") else 1, outline=(5, 12, 24)); d = ImageDraw.Draw(img, "RGBA")
+    va = v.get("value_at", arr)
+    if "value" in v and p >= va:
+        g = clamp((p - va) / 0.1)
+        bigtext(img, (540, 1250), fmt_num(v["value"], v.get("dec", 0)) + " " + v.get("unit", ""), v.get("size", 100), YEL, a=g, scale=1 + 0.4 * (1 - ease(g)), outline=(40, 30, 0))
+    for i, lb in enumerate(v.get("labels", [])):
+        a = clamp((p - v.get("label_at", 0.55) - i * 0.12) / 0.08)
+        if a > 0: bigtext(img, (540, 1370 - (len(v["labels"]) - 1 - i) * 72 + (0 if "value" in v else -40)), lb, 54, WHITE if i else YEL, a=a)
+
+
+SCENES["dive"] = sc_dive
 
 
 # ============================================================ facts + check

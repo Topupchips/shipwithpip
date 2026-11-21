@@ -1,0 +1,345 @@
+{
+ "id": "w9_ocean_pressure",
+ "title": "11 km down, the ocean presses 8 tons on every square inch",
+ "inputs": {
+  "m_per_atm": 10.06,
+  "psi_atm": 14.7,
+  "titanic_ft": 12500,
+  "ft_m": 0.3048,
+  "deep_m": 10935,
+  "cup_m": 1000,
+  "everest_m": 8848.86,
+  "lb_ton": 2000
+ },
+ "calc": [
+  [
+   "p_10",
+   "1 + m_per_atm / m_per_atm"
+  ],
+  [
+   "vol_10_pct",
+   "100 / p_10"
+  ],
+  [
+   "p_cup",
+   "1 + cup_m / m_per_atm"
+  ],
+  [
+   "vol_cup_pct",
+   "100 / p_cup"
+  ],
+  [
+   "vol_cup",
+   "1 / p_cup"
+  ],
+  [
+   "titanic_m",
+   "titanic_ft * ft_m"
+  ],
+  [
+   "p_tit",
+   "1 + titanic_m / m_per_atm"
+  ],
+  [
+   "tons_tit",
+   "p_tit * psi_atm / lb_ton"
+  ],
+  [
+   "p_deep",
+   "1 + deep_m / m_per_atm"
+  ],
+  [
+   "psi_deep",
+   "p_deep * psi_atm"
+  ],
+  [
+   "tons_deep",
+   "psi_deep / lb_ton"
+  ],
+  [
+   "deep_km",
+   "deep_m / 1000"
+  ],
+  [
+   "above_m",
+   "deep_m - everest_m"
+  ],
+  [
+   "peak_frac",
+   "everest_m / deep_m"
+  ]
+ ],
+ "constants": [
+  1
+ ],
+ "beats": [
+  {
+   "hook": [
+    "11 KM DOWN:",
+    "8 TONS ON EVERY",
+    "SQUARE INCH"
+   ],
+   "say": "At the bottom of the ocean, 11 kilometres down, the water presses 8 tons on every square inch.",
+   "speak": "At the bottom of the ocean, eleven kilometres down, the water presses eight tons on every square inch.",
+   "key": [
+    "11",
+    "8",
+    "every"
+   ],
+   "vis": {
+    "scene": "dive",
+    "mode": "hook",
+    "from": 0,
+    "depth": 10935,
+    "arrive": 0.45,
+    "value": 8,
+    "unit": "TONS / SQ IN",
+    "size": 96
+   }
+  },
+  {
+   "head": [
+    "WHY THAT",
+    "NUMBER?"
+   ],
+   "say": "NOAA says every 10.06 metres of seawater adds one more atmosphere of pressure. So let's take a balloon down and watch.",
+   "speak": "Noah says every ten point zero six metres of seawater adds one more atmosphere of pressure. So let's take a balloon down and watch.",
+   "key": [
+    "10.06",
+    "atmosphere",
+    "balloon"
+   ],
+   "vis": {
+    "scene": "dive",
+    "mode": "balloon",
+    "from": 0,
+    "depth": 0,
+    "arrive": 0,
+    "labels": [
+     "+1 ATMOSPHERE",
+     "EVERY 10.06 M"
+    ],
+    "label_at": 0.2
+   }
+  },
+  {
+   "head": [
+    "JUST 10 METRES",
+    "DOWN."
+   ],
+   "say": "Just 10 metres down, the pressure doubles to 2 atmospheres. The balloon is squeezed to half its volume.",
+   "speak": "Just ten metres down, the pressure doubles to two atmospheres. The balloon is squeezed to half its volume.",
+   "key": [
+    "doubles",
+    "half"
+   ],
+   "vis": {
+    "scene": "dive",
+    "mode": "balloon",
+    "from": 0,
+    "depth": 10.06,
+    "arrive": 0.35,
+    "vol0": 1,
+    "vol": 0.5,
+    "speed": "10.06 M",
+    "value": 2,
+    "unit": "ATM"
+   }
+  },
+  {
+   "head": [
+    "NOW 1,000",
+    "METRES DOWN."
+   ],
+   "say": "At 1,000 metres it's 100 atmospheres. The air in the balloon is squeezed to about 1% of its volume.",
+   "speak": "At one thousand metres it's a hundred atmospheres. The air in the balloon is squeezed to about one percent of its volume.",
+   "key": [
+    "100",
+    "1%"
+   ],
+   "vis": {
+    "scene": "dive",
+    "mode": "balloon",
+    "from": 10.06,
+    "depth": 1000,
+    "arrive": 0.4,
+    "vol0": 0.5,
+    "vol": 0.00996,
+    "speed": "1,000 M",
+    "value": 100,
+    "unit": "ATM",
+    "labels": [
+     "ABOUT 1% OF ITS VOLUME"
+    ],
+    "label_at": 0.6
+   }
+  },
+  {
+   "head": [
+    "FOAM CUPS",
+    "SHRINK HERE."
+   ],
+   "say": "NOAA scientists send foam cups down this deep. The pressure crushes the air out of the foam, and they come back shrunk.",
+   "speak": "Noah scientists send foam cups down this deep. The pressure crushes the air out of the foam, and they come back shrunk.",
+   "key": [
+    "cups",
+    "shrunk."
+   ],
+   "vis": {
+    "scene": "dive",
+    "mode": "cup",
+    "from": 1000,
+    "depth": 1000,
+    "arrive": 0.2,
+    "cup": 0.6
+   }
+  },
+  {
+   "head": [
+    "THE TITANIC",
+    "IS DEEPER."
+   ],
+   "say": "The Titanic lies 12,500 feet down, 3,810 metres. That's 380 atmospheres: 2.8 tons on every square inch.",
+   "speak": "The Titanic lies twelve thousand five hundred feet down, three thousand eight hundred and ten metres. That's three hundred and eighty atmospheres: two point eight tons on every square inch.",
+   "key": [
+    "Titanic",
+    "380",
+    "2.8"
+   ],
+   "vis": {
+    "scene": "dive",
+    "mode": "deep",
+    "from": 1000,
+    "depth": 3810,
+    "arrive": 0.35,
+    "speed": "3,810 M",
+    "value": 380,
+    "unit": "ATM",
+    "labels": [
+     "2.8 TONS / SQ IN"
+    ],
+    "label_at": 0.65
+   }
+  },
+  {
+   "head": [
+    "NOW THE DEEPEST",
+    "SPOT ON EARTH."
+   ],
+   "say": "Challenger Deep: 10,935 metres. 1,088 atmospheres. 8 tons on every square inch of you.",
+   "speak": "Challenger Deep: ten thousand nine hundred and thirty five metres. One thousand and eighty eight atmospheres. Eight tons on every square inch of you.",
+   "key": [
+    "10,935",
+    "1,088",
+    "8"
+   ],
+   "stamp": {
+    "text": "1,088 ATMOSPHERES",
+    "at": 0.55,
+    "x": 540,
+    "y": 660,
+    "size": 80
+   },
+   "vis": {
+    "scene": "dive",
+    "mode": "deep",
+    "from": 3810,
+    "depth": 10935,
+    "arrive": 0.35,
+    "speed": "10,935 M",
+    "value": 8,
+    "unit": "TONS / SQ IN",
+    "size": 96
+   }
+  },
+  {
+   "head": [
+    "DROP EVEREST",
+    "IN THE HOLE."
+   ],
+   "say": "Drop Mount Everest in, all 8,848.86 metres of it. Its summit would still sit 2,086 metres underwater.",
+   "speak": "Drop Mount Everest in, all eight thousand eight hundred and forty eight point eight six metres of it. Its summit would still sit two thousand and eighty six metres underwater.",
+   "key": [
+    "Everest",
+    "2,086"
+   ],
+   "vis": {
+    "scene": "dive",
+    "mode": "everest",
+    "from": 10935,
+    "depth": 10935,
+    "arrive": 0,
+    "peak_frac": 0.809,
+    "labels": [
+     "2,086 M OF WATER",
+     "ABOVE THE SUMMIT"
+    ],
+    "label_at": 0.62
+   }
+  },
+  {
+   "head": [
+    "AND STILL,",
+    "LIFE."
+   ],
+   "say": "Reality check: even at 8 tons per square inch, NOAA says life exists down there.",
+   "speak": "Reality check: even at eight tons per square inch, Noah says there is still life down there.",
+   "key": [
+    "Reality",
+    "life"
+   ],
+   "vis": {
+    "scene": "dive",
+    "mode": "life",
+    "from": 10935,
+    "depth": 10935,
+    "arrive": 0,
+    "labels": [
+     "LIFE STILL LIVES HERE"
+    ],
+    "label_at": 0.45
+   }
+  },
+  {
+   "say": "Follow Ship With Pip for more.",
+   "nocap": true,
+   "vis": {
+    "scene": "dive",
+    "mode": "life",
+    "from": 10935,
+    "depth": 10935,
+    "arrive": 0
+   }
+  }
+ ],
+ "caption": "Every 10.06 m of seawater adds one atmosphere of pressure (NOAA). Take a balloon down: at 10 m it is squeezed to half its volume, at 1,000 m (100 atmospheres) to about 1%. NOAA scientists shrink foam cups at that depth. The Titanic lies at 12,500 ft, 3,810 m: 380 atmospheres, 2.8 tons per square inch. Challenger Deep, 10,935 m: 1,088 atmospheres, 8 tons on every square inch. Drop Everest in and 2,086 m of water would still sit over its summit. And life still lives down there. Balloon volumes use Boyle's law at constant temperature; tons are US tons of 2,000 lb.",
+ "hashtags": [
+  "ocean",
+  "deepsea",
+  "physics",
+  "whatif",
+  "science",
+  "shipwithpip"
+ ],
+ "sources": [
+  "https://oceanservice.noaa.gov/facts/pressure.html",
+  "https://oceanexplorer.noaa.gov/explorations/12midatlantic/logs/sept30/media/cups.html",
+  "https://oceanexplorer.noaa.gov/explorations/deepeast01/logs/sep14/media/cups.html",
+  "https://www.cbsnews.com/news/titanic-sub-debris-near-titan-ocean-depth-pressure-of-deep-sea",
+  "https://www.livescience.com/how-deep-is-the-mariana-trench",
+  "https://www.earthdate.org/episodes/the-deepest-deep",
+  "https://www.whoi.edu/ocean-learning-hub/ocean-facts/why-is-pressure-different-in-the-ocean/",
+  "https://www.npr.org/2020/12/08/944152693/everest-gets-a-growth-spurt-as-china-nepal-revise-official-elevation-upward"
+ ],
+ "notes": [
+  "m_per_atm 10.06 and psi_atm 14.7: NOAA NOS, 'For every 33 feet (10.06 meters) you go down, the pressure increases by one atmosphere'; surface air '14.7 pounds per square inch (1 bar)'. WHOI agrees: 'For every 10 meters of water, hydrostatic pressure increases by one atmosphere' and at 10 m 'the pressure is double'.",
+  "cup_m 1000: NOAA Ocean Explorer (12midatlantic, Sept 30): 'The colored cups were sent down on the CTD to a depth of about 1,000 meters' and 'the pressure of the water squeezes and shrinks the cups'. Deepeast01: 'substantial shrinkage as the air in the styrofoam is compressed'. No shrink fraction is sourced, so none is stated; the on-screen cup shrink is illustrative only.",
+  "titanic_ft 12500: CBS News, 'The Titanic wreckage, which is about 12,500 feet deep'. ft_m 0.3048 exact definition.",
+  "deep_m 10935: Live Science, 'about 35,876 feet (10,935 meters) deep'. Guinness via Live Science: pressure 'more than 1,000 times' sea level; WHOI 'In the deepest trenches, it's 1,100 times greater'; EarthDate 'more than 8 tons per square inch'. Our 1,088 atm and 8.0 tons/sq in are consistent.",
+  "Life: CBS News, 'The pressure in the trench is 8 tons per square inch, but still, life exists, NOAA says.'",
+  "everest_m 8848.86: NPR, 'the summit now stands precisely at 8,848.86 meters'.",
+  "lb_ton 2000: US short ton definition (the tons in the EarthDate and CBS NOAA figure are US tons per square inch).",
+  "Pressures are absolute (1 atm of air plus 1 atm per 10.06 m). Balloon volume fraction = 1/p (Boyle's law, constant temperature, ideal gas; at 100 atm air is close to ideal). vol_cup 0.00996 drives the drawn balloon size.",
+  "Constant 1: one atmosphere per step, and 'about 1%' is vol_cup_pct 0.996 rounded."
+ ]
+}
