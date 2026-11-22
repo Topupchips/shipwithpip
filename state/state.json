@@ -1,12 +1,12 @@
 {
-  "next": "sim",
+  "next": "whatif",
   "cycle": [
     "sim",
     "whatif",
     "visual",
     "whatif"
   ],
-  "cycle_index": 28,
+  "cycle_index": 29,
   "sim_rotation": [
     "maze",
     "flappy",
@@ -23,7 +23,7 @@
     "keepups",
     "password"
   ],
-  "sim_index": 14,
+  "sim_index": 16,
   "account": {
     "platform": "INSTAGRAM",
     "username": "shipwithpip",
@@ -50,5 +50,5 @@
   "satisfy_index": 4,
   "satisfy_queue": [],
   "whatif_queue": [],
-  "last_review": "2026-11-19T18:20:31Z"
+  "last_review": "2026-11-22T06:17:30Z"
 }
