@@ -128,7 +128,7 @@
     "shipwithpip"
   ],
   "sources": [
-    "https://www.powerball.com/Powerball-prize-chart",
+    "https://www.powerball.com/POWERBALL-PRIZE-CHART",
     "https://www.weather.gov/safety/lightning-odds"
   ],
   "facts": "royal flush = C(52,5)/4 = 2,598,960/4 = 649,740; 2^28 = 268,435,456 < 292,201,338 (Powerball, powerball.com); all spades = C(52,13) = 635,013,559,600. Steps (first n with 10^n >= odds): six 1, lightning 15,300 -> 5, royal 6, 28 heads 9, Powerball 9, spades 12."

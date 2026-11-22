@@ -1,12 +1,12 @@
 {
-  "next": "visual",
+  "next": "whatif",
   "cycle": [
     "sim",
     "whatif",
     "visual",
     "whatif"
   ],
-  "cycle_index": 30,
+  "cycle_index": 31,
   "sim_rotation": [
     "maze",
     "flappy",
@@ -29,9 +29,7 @@
     "username": "shipwithpip",
     "platformAccountId": "29510734025188123"
   },
-  "visual_queue": [
-    "v6_odds"
-  ],
+  "visual_queue": [],
   "retired_sims": [
     "dino"
   ],
@@ -39,7 +37,7 @@
     "scale",
     "satisfy"
   ],
-  "visual_mode_index": 6,
+  "visual_mode_index": 7,
   "satisfy_rotation": [
     "pendulum",
     "fourier",
