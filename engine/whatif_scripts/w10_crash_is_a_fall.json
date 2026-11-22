@@ -1,0 +1,313 @@
+{
+ "id": "w10_crash_is_a_fall",
+ "title": "Crash at 100 km/h and you hit like a car dropped 39 metres",
+ "inputs": {
+  "g": 9.80665,
+  "v_town_kmh": 50,
+  "v_hwy_kmh": 100,
+  "v_fast_kmh": 120,
+  "v_double_kmh": 200,
+  "bugatti_kmh": 490.484,
+  "bugatti_mph": 304.773,
+  "bugatti_year": 2019,
+  "iihs_mph": 40,
+  "mph_kmh": 1.609344,
+  "pyramid_m": 147,
+  "burj_m": 828
+ },
+ "calc": [
+  [
+   "h_hwy",
+   "(v_hwy_kmh / 3.6) ** 2 / (2 * g)"
+  ],
+  [
+   "h_town",
+   "(v_town_kmh / 3.6) ** 2 / (2 * g)"
+  ],
+  [
+   "h_fast",
+   "(v_fast_kmh / 3.6) ** 2 / (2 * g)"
+  ],
+  [
+   "h_double",
+   "(v_double_kmh / 3.6) ** 2 / (2 * g)"
+  ],
+  [
+   "h_bugatti",
+   "(bugatti_kmh / 3.6) ** 2 / (2 * g)"
+  ],
+  [
+   "iihs_kmh",
+   "iihs_mph * mph_kmh"
+  ],
+  [
+   "h_iihs",
+   "(iihs_kmh / 3.6) ** 2 / (2 * g)"
+  ],
+  [
+   "town_ratio",
+   "h_hwy / h_town"
+  ],
+  [
+   "double_ratio",
+   "h_double / h_hwy"
+  ],
+  [
+   "fast_speed_pct",
+   "100 * (v_fast_kmh / v_hwy_kmh - 1)"
+  ],
+  [
+   "fast_h_pct",
+   "100 * (h_fast / h_hwy - 1)"
+  ],
+  [
+   "over_pyramid",
+   "h_double - pyramid_m"
+  ],
+  [
+   "over_burj",
+   "h_bugatti - burj_m"
+  ],
+  [
+   "bugatti_ratio",
+   "h_bugatti / h_hwy"
+  ],
+  [
+   "g2",
+   "round(g, 2)"
+  ]
+ ],
+ "constants": [],
+ "beats": [
+  {
+   "hook": [
+    "CRASH AT 100 KM/H.",
+    "YOU JUST FELL",
+    "39 METRES"
+   ],
+   "say": "Crash into a wall at 100 kilometres an hour, and you hit as hard as a car dropped 39 metres.",
+   "speak": "Crash into a wall at one hundred kilometres an hour, and you hit as hard as a car dropped thirty nine metres.",
+   "key": [
+    "100",
+    "39"
+   ],
+   "vis": {
+    "scene": "crash",
+    "h": 39.34,
+    "view": 45,
+    "drop": 0.1,
+    "land": 0.6,
+    "ruler": "39 M",
+    "value": 100,
+    "unit": "KM/H"
+   }
+  },
+  {
+   "head": [
+    "WHY",
+    "39 METRES?"
+   ],
+   "say": "Gravity adds 9.81 metres per second of speed, every second. Ignore air, and a car has to fall 39.34 metres to reach 100 kilometres an hour.",
+   "speak": "Gravity adds nine point eight one metres per second of speed, every second. Ignore air, and a car has to fall thirty nine point three four metres to reach one hundred kilometres an hour.",
+   "key": [
+    "9.81",
+    "39.34",
+    "100"
+   ],
+   "vis": {
+    "scene": "crash",
+    "h": 39.34,
+    "view": 45,
+    "drop": 0.2,
+    "land": 0.85,
+    "ruler": "39.34 M",
+    "value": 100,
+    "unit": "KM/H"
+   }
+  },
+  {
+   "head": [
+    "HALF",
+    "THE SPEED."
+   ],
+   "say": "Slow down to 50 in town and the drop is only 9.84 metres. Half the speed, a quarter of the height.",
+   "speak": "Slow down to fifty in town and the drop is only nine point eight four metres. Half the speed, a quarter of the height.",
+   "key": [
+    "50",
+    "9.84",
+    "quarter"
+   ],
+   "vis": {
+    "scene": "crash",
+    "h": 9.84,
+    "view": 45,
+    "drop": 0.15,
+    "land": 0.6,
+    "ruler": "9.84 M",
+    "value": 50,
+    "unit": "KM/H"
+   }
+  },
+  {
+   "head": [
+    "A LITTLE",
+    "FASTER."
+   ],
+   "say": "Now 120 on the highway. Just 20% faster than 100, but the drop is 56.65 metres. That is 44% higher.",
+   "speak": "Now one hundred and twenty on the highway. Just twenty percent faster than one hundred, but the drop is fifty six point six five metres. That is forty four percent higher.",
+   "key": [
+    "20%",
+    "56.65",
+    "44%"
+   ],
+   "vis": {
+    "scene": "crash",
+    "h": 56.65,
+    "view": 65,
+    "drop": 0.15,
+    "land": 0.7,
+    "ruler": "56.65 M",
+    "value": 120,
+    "unit": "KM/H"
+   }
+  },
+  {
+   "head": [
+    "NOW DOUBLE IT:",
+    "200 KM/H."
+   ],
+   "stamp": {
+    "text": "4X THE DROP",
+    "at": 0.75,
+    "x": 780,
+    "y": 1020,
+    "size": 84,
+    "angle": -6
+   },
+   "say": "Double it to 200. The drop is 157.36 metres, 4 times higher, and 10.36 metres taller than the Great Pyramid when it was built.",
+   "speak": "Double it to two hundred. The drop is one hundred and fifty seven point three six metres, four times higher, and ten point three six metres taller than the Great Pyramid when it was built.",
+   "key": [
+    "200",
+    "157.36",
+    "4",
+    "Pyramid"
+   ],
+   "vis": {
+    "scene": "crash",
+    "h": 157.36,
+    "view": 180,
+    "drop": 0.12,
+    "land": 0.62,
+    "ruler": "157 M",
+    "mark": "pyramid",
+    "mark_at": 0.45,
+    "mark_label": "GREAT PYRAMID",
+    "value": 200,
+    "unit": "KM/H"
+   }
+  },
+  {
+   "head": [
+    "THE FASTEST",
+    "BUGATTI."
+   ],
+   "say": "In 2019 a Bugatti Chiron hit 490.484 kilometres an hour. Crash at that speed and you fall 946.44 metres.",
+   "speak": "In twenty nineteen a Bugatti hit four hundred and ninety point four eight four kilometres an hour. Crash at that speed and you fall nine hundred and forty six point four four metres.",
+   "key": [
+    "2019",
+    "490.484",
+    "946.44"
+   ],
+   "vis": {
+    "scene": "crash",
+    "h": 946.44,
+    "view": 1000,
+    "drop": 0.1,
+    "land": 0.7,
+    "ruler": "946 M",
+    "speed": "490.484 KM/H",
+    "value": 946,
+    "unit": "M"
+   }
+  },
+  {
+   "head": [
+    "TALLER THAN",
+    "THE BURJ KHALIFA."
+   ],
+   "stamp": {
+    "text": "+118 M",
+    "at": 0.6,
+    "x": 420,
+    "y": 760,
+    "size": 96,
+    "angle": -8
+   },
+   "say": "That is 118 metres taller than the Burj Khalifa, all 828 metres of it. 24 times the drop of a 100 kilometre an hour crash.",
+   "speak": "That is one hundred and eighteen metres taller than the Burj Khalifa, all eight hundred and twenty eight metres of it. Twenty four times the drop of a one hundred kilometre an hour crash.",
+   "key": [
+    "118",
+    "828",
+    "24"
+   ],
+   "vis": {
+    "scene": "crash",
+    "h": 946.44,
+    "view": 1000,
+    "drop": 0.05,
+    "land": 0.5,
+    "ruler": "946 M",
+    "mark": "burj",
+    "mark_at": 0.15,
+    "mark_label": "BURJ KHALIFA",
+    "value": 828,
+    "unit": "M"
+   }
+  },
+  {
+   "head": [
+    "REALITY",
+    "CHECK."
+   ],
+   "say": "The IIHS small overlap crash test runs at only 40 miles an hour. Even that is a car dropped 16.3 metres. Speed is squared, so every bit counts.",
+   "speak": "The I I H S small overlap crash test runs at only forty miles an hour. Even that is a car dropped sixteen point three metres. Speed is squared, so every bit counts.",
+   "key": [
+    "40",
+    "16.3",
+    "squared"
+   ],
+   "vis": {
+    "scene": "crash",
+    "h": 16.3,
+    "view": 45,
+    "drop": 0.15,
+    "land": 0.6,
+    "ruler": "16.3 M",
+    "value": 40,
+    "unit": "MPH"
+   }
+  },
+  {
+   "to": 0,
+   "nocap": true,
+   "say": "Follow Ship With Pip for more."
+  }
+ ],
+ "caption": "Crashing at 100 km/h hits as hard as a car dropped 39.34 m (ignoring air, the drop height is speed squared divided by 2g). Half the speed, 50 km/h, is only 9.84 m. Just 20% faster, 120 km/h, is 56.65 m, 44% higher. Double to 200 km/h and it is 157.36 m, taller than the Great Pyramid was when built (147 m). The Bugatti Chiron record, 490.484 km/h in 2019, matches a 946.44 m drop: 118 m taller than the 828 m Burj Khalifa. Even the IIHS small overlap test at 40 mph equals a 16.3 m drop.",
+ "hashtags": [
+  "physics",
+  "whatif",
+  "cars",
+  "science",
+  "carcrash",
+  "shipwithpip"
+ ],
+ "sources": [
+  "https://newsroom.bugatti.com/press-releases/breaking-news-bugatti-chiron-breaks-300-mph-barrier",
+  "https://iihs.org/ratings/about-our-tests/small-overlap-front",
+  "https://www.prnewswire.com/news-releases/burj-khalifa-is-unveiled-to-the-world-and-its-official-height-is-828-metres-80657972.html",
+  "https://www.britannica.com/place/Great-Pyramid",
+  "https://en.wikipedia.org/wiki/Standard_gravity"
+ ],
+ "notes": "Bugatti newsroom (2 Sep 2019): a near production Chiron prototype (Chiron Super Sport 300+) reached 304.773 mph (490.484 km/h). IIHS small overlap front page: vehicle travels at 40 mph into a rigid barrier with 25% overlap. PR Newswire 4 Jan 2010: Burj Khalifa official height 828 metres. Britannica Great Pyramid: original height 481.4 ft (147 m); base sides about 230 m. Standard gravity 9.80665 m/s2 (shown 9.81), defined value per NIST SP 330. Physics: with no air drag, falling from height h gives speed sqrt(2gh), so the drop matching speed v is v^2/(2g); the car's kinetic energy at impact is the same as in a crash into a rigid wall at v. 50, 100, 120 and 200 km/h are chosen example speeds. The town ratio 4.0, double ratio 4.0, Bugatti ratio 24.06 are calc results. Animation not real time; buildings drawn with decorative window rows, landmark silhouettes approximate shapes at the correct height scale."
+}

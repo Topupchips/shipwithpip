@@ -322,7 +322,7 @@ def render_frame(t, S, tl, bg, total):
 
 
 LEX_ADD = {  # words the Kokoro US lexicon is missing (it silently skips them otherwise)
-    "centimetres": "s ˈ ɛ n t ə m ˌ i ɾ ə ɹ z", "burj": "b ˈ ɜ ɹ ʤ", "khalifa": "k ə l ˈ i f ə", "philae": "f ˈ I l i", "betty": "b ˈ ɛ ɾ i", "lou": "l ˈ u", "otis": "ˈ O ɾ ɪ s", "cities": "s ˈ ɪ ɾ i z", "mcgill": "m ə ɡ ˈ ɪ l", "kola": "k ˈ O l ə",
+    "centimetres": "s ˈ ɛ n t ə m ˌ i ɾ ə ɹ z", "burj": "b ˈ ɜ ɹ ʤ", "bugatti": "b u ɡ ˈ ɑ ɾ i", "khalifa": "k ə l ˈ i f ə", "philae": "f ˈ I l i", "betty": "b ˈ ɛ ɾ i", "lou": "l ˈ u", "otis": "ˈ O ɾ ɪ s", "cities": "s ˈ ɪ ɾ i z", "mcgill": "m ə ɡ ˈ ɪ l", "kola": "k ˈ O l ə",
     "kilometers": "k ə l ˈ ɑ m ə ɾ ə ɹ z", "millimeters": "m ˈ ɪ l ə m ˌ i ɾ ə ɹ z", "that's": "ð ˈ æ t s",
     "britney": "b ɹ ˈ ɪ t n i", "gallivan": "ɡ ˈ æ l ɪ v ə n", "centimeters": "s ˈ ɛ n t ə m ˌ i ɾ ə ɹ z",
     "doublings": "d ˈ ʌ b l ɪ ŋ z", "minutes": "m ˈ ɪ n ə t s", "zeros": "z ˈ ɪ ɹ O z", "here's": "h ˈ ɪ ɹ z",

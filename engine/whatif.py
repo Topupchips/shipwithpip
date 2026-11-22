@@ -1056,6 +1056,111 @@ def sc_dive(img, d, v, p, t, ctx):
 SCENES["dive"] = sc_dive
 
 
+# ============================================================ crash = fall (Nov 22 2026, w10): a car dropped from the height that matches its crash speed
+CGY = 1240  # ground line
+CTOP = 470  # highest drawable point (below the head band)
+CAR_RED = (230, 70, 70)
+
+
+def draw_car(d, x, y, s=1.0, ang=0.0, crush=0.0, col=CAR_RED):
+    """Side-view car, wheels' bottom at (x, y), length about 220*s px. crush 0..1 squashes it on impact."""
+    sy = 1 - 0.45 * crush
+    def P(u, v):
+        v = v * sy; return (x + (u * math.cos(ang) - v * math.sin(ang)) * s, y + (u * math.sin(ang) + v * math.cos(ang)) * s)
+    d.polygon([P(-110, -22), P(110, -22), P(114, -58), P(60, -62), P(30, -98), P(-50, -98), P(-80, -62), P(-112, -58)], fill=al(col, 1))
+    d.polygon([P(22, -66), P(-2, -92), P(-44, -92), P(-66, -66)], fill=al((150, 200, 240), 0.9))
+    d.line([P(-110, -40), P(110, -40)], fill=al((120, 30, 30), 1), width=max(2, int(4 * s)))
+    for wx in (-66, 66):
+        cx, cy = P(wx, -20); r = 22 * s
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(18, 18, 26, 255)); d.ellipse([cx - r * 0.45, cy - r * 0.45, cx + r * 0.45, cy + r * 0.45], fill=al(STEEL, 1))
+    hx, hy = P(108, -50); d.ellipse([hx - 7 * s, hy - 7 * s, hx + 7 * s, hy + 7 * s], fill=al(YEL, 1))
+
+
+def draw_tower(d, x, w, top, col=(40, 46, 74), win=True, pxpm=1.0):
+    d.rectangle([x, top, x + w, CGY], fill=col + (255,))
+    if win:
+        fh = max(3.0, 3.5 * pxpm)  # one window row per 3.5 m, drawing only
+        if fh >= 6:
+            y = top + fh * 0.4
+            while y < CGY - fh * 0.5:
+                for k in range(4): d.rectangle([x + 10 + k * (w - 20) / 4, y, x + 10 + k * (w - 20) / 4 + (w - 20) / 4 - 8, y + fh * 0.45], fill=(255, 220, 120, 60))
+                y += fh
+
+
+def draw_mark(img, d, kind, x, pxpm, a):
+    """Landmark silhouette at the same scale: pyramid (147 m as built) or burj (828 m). Returns its top y."""
+    c = al((120, 128, 170), 0.85 * a)
+    if kind == "pyramid":
+        hh = 147 * pxpm; half = 115 * pxpm  # base side 230 m
+        d.polygon([(x - half, CGY), (x + half, CGY), (x, CGY - hh)], fill=c); return CGY - hh
+    if kind == "burj":
+        hh = 828 * pxpm; steps = [(0.0, 1.0), (0.25, 0.8), (0.45, 0.6), (0.62, 0.42), (0.76, 0.28), (0.86, 0.16), (0.93, 0.07)]
+        bw = 70 * pxpm * 1.0 + 30
+        for f0, wf in steps:
+            y0 = CGY - hh * f0; y1 = CGY - hh * min(1.0, f0 + 0.3)
+            d.rectangle([x - bw * wf / 2, y1, x + bw * wf / 2, y0], fill=c)
+        d.line([(x, CGY - hh * 0.93), (x, CGY - hh)], fill=c, width=4); return CGY - hh
+    return CGY
+
+
+def sc_crash(img, d, v, p, t, ctx):
+    """A car falls from h metres (no air) and lands at `land`. view = metres shown from ground to CTOP (camera scale).
+    mark = pyramid | burj (landmark at same scale), tower = draw the drop building, value/unit = readout after landing."""
+    h = float(v["h"]); view = float(v.get("view", h * 1.15)); pxpm = (CGY - CTOP) / view
+    drop = v.get("drop", 0.12); land = v.get("land", 0.72)
+    top_y = CGY - h * pxpm
+    s = min(0.8, max(0.2, 1.8 * 4.6 * pxpm / 220))  # car drawn about 1.8x its real 4.6 m length so it stays visible
+    landed = p >= land
+    # ground and town
+    d.rectangle([0, CGY, W, H], fill=(24, 28, 44, 255)); d.line([(0, CGY), (W, CGY)], fill=al(STEEL, 0.5), width=4)
+    mk = v.get("mark")
+    if mk:
+        a = clamp((p - v.get("mark_at", 0.3)) / 0.12)
+        if a > 0:
+            my = draw_mark(img, d, mk, 870, pxpm, a)
+            if v.get("mark_label"): bigtext(img, (870, max(CTOP - 10, my - 50)), v["mark_label"], 44, (180, 188, 230), a=a, outline=(5, 8, 20)); d = ImageDraw.Draw(img, "RGBA")
+    if v.get("tower", True): draw_tower(d, 160, 220, top_y, pxpm=pxpm)
+    # person for scale when the drop is short
+    if h < 60: person(d, 70, CGY, max(6.0, 1.75 * pxpm / 2.7), 0.0, col=(200, 205, 225))
+    # ruler from the ground to the drop height
+    ra = clamp((p - 0.05) / 0.1)
+    if ra > 0:
+        d.line([(640, CGY), (640, top_y)], fill=al(YEL, 0.85 * ra), width=5)
+        for y in (CGY, top_y): d.line([(616, y), (664, y)], fill=al(YEL, 0.85 * ra), width=5)
+        if v.get("ruler"): bigtext(img, (640 + 20 + 22 * len(v["ruler"]), (CGY + top_y) / 2 if top_y < CGY - 120 else top_y - 50), v["ruler"], 52, YEL, a=ra, outline=(40, 30, 0)); d = ImageDraw.Draw(img, "RGBA")
+    # the car: waits on the roof edge, then free falls (y grows with time squared) and lands at `land`
+    cx = 400 + 120 * s
+    if p < drop: cy = top_y; ang = 0.0
+    elif not landed:
+        q = (p - drop) / max(land - drop, 1e-3); cy = top_y + (CGY - top_y) * q * q; ang = 0.5 * q
+        for k in range(1, 9):  # motion streaks
+            q2 = max(0.0, q - k * 0.03); y2 = top_y + (CGY - top_y) * q2 * q2
+            d.line([(cx - 60 * s, y2 - 40 * s), (cx + 60 * s, y2 - 40 * s)], fill=al(WHITE, 0.25 * (1 - k / 9)), width=3)
+    else: cy = CGY; ang = 0.0
+    crush = ease(clamp((p - land) / 0.05)) if landed else 0.0
+    draw_car(d, cx, cy, s, ang, crush)
+    if landed:
+        qq = clamp((p - land) / 0.3); r = 60 + 380 * ease(qq)
+        dust = Image.new("RGBA", (W, H), (0, 0, 0, 0)); dd = ImageDraw.Draw(dust)
+        dd.ellipse([cx - r, CGY - r * 0.4, cx + r, CGY + r * 0.4], fill=al((170, 150, 130), 0.7 * (1 - qq))); img.alpha_composite(dust.filter(ImageFilter.GaussianBlur(22)))
+        if p - land < 0.03: img.alpha_composite(Image.new("RGBA", (W, H), al(WHITE, 0.3)))
+        d = ImageDraw.Draw(img, "RGBA")
+        if p - land < 0.08: bigtext(img, (cx, CGY - 170 * max(s, 0.5)), "CRUNCH", 80, RED, angle=-6, outline=(60, 0, 0)); d = ImageDraw.Draw(img, "RGBA")
+    fade_top(img); d = ImageDraw.Draw(img, "RGBA")
+    if v.get("speed"): bigtext(img, (540, 470), v["speed"], 60, CYAN, outline=(5, 12, 24)); d = ImageDraw.Draw(img, "RGBA")
+    at = v.get("value_at", land)
+    if "value" in v and p >= at:
+        g = clamp((p - at) / 0.12)
+        bigtext(img, (540, 1340), fmt_num(v["value"], v.get("dec", 0)) + " " + v.get("unit", ""), v.get("size", 104), YEL, a=g, scale=1 + 0.4 * (1 - ease(g)), outline=(40, 30, 0))
+    y0 = 1430 if "value" in v else 1350
+    for i, lb in enumerate(v.get("labels", [])):
+        a = clamp((p - v.get("label_at", 0.55) - i * 0.12) / 0.08)
+        if a > 0: bigtext(img, (540, y0 - (len(v["labels"]) - 1 - i) * 76), lb, 58, WHITE if i else YEL, a=a)
+
+
+SCENES["crash"] = sc_crash
+
+
 # ============================================================ facts + check
 WORDNUM = {"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
            "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14, "fifteen": 15, "sixteen": 16, "seventeen": 17, "eighteen": 18,
