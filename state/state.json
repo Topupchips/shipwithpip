@@ -1,12 +1,12 @@
 {
-  "next": "whatif",
+  "next": "sim",
   "cycle": [
     "sim",
     "whatif",
     "visual",
     "whatif"
   ],
-  "cycle_index": 31,
+  "cycle_index": 32,
   "sim_rotation": [
     "maze",
     "flappy",

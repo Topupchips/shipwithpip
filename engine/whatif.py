@@ -13,7 +13,7 @@ Script keys: id, title, caption, hashtags, sources (URLs, each opened in the run
   "inputs": {name: number}  sourced numbers only (each listed in "notes" with its source),
   "calc": [[name, "python expression over earlier names and math"], ...]  every derived number, evaluated here,
   "beats": [{"say", "speak"?, "key": [...], "hook": [3 lines] (first beat) | "head": [2 lines], "chip"?, "stamp"?: {"text", "at"},
-             "vis": {"scene": stop|equator|bars|lat|daynight|slow|float|hammer|rain|jump|elevator|tunnel|bolt|dive, ...}}],
+             "vis": {"scene": stop|equator|bars|lat|daynight|slow|float|hammer|rain|jump|elevator|tunnel|bolt|dive|crash|hair, ...}}],
   last beat {"say": "Follow Ship With Pip for more.", "nocap": true}.
 """
 import argparse
@@ -1159,6 +1159,120 @@ def sc_crash(img, d, v, p, t, ctx):
 
 
 SCENES["crash"] = sc_crash
+
+
+# ============================================================ hair (Nov 23 2026, w11): loads hanging from hair, and a hair-pulled bus
+HAIR = (214, 160, 96); HAIR_D = (150, 104, 58); SKIN = (236, 190, 150); GREY_E = (150, 156, 172)
+HHX, HHY, HHR, KNOT = 540, 590, 92, 880
+
+
+def draw_head(d, x, y, r):
+    d.ellipse([x - r, y - r, x + r, y + r], fill=al(SKIN, 1))
+    d.chord([x - r - 4, y - r - 6, x + r + 4, y + r * 0.7], 180, 360, fill=al(HAIR, 1))  # hair cap
+    for ex in (-0.36, 0.36): d.ellipse([x + ex * r - 9, y + 0.12 * r - 9, x + ex * r + 9, y + 0.12 * r + 9], fill=(30, 24, 20, 255))
+    d.arc([x - 0.4 * r, y + 0.2 * r, x + 0.4 * r, y + 0.62 * r], 20, 160, fill=(120, 50, 40, 255), width=6)
+
+
+def draw_elephant(d, x, y, s=1.0, col=GREY_E):
+    """Side view, feet on y, centred on x, about 260*s px long, facing right."""
+    c = al(col, 1); dk = al(tuple(int(k * 0.75) for k in col), 1)
+    for lx in (-80, -40, 40, 72): d.rounded_rectangle([x + (lx - 18) * s, y - 95 * s, x + (lx + 18) * s, y], radius=int(8 * s), fill=c)
+    d.ellipse([x - 120 * s, y - 210 * s, x + 100 * s, y - 70 * s], fill=c)
+    d.ellipse([x + 60 * s, y - 225 * s, x + 150 * s, y - 135 * s], fill=c)
+    d.ellipse([x + 40 * s, y - 215 * s, x + 105 * s, y - 120 * s], fill=dk)  # ear
+    d.line([(x + 140 * s, y - 165 * s), (x + 158 * s, y - 100 * s), (x + 150 * s, y - 45 * s)], fill=c, width=max(4, int(22 * s)), joint="curve")
+    d.ellipse([x + 112 * s, y - 196 * s, x + 124 * s, y - 184 * s], fill=(20, 20, 28, 255))
+    d.line([(x + 118 * s, y - 145 * s), (x + 150 * s, y - 140 * s)], fill=(240, 236, 220, 255), width=max(3, int(7 * s)))  # tusk
+    d.line([(x - 118 * s, y - 160 * s), (x - 138 * s, y - 110 * s)], fill=c, width=max(2, int(6 * s)))  # tail
+
+
+def draw_bus(d, x, y, s=1.0):
+    """London-style double decker, side view, wheels' bottom at y, left end at x, about 520*s px long."""
+    L, Hh = 520 * s, 300 * s
+    d.rounded_rectangle([x, y - Hh, x + L, y - 26 * s], radius=int(18 * s), fill=(206, 30, 40, 255))
+    for row in (0, 1):
+        yy = y - Hh + 30 * s + row * 125 * s
+        for k in range(5): d.rectangle([x + 24 * s + k * 98 * s, yy, x + 24 * s + k * 98 * s + 80 * s, yy + 60 * s], fill=(160, 210, 240, 235))
+    d.rectangle([x, y - 152 * s, x + L, y - 140 * s], fill=(240, 220, 120, 255))
+    for wx in (90, 420):
+        r = 34 * s; cx, cy = x + wx * s, y - r
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(18, 18, 26, 255)); d.ellipse([cx - r * 0.45, cy - r * 0.45, cx + r * 0.45, cy + r * 0.45], fill=al(STEEL, 1))
+
+
+def load_box(kind, n):
+    """(width, height) of the hanging load in px."""
+    return dict(bar=(210, 64), bag=(150, 170), person=(110, 290), elephant=(int(300 * max(1, math.ceil(n)) * 0.9) + 60, 205))[kind]
+
+
+def sc_hair(img, d, v, p, t, ctx):
+    """mode lift: `n` hairs from one head (n drawn as up to 70 strands) gather in a knot and lift a load off the floor at `hit`.
+    load = bar | bag | person | elephant (count = elephants, fractions drawn cut off). mode pull: a person pulls a bus with their hair."""
+    mode = v.get("mode", "lift"); hit = v.get("hit", 0.3)
+    d.rectangle([0, CGY, W, H], fill=(24, 28, 44, 255)); d.line([(0, CGY), (W, CGY)], fill=al(STEEL, 0.5), width=4)
+    if mode == "pull":
+        q = ease(clamp((p - hit) / (1 - hit))); bx = 470 - 110 * q
+        px = 170; s = 58; hy = CGY - 2.3 * s
+        person(d, px, CGY, s, -0.28, col=SKIN)
+        hx = px - math.sin(0.28) * 2.3 * s
+        d.line([(hx + 8, hy - 8), (bx, CGY - 110)], fill=al(HAIR, 1), width=8)
+        draw_bus(d, bx, CGY, 1.0)
+        for k in range(5):  # motion lines behind the bus
+            yy = CGY - 60 - k * 50; a = 0.35 * q
+            d.line([(bx + 540, yy), (bx + 540 + 60 + 20 * k, yy)], fill=al(WHITE, a), width=4)
+    else:
+        n = float(v.get("n", 1)); kind = v.get("load", "bar"); cnt = float(v.get("count", 1))
+        lift = 80 * ease(clamp((p - hit) / 0.25)) if p >= hit else 0.0
+        bw, bh = load_box(kind, cnt)
+        bot = CGY - lift; top = bot - bh; hook = top - 60
+        ns = int(min(70, max(1, n)))
+        taut = 1.0 if p >= hit else 0.0
+        for i in range(ns):
+            ang = math.pi * (1.02 + 0.96 * (i + 0.5) / ns) if ns > 1 else math.pi * 1.5  # roots on the hair cap; strands fall behind the head
+            sx, sy = HHX + math.cos(ang) * HHR * 1.0, HHY + math.sin(ang) * HHR * 1.0
+            sag = (1 - taut) * 30 * math.sin(i * 1.7)
+            d.line([(sx, sy), ((sx + HHX) / 2 + sag, (sy + KNOT) / 2), (HHX, KNOT)], fill=al(HAIR if i % 3 else HAIR_D, 0.95 if ns < 10 else 0.8), width=4 if ns < 10 else 3, joint="curve")
+        draw_head(d, HHX, HHY, HHR)
+        d.ellipse([HHX - 14, KNOT - 14, HHX + 14, KNOT + 14], fill=al(HAIR_D, 1))
+        d.line([(HHX, KNOT + 10), (HHX, hook)], fill=al(HAIR, 1), width=8 if ns > 1 else 4)
+        d.arc([HHX - 22, hook - 6, HHX + 22, hook + 38], 0, 180, fill=al(STEEL, 1), width=8)
+        if kind == "bar":
+            d.line([(HHX, hook + 30), (HHX, top)], fill=al(STEEL, 0.9), width=3)
+            d.rectangle([HHX - bw / 2, top, HHX + bw / 2, bot], fill=(110, 62, 34, 255)); d.rectangle([HHX - bw / 2 + 30, top, HHX - bw / 2 + 80, bot], fill=(230, 60, 70, 255))
+            bigtext(img, (HHX + 30, (top + bot) / 2), "100 G", 40, WHITE); d = ImageDraw.Draw(img, "RGBA")
+        elif kind == "bag":
+            d.line([(HHX, hook + 30), (HHX, top)], fill=al(STEEL, 0.9), width=3)
+            d.rounded_rectangle([HHX - bw / 2, top, HHX + bw / 2, bot], radius=14, fill=(238, 238, 245, 255))
+            bigtext(img, (HHX, (top + bot) / 2), "1 KG", 40, (40, 60, 120)); d = ImageDraw.Draw(img, "RGBA")
+        elif kind == "person":
+            d.line([(HHX, hook + 30), (HHX, top + 10)], fill=al(STEEL, 0.9), width=3)
+            person(d, HHX, bot, 100, 0.0, col=(200, 205, 225))
+        else:
+            full = int(math.floor(cnt + 1e-9)); frac = cnt - full; k = full + (1 if frac > 1e-6 else 0)
+            gap = 275; xs = [HHX + (j - (k - 1) / 2) * gap for j in range(k)]
+            bar_y = hook + 50
+            d.line([(xs[0] - 10, bar_y), (xs[-1] + 10, bar_y)], fill=al(STEEL, 1), width=10)
+            d.line([(HHX, hook + 30), (HHX, bar_y)], fill=al(STEEL, 1), width=6)
+            for j, x in enumerate(xs):
+                d.line([(x, bar_y), (x, top + 30)], fill=al(STEEL, 0.9), width=4)
+                if j < full: draw_elephant(d, x - 15, bot, 0.9)
+                else:
+                    lay = Image.new("RGBA", (W, H), (0, 0, 0, 0)); ld = ImageDraw.Draw(lay, "RGBA"); draw_elephant(ld, x - 15, bot, 0.9)
+                    x0 = x - 15 - 0.9 * 140; x1 = x0 + 0.9 * 300 * frac
+                    lay = lay.crop((int(x0), 0, int(x1), H)); img.alpha_composite(lay, (int(x0), 0)); d = ImageDraw.Draw(img, "RGBA")
+                    d.line([(x1, bot - 215), (x1, bot)], fill=al(RED, 0.9), width=4)
+        if p >= hit and p - hit < 0.08: bigtext(img, (HHX + 260, KNOT - 40), "TAUT", 56, CYAN, angle=-8, outline=(5, 12, 24)); d = ImageDraw.Draw(img, "RGBA")
+    fade_top(img); d = ImageDraw.Draw(img, "RGBA")
+    at = v.get("value_at", hit + 0.05)
+    if "value" in v and p >= at:
+        g = clamp((p - at) / 0.12)
+        bigtext(img, (540, 1340), fmt_num(v["value"], v.get("dec", 0)) + " " + v.get("unit", ""), v.get("size", 104), YEL, a=g, scale=1 + 0.4 * (1 - ease(g)), outline=(40, 30, 0))
+    y0 = 1430 if "value" in v else 1350
+    for i, lb in enumerate(v.get("labels", [])):
+        a = clamp((p - v.get("label_at", 0.55) - i * 0.12) / 0.08)
+        if a > 0: bigtext(img, (540, y0 - (len(v["labels"]) - 1 - i) * 76), lb, 58, WHITE if i else YEL, a=a)
+
+
+SCENES["hair"] = sc_hair
 
 
 # ============================================================ facts + check

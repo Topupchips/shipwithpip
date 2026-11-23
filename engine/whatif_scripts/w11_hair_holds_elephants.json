@@ -1,0 +1,103 @@
+{
+ "id": "w11_hair_holds_elephants",
+ "title": "Every hair on your head could hold 10 tonnes. That is 1.67 elephants",
+ "inputs": {
+  "hair_g": 100,
+  "hairs": 100000,
+  "hairs_thick": 150000,
+  "bull_kg": 6000,
+  "bus_kg": 12216,
+  "record_year": 2014
+ },
+ "calc": [
+  ["total_kg", "hairs * hair_g / 1000"],
+  ["total_t", "total_kg / 1000"],
+  ["ele", "total_kg / bull_kg"],
+  ["hairs_1kg", "1000 / hair_g"],
+  ["hairs_person", "70 * 1000 / hair_g"],
+  ["hairs_bull", "bull_kg * 1000 / hair_g"],
+  ["thick_kg", "hairs_thick * hair_g / 1000"],
+  ["thick_t", "thick_kg / 1000"],
+  ["ele_thick", "thick_kg / bull_kg"],
+  ["bus_over", "bus_kg - total_kg"],
+  ["person_pct", "100 * hairs_person / hairs"]
+ ],
+ "constants": [70],
+ "beats": [
+  {
+   "hook": ["100,000 HAIRS.", "ONE HEAD.", "10 TONNES"],
+   "say": "What if every hair on your head pulled at once? Together they could hold 10 tonnes.",
+   "speak": "What if every hair on your head pulled at once? Together they could hold ten tonnes.",
+   "key": ["every", "10"],
+   "vis": {"scene": "hair", "mode": "lift", "n": 100000, "load": "elephant", "count": 1.67, "hit": 0.35, "value": 10, "unit": "TONNES"}
+  },
+  {
+   "head": ["WHY", "10 TONNES?"],
+   "say": "One hair can hold up to 100 grams. An average head has about 100,000 hairs. 100,000 times 100 grams is 10,000 kilograms.",
+   "speak": "One hair can hold up to one hundred grams. An average head has about one hundred thousand hairs. One hundred thousand times one hundred grams is ten thousand kilograms.",
+   "key": ["100", "100,000", "10,000"],
+   "vis": {"scene": "hair", "mode": "lift", "n": 100000, "load": "elephant", "count": 1.67, "hit": 0.0, "value": 10000, "unit": "KG", "value_at": 0.7}
+  },
+  {
+   "head": ["START WITH", "ONE HAIR."],
+   "say": "Start with one single hair. It can lift a 100 gram chocolate bar off the table.",
+   "speak": "Start with one single hair. It can lift a one hundred gram chocolate bar off the table.",
+   "key": ["one", "100"],
+   "vis": {"scene": "hair", "mode": "lift", "n": 1, "load": "bar", "hit": 0.45, "labels": ["1 HAIR"]}
+  },
+  {
+   "head": ["NOW", "10 HAIRS."],
+   "say": "10 hairs together hold a 1 kilogram bag of sugar.",
+   "speak": "Ten hairs together hold a one kilogram bag of sugar.",
+   "key": ["10", "1"],
+   "vis": {"scene": "hair", "mode": "lift", "n": 10, "load": "bag", "hit": 0.4, "labels": ["10 HAIRS"]}
+  },
+  {
+   "head": ["700 HAIRS:", "A WHOLE PERSON."],
+   "say": "Just 700 hairs could hold a 70 kilogram adult. Under 1% of your head.",
+   "speak": "Just seven hundred hairs could hold a seventy kilogram adult. Under one percent of your head.",
+   "key": ["700", "70"],
+   "vis": {"scene": "hair", "mode": "lift", "n": 700, "load": "person", "hit": 0.35, "value": 70, "unit": "KG"}
+  },
+  {
+   "head": ["60,000 HAIRS:", "AN ELEPHANT."],
+   "say": "60,000 hairs hold an average bull savanna elephant. That is 6,000 kilograms.",
+   "speak": "Sixty thousand hairs hold an average bull savanna elephant. That is six thousand kilograms.",
+   "key": ["60,000", "elephant", "6,000"],
+   "vis": {"scene": "hair", "mode": "lift", "n": 60000, "load": "elephant", "count": 1, "hit": 0.35, "value": 6000, "unit": "KG"}
+  },
+  {
+   "head": ["ALL 100,000", "AT ONCE."],
+   "say": "Use every hair and you hold 10,000 kilograms. That is 1.67 bull elephants, hanging from one head.",
+   "speak": "Use every hair and you hold ten thousand kilograms. That is one point six seven bull elephants, hanging from one head.",
+   "key": ["10,000", "1.67"],
+   "vis": {"scene": "hair", "mode": "lift", "n": 100000, "load": "elephant", "count": 1.67, "hit": 0.3, "value": 1.67, "dec": 2, "unit": "ELEPHANTS"}
+  },
+  {
+   "head": ["NOW A", "THICK HEAD OF HAIR."],
+   "stamp": {"text": "15 TONNES", "at": 0.65, "x": 820, "y": 860, "size": 80, "angle": -8},
+   "say": "Some scalps have 150,000 hairs. That is 15,000 kilograms, 2.5 elephants.",
+   "speak": "Some scalps have one hundred and fifty thousand hairs. That is fifteen thousand kilograms, two point five elephants.",
+   "key": ["150,000", "15,000", "2.5"],
+   "vis": {"scene": "hair", "mode": "lift", "n": 150000, "load": "elephant", "count": 2.5, "hit": 0.3, "value": 2.5, "dec": 1, "unit": "ELEPHANTS"}
+  },
+  {
+   "head": ["REALITY", "CHECK."],
+   "say": "The real record: in 2014 Asha Rani pulled a London double decker bus with her hair. 12,216 kilograms, rolling on its wheels, not lifted.",
+   "speak": "The real record: in two thousand fourteen Asha Rani pulled a London double decker bus with her hair. Twelve thousand two hundred and sixteen kilograms, rolling on its wheels, not lifted.",
+   "key": ["2014", "bus", "12,216"],
+   "vis": {"scene": "hair", "mode": "pull", "hit": 0.2, "value": 12216, "unit": "KG", "value_at": 0.5}
+  },
+  {"to": 0, "nocap": true, "say": "Follow Ship With Pip for more."}
+ ],
+ "caption": "One human hair can hold up to 100 g, and an average head has about 100,000 hairs. If every hair pulled at once, that is 10,000 kg: 1.67 average bull savanna elephants (6,000 kg each). 10 hairs hold a 1 kg bag, 700 hold a 70 kg adult, 60,000 hold one elephant. A thick head of 150,000 hairs gets to 15,000 kg, 2.5 elephants. The real record: in 2014 Asha Rani pulled a 12,216 kg London double decker bus with her hair, rolling on its wheels.",
+ "hashtags": ["science", "whatif", "hair", "biology", "elephants", "shipwithpip"],
+ "sources": [
+  "https://www.sciencebuddies.org/stem-activities/hair-strength",
+  "https://www.scientificamerican.com/article/test-the-strength-of-hair/",
+  "https://nyulangone.org/news/most-men-experience-hair-loss-it-isnt-inevitable",
+  "https://ielc.libguides.com/sdzg/factsheets/african_elephant/characteristics",
+  "https://www.guinnessworldrecords.com/world-records/94191-heaviest-vehicle-pulled-by-hair-female"
+ ],
+ "notes": "Science Buddies hair strength activity (reprinted by Scientific American): a single hair 'can carry a weight of up to 100 grams' and 'an average person's head has about 100,000 hairs'. NYU Langone: 'A typical scalp bears some 100,000 to 150,000 hairs' (150,000 used as the thick head). San Diego Zoo Wildlife Alliance Library fact sheet: savanna elephant male 6,000 kg on average. Guinness World Records, heaviest vehicle pulled by hair (female): Asha Rani (India), 12,216 kg, a London double decker bus, 7 July 2014, Milan. The 100 g bar and 1 kg bag are defined by their labels. 70 kg is a chosen example adult mass (constant), not a sourced average. The what-if assumes every hair carries its full 100 g at once, which real hair does not do. Under 1% of your head: 700 / 100,000 = 0.7%. Strands drawn are a few dozen lines standing for the stated count; elephants drawn smaller than scale; a fractional elephant is drawn cut off at that fraction."
+}
