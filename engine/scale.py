@@ -336,7 +336,7 @@ LEX_ADD = {  # words the Kokoro US lexicon is missing (it silently skips them ot
     "obstacles": "ˈ ɑ b z t ə k ᵊ l z", "sixties": "s ˈ ɪ k s t i z",
     "milligrams": "m ˈ ɪ l ə ɡ ɹ ˌ æ m z", "carries": "k ˈ ɛ ɹ i z", "millimetres": "m ˈ ɪ l ə m ˌ i ɾ ə ɹ z",
     "megatons": "m ˈ ɛ ɡ ə t ˌ ʌ n z", "harvey": "h ˈ ɑ ɹ v i",
-    "ais": "ˈ A ˌ I z", "characters": "k ˈ ɛ ɹ ə k t ə ɹ z", "gets": "ɡ ˈ ɛ t s",
+    "ais": "ˈ A ˌ I z", "characters": "k ˈ ɛ ɹ ə k t ə ɹ z", "gets": "ɡ ˈ ɛ t s", "makes": "m ˈ A k s",
 }
 
 
