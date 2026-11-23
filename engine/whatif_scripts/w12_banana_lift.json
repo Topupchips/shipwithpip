@@ -1,0 +1,323 @@
+{
+ "id": "w12_banana_lift",
+ "title": "One banana has enough energy to lift you 640 metres",
+ "inputs": {
+  "kcal_banana": 105,
+  "banana_g": 118,
+  "kcal_day": 2000,
+  "j_per_kcal": 4184,
+  "g": 9.80665,
+  "c": 299792458,
+  "burj_m": 828,
+  "everest_m": 8849,
+  "pyramid_m": 147,
+  "eff_pct": 25
+ },
+ "calc": [
+  [
+   "E_ban",
+   "kcal_banana * j_per_kcal"
+  ],
+  [
+   "J_per_m",
+   "70 * g"
+  ],
+  [
+   "h_ban",
+   "E_ban / J_per_m"
+  ],
+  [
+   "ban_burj",
+   "burj_m / h_ban"
+  ],
+  [
+   "ban_everest",
+   "everest_m / h_ban"
+  ],
+  [
+   "E_day",
+   "kcal_day * j_per_kcal"
+  ],
+  [
+   "h_day",
+   "E_day / J_per_m"
+  ],
+  [
+   "day_over",
+   "round(h_day) - everest_m"
+  ],
+  [
+   "E_mc2",
+   "banana_g / 1000 * c ** 2"
+  ],
+  [
+   "E_mc2_q",
+   "E_mc2 / 1e15"
+  ],
+  [
+   "mc2_bananas",
+   "E_mc2 / E_ban"
+  ],
+  [
+   "mc2_bananas_bn",
+   "mc2_bananas / 1e9"
+  ],
+  [
+   "people_everest",
+   "E_mc2 / (J_per_m * everest_m)"
+  ],
+  [
+   "people_everest_bn",
+   "people_everest / 1e9"
+  ],
+  [
+   "h_real",
+   "h_ban * eff_pct / 100"
+  ],
+  [
+   "series_n",
+   "11 + 1"
+  ]
+ ],
+ "constants": [
+  70,
+  12
+ ],
+ "beats": [
+  {
+   "hook": [
+    "ONE BANANA.",
+    "ZERO WASTE.",
+    "640 METRES UP"
+   ],
+   "say": "What if every calorie in one banana went into lifting you? You would rise 640 metres.",
+   "speak": "What if every calorie in one banana went into lifting you? You would rise six hundred and forty metres.",
+   "key": [
+    "every",
+    "640"
+   ],
+   "vis": {
+    "scene": "lift",
+    "h": 640,
+    "value": 640,
+    "unit": "M",
+    "value_at": 0.75
+   }
+  },
+  {
+   "head": [
+    "WHY",
+    "640 METRES?"
+   ],
+   "say": "A medium banana has 105 calories. That is 439,320 joules. Lifting a 70 kilogram person 1 metre takes 686 joules. Divide, and you get 640 metres.",
+   "speak": "A medium banana has one hundred and five calories. That is four hundred thirty nine thousand three hundred and twenty joules. Lifting a seventy kilogram person one metre takes six hundred and eighty six joules. Divide, and you get six hundred and forty metres.",
+   "key": [
+    "105",
+    "439,320",
+    "686",
+    "640"
+   ],
+   "vis": {
+    "scene": "lift",
+    "h": 640,
+    "value": 439320,
+    "unit": "J",
+    "value_at": 0.3
+   }
+  },
+  {
+   "head": [
+    "NOT QUITE",
+    "BURJ KHALIFA."
+   ],
+   "say": "The Burj Khalifa is 828 metres tall. To reach the top you need 1.29 bananas.",
+   "speak": "The Burj Khalifa is eight hundred and twenty eight metres tall. To reach the top you need one point two nine bananas.",
+   "key": [
+    "828",
+    "1.29"
+   ],
+   "vis": {
+    "scene": "lift",
+    "h": 828,
+    "refs": [
+     {
+      "kind": "tower",
+      "h": 828,
+      "label": "BURJ KHALIFA"
+     }
+    ],
+    "value": 1.29,
+    "dec": 2,
+    "unit": "BANANAS",
+    "value_at": 0.6
+   }
+  },
+  {
+   "head": [
+    "MOUNT EVEREST?",
+    "13.8 BANANAS."
+   ],
+   "say": "Mount Everest is 8,849 metres. Eat 13.8 bananas and you float to the summit.",
+   "speak": "Mount Everest is eight thousand eight hundred and forty nine metres. Eat thirteen point eight bananas and you float to the summit.",
+   "key": [
+    "8,849",
+    "13.8"
+   ],
+   "vis": {
+    "scene": "lift",
+    "h": 8849,
+    "refs": [
+     {
+      "kind": "mountain",
+      "h": 8849,
+      "label": "EVEREST",
+      "x": 330
+     }
+    ],
+    "value": 8849,
+    "unit": "M",
+    "value_at": 0.6
+   }
+  },
+  {
+   "head": [
+    "NOW A WHOLE",
+    "DAY OF FOOD."
+   ],
+   "say": "Food labels use 2,000 calories a day. Put all of it into lifting and you reach 12,190 metres. 3,341 metres above Everest.",
+   "speak": "Food labels use two thousand calories a day. Put all of it into lifting and you reach twelve thousand one hundred and ninety metres. Three thousand three hundred and forty one metres above Everest.",
+   "key": [
+    "2,000",
+    "12,190",
+    "3,341"
+   ],
+   "vis": {
+    "scene": "lift",
+    "h": 12190,
+    "refs": [
+     {
+      "kind": "mountain",
+      "h": 8849,
+      "label": "EVEREST",
+      "x": 330
+     }
+    ],
+    "value": 12190,
+    "unit": "M",
+    "value_at": 0.55
+   }
+  },
+  {
+   "head": [
+    "NOW BURN",
+    "THE WHOLE BANANA."
+   ],
+   "say": "Forget calories. Turn all 118 grams of banana into pure energy, E equals m c squared. You get 10.6 quadrillion joules.",
+   "speak": "Forget calories. Turn all one hundred and eighteen grams of banana into pure energy, E equals m c squared. You get ten point six quadrillion joules.",
+   "key": [
+    "118",
+    "energy",
+    "10.6"
+   ],
+   "vis": {
+    "scene": "lift",
+    "mode": "glow",
+    "value": 10.6,
+    "dec": 1,
+    "unit": "QUADRILLION J",
+    "size": 78,
+    "value_at": 0.65
+   }
+  },
+  {
+   "head": [
+    "ONE BANANA",
+    "LIFTS A CROWD."
+   ],
+   "stamp": {
+    "text": "1.7 BILLION PEOPLE",
+    "at": 0.6,
+    "x": 600,
+    "y": 1000,
+    "size": 76,
+    "angle": -8
+   },
+   "say": "That is the food energy of 24.1 billion bananas. Enough to lift 1.7 billion people to the top of Everest.",
+   "speak": "That is the food energy of twenty four point one billion bananas. Enough to lift one point seven billion people to the top of Everest.",
+   "key": [
+    "24.1",
+    "1.7",
+    "Everest"
+   ],
+   "vis": {
+    "scene": "lift",
+    "mode": "crowd",
+    "h": 8849,
+    "refs": [
+     {
+      "kind": "mountain",
+      "h": 8849,
+      "label": "EVEREST",
+      "x": 330
+     }
+    ]
+   }
+  },
+  {
+   "head": [
+    "REALITY",
+    "CHECK."
+   ],
+   "say": "Real muscles are only about 25% efficient. So a real banana lifts you about 160 metres. Just past the Great Pyramid, which stood 147 metres tall.",
+   "speak": "Real muscles are only about twenty five percent efficient. So a real banana lifts you about one hundred and sixty metres. Just past the Great Pyramid, which stood one hundred and forty seven metres tall.",
+   "key": [
+    "25%",
+    "160",
+    "147"
+   ],
+   "vis": {
+    "scene": "lift",
+    "h": 160,
+    "refs": [
+     {
+      "kind": "pyramid",
+      "h": 147,
+      "label": "GREAT PYRAMID",
+      "x": 320
+     }
+    ],
+    "value": 160,
+    "unit": "M",
+    "value_at": 0.55
+   }
+  },
+  {
+   "to": 0,
+   "nocap": true,
+   "card": "WHAT IF #12",
+   "say": "Banana or chocolate bar: which lifts you higher? Comment."
+  }
+ ],
+ "caption": "A medium banana has 105 calories, 439,320 joules. Lifting a 70 kg person 1 metre takes 686 joules, so if every calorie went into lifting, one banana would raise you 640 metres. The Burj Khalifa (828 m) takes 1.29 bananas, Everest (8,849 m) takes 13.8. A day of food (2,000 calories) gets you to 12,190 metres. Turn the banana's whole 118 g mass into energy with E = mc2 and you get 10.6 quadrillion joules, the food energy of 24.1 billion bananas, enough to lift 1.7 billion people to the top of Everest. Reality check: muscles are about 25% efficient, so a real banana lifts you about 160 metres, just past the Great Pyramid's original 147 metres.",
+ "hashtags": [
+  "science",
+  "whatif",
+  "physics",
+  "banana",
+  "energy",
+  "shipwithpip"
+ ],
+ "sources": [
+  "https://tools.myfooddata.com/nutrition-facts/173944/wt5",
+  "https://www.uhhospitals.org/health-information/health-and-wellness-library/article/nutritionfacts-v1/bananas-raw-1-medium-7-to-7-78-long",
+  "https://www.accessdata.fda.gov/scripts/interactiveNutritionFactsLabel/daily-value.cfm",
+  "https://www.nist.gov/pml/special-publication-811/nist-guide-si-footnotes",
+  "https://www.nist.gov/node/777661",
+  "https://physics.nist.gov/cuu/Constants/Value/c.html",
+  "https://www.prnewswire.com/news-releases/burj-khalifa-is-unveiled-to-the-world-and-its-official-height-is-828-metres-80657972.html",
+  "https://www.npr.org/2020/12/08/944152693/everest-gets-a-growth-spurt-as-china-nepal-revise-official-elevation-upward",
+  "https://www.britannica.com/place/Great-Pyramid",
+  "https://openoregon.pressbooks.pub/bodyphysics2ed/chapter/locomotive-efficiency/"
+ ],
+ "notes": "MyFoodData: 1 medium banana (7 to 7-7/8 inch) 118 g, 105 calories; UH Hospitals nutrition facts: Energy 105.02 kcal for 1 medium raw banana. FDA interactive label: '2,000 calories a day is used for general nutrition advice'. NIST SP 811 footnote 9: cal_th = 4.184 J exactly (food Calorie = kcal = 4184 J); Appendix B.9: standard acceleration of free fall 9.806 65 m/s2. NIST CODATA: c = 299 792 458 m/s exact. PR Newswire 4 Jan 2010: Burj Khalifa official height 828 metres. NPR 8 Dec 2020: Everest 8,848.86 m, '8,849 meters'. Britannica Great Pyramid: original height 481.4 ft (147 m). OpenOregon Body Physics (Locomotive efficiency, citing Tom Murphy): 'at about 25 % efficiency'. 70 kg is a chosen example adult mass (constant), as in w11. Lift energy uses m g h with constant g (fine up to 12 km). The what-if assumes 100% of food energy becomes lifting, which bodies cannot do; the reality check applies 25%. E = mc2 of the banana is a thought experiment, not something food can do. Series: 11 earlier posted what-if lines in log.jsonl, so this is What if #12 (series_n = 11 + 1). day_over = 12190 - 8849 = 3341."
+}

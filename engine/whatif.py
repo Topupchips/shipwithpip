@@ -13,7 +13,7 @@ Script keys: id, title, caption, hashtags, sources (URLs, each opened in the run
   "inputs": {name: number}  sourced numbers only (each listed in "notes" with its source),
   "calc": [[name, "python expression over earlier names and math"], ...]  every derived number, evaluated here,
   "beats": [{"say", "speak"?, "key": [...], "hook": [3 lines] (first beat) | "head": [2 lines], "chip"?, "stamp"?: {"text", "at"},
-             "vis": {"scene": stop|equator|bars|lat|daynight|slow|float|hammer|rain|jump|elevator|tunnel|bolt|dive|crash|hair, ...}}],
+             "vis": {"scene": stop|equator|bars|lat|daynight|slow|float|hammer|rain|jump|elevator|tunnel|bolt|dive|crash|hair|lift, ...}}],
   last beat {"say": "Follow Ship With Pip for more.", "nocap": true}.
 """
 import argparse
@@ -1281,6 +1281,95 @@ WORDNUM = {"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six
            "nineteen": 19, "twenty": 20, "thirty": 30, "forty": 40, "fifty": 50, "sixty": 60, "seventy": 70, "eighty": 80, "ninety": 90}
 
 
+# ============================================================ lift chain (Nov 23 2026, w12): food energy turned into height
+BAN = (255, 222, 80); BAN_D = (196, 150, 30)
+
+
+def draw_banana(d, cx, cy, s=1.0, a=1.0):
+    """A curved banana built from overlapping discs along an arc; s = scale (1 = about 300 px long)."""
+    pts = []
+    for k in range(41):
+        q = k / 40; ang = math.radians(200 + 140 * q); r = 150 * s
+        x = cx + r * math.cos(ang); y = cy - 60 * s + r * math.sin(ang) * -0.55 + 40 * s
+        w = (10 + 28 * math.sin(math.pi * q) ** 0.7) * s; pts.append((x, y, w))
+    for x, y, w in pts: d.ellipse([x - w, y - w, x + w, y + w], fill=al(BAN_D, a))
+    for x, y, w in pts: d.ellipse([x - w * 0.82, y - w * 0.95, x + w * 0.82, y + w * 0.6], fill=al(BAN, a))
+    x, y, w = pts[0]; d.rectangle([x - 9 * s, y - 6 * s, x + 4 * s, y + 6 * s], fill=al((90, 70, 30), a))
+    x, y, w = pts[-1]; d.ellipse([x - 7 * s, y - 7 * s, x + 7 * s, y + 7 * s], fill=al((70, 50, 20), a))
+
+
+def draw_ref(d, kind, x, base, hpx, label, a):
+    """A landmark to scale: tower (spire), mountain (two-tone peak), pyramid; hpx = height in px."""
+    c = al((70, 84, 120), a); c2 = al((110, 126, 170), a)
+    if kind == "tower":
+        w = max(10.0, hpx * 0.09)
+        d.polygon([(x - w, base), (x + w, base), (x + w * 0.35, base - hpx * 0.72), (x, base - hpx), (x - w * 0.35, base - hpx * 0.72)], fill=c)
+        d.line([(x, base), (x, base - hpx)], fill=c2, width=3)
+    elif kind == "mountain":
+        w = hpx * 0.75
+        d.polygon([(x - w, base), (x + w, base), (x, base - hpx)], fill=c)
+        d.polygon([(x - w * 0.22, base - hpx * 0.78), (x, base - hpx), (x + w * 0.22, base - hpx * 0.78), (x + w * 0.05, base - hpx * 0.72)], fill=al(WHITE, 0.85 * a))
+    else:
+        w = hpx * 0.78
+        d.polygon([(x - w, base), (x + w, base), (x, base - hpx)], fill=al((196, 160, 96), a))
+        d.polygon([(x, base - hpx), (x + w, base), (x + w * 0.25, base)], fill=al((150, 118, 66), a))
+    if label: d.text((x, base - hpx - 30), label, font=font(F_BOLD, 34), fill=al(WHITE, a), anchor="mm")
+
+
+def sc_lift(img, d, v, p, t, ctx):
+    """All the energy goes into lifting you: you rise from the ground to height h (m) and stay there.
+    mode lift (default) | glow (a banana glowing with its mass energy) | crowd (many people rise together).
+    refs: [{"kind": tower|mountain|pyramid, "h": metres, "label": NAME}] drawn to the same scale."""
+    mode = v.get("mode", "lift"); draw_stars(d, a=0.45)
+    if mode == "glow":
+        q = clamp((p - 0.15) / 0.5); cx, cy = 540, 860
+        for k in range(8, 0, -1):
+            r = (120 + 26 * k) * (0.5 + 0.5 * ease(q)); d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=al((255, 236, 150), 0.035 * q))
+        for k in range(16):  # rays
+            ang = k * math.pi / 8 + t * 0.4; r0, r1 = 190, 190 + 110 * ease(q)
+            d.line([(cx + r0 * math.cos(ang), cy + r0 * math.sin(ang)), (cx + r1 * math.cos(ang), cy + r1 * math.sin(ang))], fill=al((255, 236, 150), 0.6 * q), width=6)
+        draw_banana(d, cx, cy, 1.1)
+    else:
+        h = float(v.get("h", 100)); top_m = max([h] + [r["h"] for r in v.get("refs", [])])
+        pxpm = 620.0 / top_m
+        d.rectangle([0, JGY, W, H], fill=al((38, 78, 50), 1)); d.line([(0, JGY), (W, JGY)], fill=al((58, 112, 72), 1), width=6)
+        for i, r in enumerate(v.get("refs", [])):
+            a = clamp((p - 0.05 - 0.1 * i) / 0.12)
+            if a > 0: draw_ref(d, r.get("kind", "tower"), r.get("x", 300), JGY, r["h"] * pxpm, r.get("label", ""), a)
+        u = ease(clamp((p - 0.12) / 0.6)); fy = JGY - h * pxpm * u
+        if u < 0.08: draw_banana(d, 470, JGY - 30, 0.45, 1 - u / 0.08)
+        if mode == "crowd":
+            rs = np.random.RandomState(3)
+            for _ in range(90):
+                x = 380 + rs.rand() * 360; y = fy - rs.rand() * 70
+                d.ellipse([x - 5, y - 5, x + 5, y + 5], fill=al(CYAN if rs.rand() < 0.5 else WHITE, 0.9))
+        else:
+            for k in range(1, 10):
+                y2 = JGY - h * pxpm * ease(clamp((p - 0.12 - k * 0.02) / 0.6))
+                if 0.02 < u < 0.99: d.ellipse([600 - 7, y2 - 7, 600 + 7, y2 + 7], fill=al(CYAN, 0.4 * (1 - k / 10)))
+            s = 1.75 * pxpm / 2.7
+            if s >= 8: person(d, 600, fy, s, 0.0)
+            else:
+                d.ellipse([600 - 22, fy - 22, 600 + 22, fy + 22], fill=al(CYAN, 0.25)); d.ellipse([600 - 8, fy - 8, 600 + 8, fy + 8], fill=al(WHITE, 1))
+                bigtext(img, (600 + 92, fy - 10), "YOU", 40, WHITE, outline=(5, 12, 24)); d = ImageDraw.Draw(img, "RGBA")
+        a = clamp((p - 0.3) / 0.1)
+        if a > 0:
+            ty = JGY - h * pxpm; d.line([(860, JGY), (860, ty)], fill=al(YEL, 0.8 * a), width=5)
+            for y in (JGY, ty): d.line([(836, y), (884, y)], fill=al(YEL, 0.8 * a), width=5)
+        fade_bottom(img, 1230, 1440); fade_top(img); d = ImageDraw.Draw(img, "RGBA")
+    at = v.get("value_at", 0.5)
+    if "value" in v and p >= at:
+        g = clamp((p - at) / 0.12)
+        bigtext(img, (540, 1340), fmt_num(v["value"], v.get("dec", 0)) + " " + v.get("unit", ""), v.get("size", 100), YEL, a=g, scale=1 + 0.4 * (1 - ease(g)), outline=(40, 30, 0))
+    y0 = 1430 if "value" in v else 1350
+    for i, lb in enumerate(v.get("labels", [])):
+        a = clamp((p - v.get("label_at", 0.55) - i * 0.12) / 0.08)
+        if a > 0: bigtext(img, (540, y0 - (len(v["labels"]) - 1 - i) * 76), lb, 58, WHITE if i else YEL, a=a)
+
+
+SCENES["lift"] = sc_lift
+
+
 def stats(S):
     env = {"math": math}; out = {}
     for k, val in S.get("inputs", {}).items(): env[k] = val; out[k] = val
@@ -1335,6 +1424,7 @@ def vis_texts(v):
     if "value" in v: out.append(fmt_num(v["value"], v.get("dec", 0)))
     if v.get("speed"): out.append(v["speed"])
     if v.get("axis"): out.append(v["axis"])
+    out += [r.get("label", "") for r in v.get("refs", [])]
     return out
 
 
@@ -1353,6 +1443,7 @@ def check(S):
         for f in ("hook", "head"):
             for ln in b.get(f, []): chk(f"beat {i} {f}", ln)
         if b.get("chip"): chk(f"beat {i} chip", b["chip"])
+        if b.get("card"): chk(f"beat {i} card", b["card"])
         if b.get("stamp"): chk(f"beat {i} stamp", b["stamp"]["text"])
         for tx in vis_texts(b.get("vis", {})): chk(f"beat {i} vis", tx)
     for f in ("title", "caption"): chk(f, S.get(f, ""))
@@ -1375,6 +1466,8 @@ def frame(t, S, tl, bg, total):
     if vis.get("scene"):
         vis = dict(vis); vis["_len"] = max(v_end - tl[vj]["start"], 0.5)
         SCENES[vis["scene"]](img, d, vis, p, t, {})
+    if b.get("card"):  # end card: dim the scene so the series card reads cleanly
+        ov = Image.new("RGBA", (W, H), TH["bg"] + (int(225 * clamp((t - seg["start"]) / 0.3)),)); img.alpha_composite(ov)
     d = ImageDraw.Draw(img, "RGBA")
     head = next((tl[j]["beat"]["head"] for j in range(bi, -1, -1) if tl[j]["beat"].get("head")), None)
     if bi == 0 and b.get("hook"):
@@ -1403,7 +1496,15 @@ def frame(t, S, tl, bg, total):
     if not b.get("nocap"):
         M.caption(d, seg, min(t, seg["end"]), TH)
     else:
-        tc(d, (540, CAP_Y), "Follow @shipwithpip", font(F_BOLD, 80), al(TH["ink"], clamp((t - seg["start"]) / 0.3)))
+        g = clamp((t - seg["start"]) / 0.3)
+        if b.get("card"):  # series card (section F): episode name over the comment question
+            tc(d, (540, 700), b["card"], font(F_BOLD, 110), al(YEL, g))
+            fq = font(F_BOLD, 64); words = b["say"].split(); lines = [""]
+            for w_ in words:
+                if d.textlength((lines[-1] + " " + w_).strip(), font=fq) > 940: lines.append(w_)
+                else: lines[-1] = (lines[-1] + " " + w_).strip()
+            for k, ln in enumerate(lines): tc(d, (540, 880 + k * 80), ln, fq, al(TH["ink"], g))
+        tc(d, (540, CAP_Y), "Follow @shipwithpip", font(F_BOLD, 80), al(TH["ink"], g))
     tc(d, (540, 1850), "@shipwithpip", font(F_MED, 34), al(TH["muted"], 0.8))
     d.rectangle([0, 0, W * clamp(t / total), 8], fill=al(YEL, 0.9))
     return img
