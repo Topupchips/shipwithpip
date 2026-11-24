@@ -1370,6 +1370,130 @@ def sc_lift(img, d, v, p, t, ctx):
 SCENES["lift"] = sc_lift
 
 
+# ============================================================ coin chain (Nov 24 2026, w13): a penny dropped with no air, then faster and faster
+COPPER = (196, 118, 62); COPPER_D = (132, 74, 36); COPPER_L = (240, 178, 120); FIRE = (255, 150, 50)
+
+
+def draw_penny(d, x, y, r, spin=0.0, a=1.0, glow=0.0):
+    """A penny seen edge-on as it tumbles: width follows |cos(spin)|. glow 0..1 heats it toward orange-white."""
+    if glow > 0:
+        for k in range(6, 0, -1):
+            rr = r * (1 + 0.5 * k * glow); d.ellipse([x - rr, y - rr, x + rr, y + rr], fill=al(FIRE, 0.07 * glow * a))
+    w = max(0.18, abs(math.cos(spin))) * r
+    col = tuple(int(COPPER[i] + (255 - COPPER[i]) * 0.6 * glow) for i in range(3))
+    d.ellipse([x - w, y - r, x + w, y + r], fill=al(COPPER_D, a))
+    d.ellipse([x - w * 0.84, y - r * 0.86, x + w * 0.84, y + r * 0.86], fill=al(col, a))
+    if w > r * 0.45: d.ellipse([x - w * 0.5, y - r * 0.55, x - w * 0.1, y - r * 0.1], fill=al(COPPER_L, 0.6 * a))
+
+
+def draw_limb(img, d, top=1150, a=1.0):
+    """Earth's curved edge seen from space, with a thin blue atmosphere glow."""
+    R = 1700; cx, cy = 540, top + R
+    for k in range(10, 0, -1):
+        rr = R + 6 * k; d.ellipse([cx - rr, cy - rr, cx + rr, cy + rr], fill=al((90, 170, 255), 0.05 * a))
+    d.ellipse([cx - R, cy - R, cx + R, cy + R], fill=al((34, 82, 160), a))
+    rs = np.random.RandomState(8)
+    for _ in range(14):
+        x = rs.rand() * W; y = top + 40 + rs.rand() * 300; rx = 60 + rs.rand() * 140
+        d.ellipse([x - rx, y - rx * 0.3, x + rx, y + rx * 0.3], fill=al((58, 112, 72), 0.8 * a))
+
+
+def impact(img, x, y, q, big=1.0, col=FIRE):
+    """Flash and expanding ring at (x, y); q 0..1 after impact."""
+    ov = Image.new("RGBA", (W, H), (0, 0, 0, 0)); od = ImageDraw.Draw(ov)
+    r0 = 60 + 300 * big * ease(clamp(q / 0.5))
+    od.ellipse([x - r0, y - r0, x + r0, y + r0], fill=al((255, 244, 210), 0.8 * clamp(1 - q / 0.6)))
+    r1 = 80 + 900 * big * ease(q)
+    od.ellipse([x - r1, y - r1 * 0.45, x + r1, y + r1 * 0.45], outline=al(col, 0.9 * (1 - q)), width=int(10 + 10 * big))
+    img.alpha_composite(ov.filter(ImageFilter.GaussianBlur(4)))
+    if q < 0.25 * big: img.alpha_composite(Image.new("RGBA", (W, H), al(WHITE, 0.5 * (1 - q / (0.25 * big)))))
+
+
+def sc_coin(img, d, v, p, t, ctx):
+    """mode drop: a penny falls from a tower of h metres (no air), towers = extra ghost heights; land = beat fraction of impact.
+    mode space / meteor: a penny streaks in from space to Earth's edge (meteor = on fire, bigger flash).
+    mode car: penny = car (the same energy); mode cars: n cars appear in a row; mode real: the penny flutters down and taps a person."""
+    mode = v.get("mode", "drop"); land = v.get("land", 0.7)
+    if mode == "drop":
+        hs = [float(v["h"])] + [float(x) for x in v.get("towers", [])]; top_m = max(hs); pxpm = (CGY - CTOP) / (top_m * 1.08)
+        d.rectangle([0, CGY, W, H], fill=(22, 24, 38, 255)); d.line([(0, CGY), (W, CGY)], fill=al(TH["muted"], 0.6), width=4)
+        h = hs[0]; tt = CGY - h * pxpm
+        draw_tower(d, 150, 180, tt, pxpm=pxpm); d.line([(240, tt), (240, tt - 40)], fill=al(STEEL, 1), width=4)
+        for k, hh in enumerate(sorted(hs[1:], reverse=True)):  # the stacked buildings: one outline per building
+            a = clamp((p - 0.05) / 0.15); d.rectangle([150, CGY - hh * pxpm, 330, CGY], outline=al(CYAN, 0.9 * a), width=5)
+            d.line([(150, CGY - hh * pxpm), (330, CGY - hh * pxpm)], fill=al(CYAN, 0.9 * a), width=6)
+        x = 410; u = clamp((p - 0.1) / (land - 0.1)); y = tt + (CGY - 12 - tt) * u * u
+        for k in range(1, 12):
+            u2 = max(0.0, u - k * 0.015); y2 = tt + (CGY - 12 - tt) * u2 * u2
+            if 0 < u < 1: d.ellipse([x - 9, y2 - 9, x + 9, y2 + 9], fill=al(COPPER_L, 0.35 * (1 - k / 12)))
+        if u < 1: draw_penny(d, x, y, 18, spin=t * 9)
+        else:
+            q = clamp((p - land) / 0.25); draw_penny(d, x, CGY - 6, 18, spin=1.45)
+            for j in range(9):
+                an = -math.pi * (0.08 + 0.84 * j / 8); rr = 20 + 90 * ease(q)
+                d.line([(x, CGY), (x + math.cos(an) * rr, CGY + math.sin(an) * rr)], fill=al((255, 230, 160), 1 - q), width=4)
+        person(d, 640, CGY, 26, 0.0)
+        a = clamp((p - 0.2) / 0.1)
+        if a > 0:
+            d.line([(880, CGY), (880, tt)], fill=al(YEL, 0.8 * a), width=5)
+            for yy in (CGY, tt): d.line([(856, yy), (904, yy)], fill=al(YEL, 0.8 * a), width=5)
+            if v.get("axis"): bigtext(img, (950, (CGY + tt) / 2), v["axis"], 44, YEL, angle=90, a=a, outline=(40, 30, 0)); d = ImageDraw.Draw(img, "RGBA")
+    elif mode in ("space", "meteor"):
+        draw_stars(d, n=160, a=0.8); draw_limb(img, d); d = ImageDraw.Draw(img, "RGBA")
+        hot = mode == "meteor"; x0, y0, x1, y1 = 980, 450, 470, 1180
+        u = ease(clamp((p - 0.08) / (land - 0.08))) if not hot else clamp((p - 0.08) / (land - 0.08)) ** 1.6
+        x = x0 + (x1 - x0) * u; y = y0 + (y1 - y0) * u
+        if u < 1:
+            tl = 0.25 if not hot else 0.4
+            for k in range(30):
+                f = k / 30; xx = x - (x1 - x0) * tl * f * u; yy = y - (y1 - y0) * tl * f * u
+                rr = (10 if not hot else 26) * (1 - f) + 2
+                d.ellipse([xx - rr, yy - rr, xx + rr, yy + rr], fill=al(FIRE if hot else CYAN, (0.55 if hot else 0.35) * (1 - f)))
+            draw_penny(d, x, y, 16 if not hot else 20, spin=t * 14, glow=1.0 if hot else 0.3 * u)
+        else:
+            q = clamp((p - land) / 0.3); impact(img, x1, y1, q, big=1.3 if hot else 0.6, col=FIRE if hot else (255, 230, 160)); d = ImageDraw.Draw(img, "RGBA")
+        fade_bottom(img, 1250, 1440); d = ImageDraw.Draw(img, "RGBA")
+    elif mode == "car":
+        d.rectangle([0, CGY, W, H], fill=(22, 24, 38, 255)); d.line([(0, CGY), (W, CGY)], fill=al(TH["muted"], 0.6), width=4)
+        draw_penny(d, 240, 860, 70, spin=0.0, glow=0.25)
+        bigtext(img, (240, 990), "1 PENNY", 44, WHITE); bigtext(img, (450, 860), "=", 120, YEL, outline=(40, 30, 0)); d = ImageDraw.Draw(img, "RGBA")
+        a = clamp((p - 0.15) / 0.15); cx = 640 + 200 * ease(clamp((p - 0.15) / 0.6))
+        for k in range(6):
+            yy = CGY - 30 - k * 14; d.line([(cx - 260 - 40 * (k % 3), yy), (cx - 130, yy)], fill=al(WHITE, 0.4 * a), width=3)
+        if a > 0: draw_car(d, cx, CGY, 1.15, col=CAR_RED)
+        if v.get("speed") and a > 0: bigtext(img, (cx, CGY - 170), v["speed"], 52, CYAN, a=a, outline=(5, 12, 24)); d = ImageDraw.Draw(img, "RGBA")
+    elif mode == "cars":
+        d.rectangle([0, CGY, W, H], fill=(22, 24, 38, 255)); d.line([(0, CGY), (W, CGY)], fill=al(TH["muted"], 0.6), width=4)
+        draw_penny(d, 540, 620, 60, spin=t * 2, glow=1.0)
+        n = int(v.get("n", 10)); cols = 4
+        for i in range(n):
+            a = clamp((p - 0.1 - i * 0.04) / 0.06)
+            if a <= 0: continue
+            r_, c_ = divmod(i, cols); x = 160 + c_ * 250 + (60 if r_ % 2 else 0); y = 860 + r_ * 130
+            draw_car(d, x, y, 0.75, col=CAR_RED if i % 2 == 0 else (220, 110, 70))
+    else:  # real: flutter down, tap the head
+        d.rectangle([0, CGY, W, H], fill=(22, 24, 38, 255)); d.line([(0, CGY), (W, CGY)], fill=al(TH["muted"], 0.6), width=4)
+        person(d, 540, CGY, 74, 0.0)
+        headY = CGY - 74 * 2.68; u = clamp((p - 0.05) / (land - 0.05))
+        x = 540 + 120 * math.sin(u * 9) * (1 - u); y = CTOP + (headY - CTOP) * u
+        if u < 1: draw_penny(d, x, y, 22, spin=t * 3 + math.sin(t * 5))
+        else:
+            q = clamp((p - land) / 0.3); bx = 540 + 220 * q; by = headY - 120 * math.sin(math.pi * min(q * 1.2, 1)) + 600 * q * q
+            draw_penny(d, bx, min(by, CGY - 8), 22, spin=t * 6)
+            d.arc([540 - 40, headY - 30, 540 + 40, headY + 10], 200, 340, fill=al(YEL, 1 - q), width=4)
+    at = v.get("value_at", 0.5)
+    if "value" in v and p >= at:
+        g = clamp((p - at) / 0.12)
+        bigtext(img, (540, 1340), fmt_num(v["value"], v.get("dec", 0)) + " " + v.get("unit", ""), v.get("size", 100), YEL, a=g, scale=1 + 0.4 * (1 - ease(g)), outline=(40, 30, 0))
+    y0 = 1430 if "value" in v else 1350
+    for i, lb in enumerate(v.get("labels", [])):
+        a = clamp((p - v.get("label_at", 0.55) - i * 0.12) / 0.08)
+        if a > 0: bigtext(img, (540, y0 - (len(v["labels"]) - 1 - i) * 76), lb, 58, WHITE if i else YEL, a=a)
+
+
+SCENES["coin"] = sc_coin
+
+
 def stats(S):
     env = {"math": math}; out = {}
     for k, val in S.get("inputs", {}).items(): env[k] = val; out[k] = val

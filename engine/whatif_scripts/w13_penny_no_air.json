@@ -1,0 +1,337 @@
+{
+ "id": "w13_penny_no_air",
+ "title": "Drop a penny off the Empire State Building with no air and it hits at 311 km/h",
+ "inputs": {
+  "penny_g": 2.5,
+  "esb_m": 381,
+  "GM_km3": 398600,
+  "R_km": 6371,
+  "v_esc_kms": 11.186,
+  "meteor_max_kms": 72,
+  "real_kmh": 40,
+  "real_after_m": 15
+ },
+ "calc": [
+  [
+   "m",
+   "penny_g / 1000"
+  ],
+  [
+   "GM",
+   "GM_km3 * 1e9"
+  ],
+  [
+   "R",
+   "R_km * 1000"
+  ],
+  [
+   "g0",
+   "GM / R ** 2"
+  ],
+  [
+   "v_esb",
+   "math.sqrt(2 * GM * (1 / R - 1 / (R + esb_m)))"
+  ],
+  [
+   "kmh_esb",
+   "v_esb * 3.6"
+  ],
+  [
+   "t_esb",
+   "math.sqrt(2 * esb_m / g0)"
+  ],
+  [
+   "h2",
+   "2 * esb_m"
+  ],
+  [
+   "v_2x",
+   "math.sqrt(2 * GM * (1 / R - 1 / (R + h2)))"
+  ],
+  [
+   "kmh_2x",
+   "v_2x * 3.6"
+  ],
+  [
+   "pct_2x",
+   "(v_2x / v_esb - 1) * 100"
+  ],
+  [
+   "E_esb",
+   "0.5 * m * v_esb ** 2"
+  ],
+  [
+   "v_esc",
+   "v_esc_kms * 1000"
+  ],
+  [
+   "kmh_esc",
+   "v_esc * 3.6"
+  ],
+  [
+   "x_esc",
+   "v_esc / v_esb"
+  ],
+  [
+   "E_esc",
+   "0.5 * m * v_esc ** 2"
+  ],
+  [
+   "E_esc_k",
+   "E_esc / 1000"
+  ],
+  [
+   "car_kmh_esc",
+   "math.sqrt(2 * E_esc / 1500) * 3.6"
+  ],
+  [
+   "v_met",
+   "meteor_max_kms * 1000"
+  ],
+  [
+   "kmh_met",
+   "v_met * 3.6"
+  ],
+  [
+   "E_met",
+   "0.5 * m * v_met ** 2"
+  ],
+  [
+   "E_met_mj",
+   "E_met / 1e6"
+  ],
+  [
+   "E_car100",
+   "0.5 * 1500 * (100 / 3.6) ** 2"
+  ],
+  [
+   "cars_met",
+   "E_met / E_car100"
+  ],
+  [
+   "E_real",
+   "0.5 * m * (real_kmh / 3.6) ** 2"
+  ],
+  [
+   "x_real",
+   "E_esb / E_real"
+  ],
+  [
+   "series_n",
+   "12 + 1"
+  ]
+ ],
+ "constants": [
+  1500,
+  100,
+  13
+ ],
+ "beats": [
+  {
+   "hook": [
+    "DROP A PENNY.",
+    "DELETE THE AIR.",
+    "311 KM/H"
+   ],
+   "say": "What if you dropped a penny off the Empire State Building with no air? It hits the street at 311 kilometres an hour.",
+   "speak": "What if you dropped a penny off the Empire State Building with no air? It hits the street at three hundred and eleven kilometres an hour.",
+   "key": [
+    "no",
+    "311"
+   ],
+   "vis": {
+    "scene": "coin",
+    "mode": "drop",
+    "h": 381,
+    "land": 0.72,
+    "value": 311,
+    "unit": "KM/H",
+    "value_at": 0.72
+   }
+  },
+  {
+   "head": [
+    "WHY",
+    "311?"
+   ],
+   "say": "From the 381 metre roof, it falls for about 8.8 seconds and lands at 86.5 metres per second.",
+   "speak": "From the three hundred and eighty one metre roof, it falls for about eight point eight seconds and lands at eighty six point five metres per second.",
+   "key": [
+    "381",
+    "8.8",
+    "86.5"
+   ],
+   "vis": {
+    "scene": "coin",
+    "mode": "drop",
+    "h": 381,
+    "axis": "381 M",
+    "land": 0.6,
+    "value": 86.5,
+    "dec": 1,
+    "unit": "M/S",
+    "value_at": 0.6
+   }
+  },
+  {
+   "head": [
+    "TWICE AS HIGH.",
+    "TWICE AS FAST?"
+   ],
+   "say": "Make the drop twice as high, 762 metres. It is only 41% faster: 440 kilometres an hour.",
+   "speak": "Make the drop twice as high, seven hundred and sixty two metres. It is only forty one percent faster: four hundred and forty kilometres an hour.",
+   "key": [
+    "762",
+    "41%",
+    "440"
+   ],
+   "vis": {
+    "scene": "coin",
+    "mode": "drop",
+    "h": 762,
+    "towers": [
+     381
+    ],
+    "axis": "762 M",
+    "land": 0.62,
+    "value": 440,
+    "unit": "KM/H",
+    "value_at": 0.62
+   }
+  },
+  {
+   "head": [
+    "NOW DROP IT",
+    "FROM DEEP SPACE."
+   ],
+   "say": "Now let it fall in from deep space. It hits at Earth's escape velocity: 40,270 kilometres an hour.",
+   "speak": "Now let it fall in from deep space. It comes in at the escape velocity of Earth: forty thousand two hundred and seventy kilometres an hour.",
+   "key": [
+    "deep",
+    "escape",
+    "40,270"
+   ],
+   "vis": {
+    "scene": "coin",
+    "mode": "space",
+    "land": 0.7,
+    "value": 40270,
+    "unit": "KM/H",
+    "value_at": 0.7
+   }
+  },
+  {
+   "head": [
+    "A PENNY THAT",
+    "HITS LIKE A CAR."
+   ],
+   "say": "That 2.5 gram penny now hits with 156,408 joules. Same as a 1500 kilogram car at 52 kilometres an hour.",
+   "speak": "That two point five gram penny now hits with one hundred and fifty six thousand four hundred and eight joules. Same as a fifteen hundred kilogram car at fifty two kilometres an hour.",
+   "key": [
+    "2.5",
+    "156,408",
+    "52"
+   ],
+   "vis": {
+    "scene": "coin",
+    "mode": "car",
+    "speed": "52 KM/H",
+    "value": 156408,
+    "unit": "J",
+    "value_at": 0.35
+   }
+  },
+  {
+   "head": [
+    "NOW MAKE IT",
+    "A METEOR."
+   ],
+   "say": "Now throw it in as fast as the fastest meteors, 72 kilometres per second.",
+   "speak": "Now throw it in as fast as the fastest meteor, seventy two kilometres per second.",
+   "key": [
+    "fastest",
+    "72"
+   ],
+   "vis": {
+    "scene": "coin",
+    "mode": "meteor",
+    "land": 0.62,
+    "value": 259200,
+    "unit": "KM/H",
+    "value_at": 0.62
+   }
+  },
+  {
+   "head": [
+    "ONE PENNY.",
+    "11 CARS."
+   ],
+   "stamp": {
+    "text": "6.48 MILLION JOULES",
+    "at": 0.55,
+    "x": 560,
+    "y": 1330,
+    "size": 76,
+    "angle": -8
+   },
+   "say": "It lands with 6.48 million joules. Like 11 cars, 1500 kilograms each, hitting at 100 kilometres an hour.",
+   "speak": "It lands with six point four eight million joules. Like eleven cars, fifteen hundred kilograms each, hitting at one hundred kilometres an hour.",
+   "key": [
+    "6.48",
+    "11",
+    "100"
+   ],
+   "vis": {
+    "scene": "coin",
+    "mode": "cars",
+    "n": 11
+   }
+  },
+  {
+   "head": [
+    "REALITY",
+    "CHECK."
+   ],
+   "say": "With real air, a penny tops out at about 40 kilometres an hour after just 15 metres. When test pennies hit physicist Louis Bloomfield, it did not hurt.",
+   "speak": "With real air, a penny tops out at about forty kilometres an hour after just fifteen metres. When test pennies hit physicist Louis Bloomfield, it did not hurt.",
+   "key": [
+    "40",
+    "15",
+    "hurt"
+   ],
+   "vis": {
+    "scene": "coin",
+    "mode": "real",
+    "land": 0.6,
+    "value": 40,
+    "unit": "KM/H",
+    "value_at": 0.6
+   }
+  },
+  {
+   "to": 0,
+   "nocap": true,
+   "card": "WHAT IF #13",
+   "say": "Penny or ballpoint pen: which is more dangerous to drop? Comment."
+  }
+ ],
+ "caption": "Drop a 2.5 g penny off the Empire State Building's 381 m roof with no air: it falls for about 8.8 seconds and hits at 86.5 m/s, 311 km/h. Twice the height (762 m) is only 41% faster, 440 km/h, because speed grows with the square root of height. Let it fall in from deep space and it arrives at Earth's escape velocity, 11.186 km/s (40,270 km/h, 129 times faster), carrying 156,408 joules: the energy of a 1500 kg car at 52 km/h. At the fastest meteor speed, 72 km/s, it carries 6.48 million joules, as much as 11 of those cars at 100 km/h. Reality check: with air, a penny tops out at about 40 km/h after about 15 m of falling, and when test pennies hit physicist Louis Bloomfield, it did not hurt.",
+ "hashtags": [
+  "science",
+  "whatif",
+  "physics",
+  "penny",
+  "space",
+  "shipwithpip"
+ ],
+ "sources": [
+  "https://usmint.gov/learn/coin-specifications",
+  "https://www.britannica.com/summary/Empire-State-Building",
+  "https://esbnyc.com/about/facts-figures",
+  "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html?level=1",
+  "https://www.amsmeteors.org/meteor-faq",
+  "https://www.scientificamerican.com/article/could-a-penny-dropped-off/",
+  "https://news.virginia.edu/node/303466"
+ ],
+ "notes": "US Mint coin specifications: Cent weight 2.500 g. Britannica summary: 'At a height of 1,250 ft (381 m)'; ESB facts and figures: 1,250 feet to its highest occupied floor (380 m on that page; 381 m used per Britannica). NASA NSSDC Earth fact sheet: GM 0.39860 x 10^6 km3/s2 (398,600 km3/s2), volumetric mean radius 6371.000 km, escape velocity 11.186 km/s. AMS Meteor FAQ: 'Meteors enter the atmosphere at speeds ranging from 11 km/sec (25,000 mph), to 72 km/sec (160,000 mph!)'. Scientific American (Life's Little Mysteries, 2012): pennies reach terminal velocity 'after only about 50 feet (15 meters)' and 'flutter to the ground at a measly 25 mph (40 kph), Bloomfield said'; 'When experimental pennies struck him, it didn't hurt'. UVA Today: a penny 'would most likely not kill someone if tossed from the Empire State Building'; Bloomfield: 'falling ballpoint pens are the real danger' (source for the comment question, which states no answer). Impact speeds use energy conservation with Newtonian gravity, v = sqrt(2 GM (1/R - 1/(R+h))), no air, Earth's rotation ignored. Fall time t = sqrt(2h/g0) with g0 = GM/R^2 (constant g over 381 m), about 8.8 s. Falling from rest at a great distance arrives at the escape velocity by definition (sqrt(2GM/R) = 11.186 km/s from these inputs). 1500 kg car is a chosen example mass (constant), 100 km/h a chosen comparison speed (constant). The 72 km/s case is a thought experiment that ignores the atmosphere (a real penny would burn and slow in air). Kinetic energy 0.5 m v^2. Series: 12 earlier posted what-if lines in log.jsonl, so this is What if #13 (series_n = 12 + 1)."
+}
