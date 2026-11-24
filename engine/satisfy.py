@@ -237,11 +237,16 @@ class Sunflower:
 
     def stats(s):
         return dict(seeds=s.N, golden_angle=round(s.golden, 3), golden_angle_1dp=round(s.golden, 1), golden_angle_2dp=round(s.golden, 2),
-                    phi=round(s.phi, 3), turn_fraction=round(1 / s.phi ** 2, 3), full_turn=360)
+                    phi=round(s.phi, 3), turn_fraction=round(1 / s.phi ** 2, 3), full_turn=360,
+                    golden_turn=round(1 / s.phi, 3), pi=round(math.pi, 5), pi_leftover=round(math.pi - 3, 5),
+                    pi_leftover_deg=round(360 * (math.pi - 3), 2), one_seventh=round(1 / 7, 6),
+                    seven_pi_turns=round(7 * math.pi, 2), seven_pi_miss_deg=round(360 * (22 - 7 * math.pi), 2))
 
     def draw(s, img, d, u, bi, bp, vis):
         ang = vis.get("angle", s.golden)
         if ang == "golden": ang = s.golden
+        if "turn" in vis:  # fraction of a full turn per seed (number, or "pi" = pi turns, "golden" = 1/phi turns)
+            tr = {"pi": math.pi, "golden": 1 / s.phi}.get(vis["turn"], vis["turn"]); ang = 360 * tr
         n = int(s.N * ease(clamp(bp / 0.75))) if vis.get("grow", True) else s.N
         glow = Image.new("RGBA", (W, H), (0, 0, 0, 0)); gd = ImageDraw.Draw(glow)
         for i in range(n):
@@ -378,6 +383,7 @@ def check(S):
         for f in ("hook", "head"):
             for ln in b.get(f, []): chk(f"beat {i} {f}", ln)
         if b.get("chip"): chk(f"beat {i} chip", b["chip"])
+        if b.get("card"): chk(f"beat {i} card", b["card"])
     for f in ("title", "caption"): chk(f, S.get(f, ""))
     if S["beats"][-1].get("nocap") is not True: bad.append("last beat must be the nocap follow line")
     print("\n".join(bad) if bad else "CHECK OK"); return not bad
@@ -426,7 +432,19 @@ def frame(t, S, tl, bg, sim, U, total):
     if not b.get("nocap"):
         M.caption(d, seg, min(t, seg["end"]), TH)
     else:
-        tc(d, (540, CAP_Y), "Follow @shipwithpip", font(F_BOLD, 80), al(TH["ink"], clamp((t - seg["start"]) / 0.3)))
+        g = clamp((t - seg["start"]) / 0.3)
+        if b.get("card"):  # series card (section F): episode name over the comment question, on a dark panel
+            fq = font(F_BOLD, 64); words = b["say"].split(); lines = [""]
+            for w_ in words:
+                if d.textlength((lines[-1] + " " + w_).strip(), font=fq) > 900: lines.append(w_)
+                else: lines[-1] = (lines[-1] + " " + w_).strip()
+            pan = Image.new("RGBA", (W, H), (0, 0, 0, 0)); pd = ImageDraw.Draw(pan)
+            pd.rounded_rectangle([50, 600, 1030, 830 + 80 * len(lines)], radius=40, fill=(8, 8, 14, int(225 * g)))
+            img.alpha_composite(pan); d = ImageDraw.Draw(img, "RGBA")
+            fcard = font(F_BOLD, 96); fcard = fcard if d.textlength(b["card"], font=fcard) < 920 else font(F_BOLD, int(96 * 920 / d.textlength(b["card"], font=fcard)))
+            tc(d, (540, 700), b["card"], fcard, al(YEL, g))
+            for k, ln in enumerate(lines): tc(d, (540, 830 + k * 80), ln, fq, al(TH["ink"], g))
+        tc(d, (540, CAP_Y), "Follow @shipwithpip", font(F_BOLD, 80), al(TH["ink"], g))
     tc(d, (540, 1840), "@shipwithpip", font(F_MED, 34), al(TH["muted"], 0.8))
     d.rectangle([0, 0, W * clamp(t / total), 8], fill=al(YEL, 0.9))
     return img

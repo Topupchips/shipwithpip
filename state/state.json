@@ -1,12 +1,12 @@
 {
-  "next": "visual",
+  "next": "whatif",
   "cycle": [
     "sim",
     "whatif",
     "visual",
     "whatif"
   ],
-  "cycle_index": 34,
+  "cycle_index": 35,
   "sim_rotation": [
     "maze",
     "flappy",
@@ -37,7 +37,7 @@
     "scale",
     "satisfy"
   ],
-  "visual_mode_index": 7,
+  "visual_mode_index": 8,
   "satisfy_rotation": [
     "pendulum",
     "fourier",
@@ -45,7 +45,7 @@
     "galton",
     "sunflower"
   ],
-  "satisfy_index": 4,
+  "satisfy_index": 5,
   "satisfy_queue": [],
   "whatif_queue": [],
   "last_review": "2026-11-22T06:17:30Z"
