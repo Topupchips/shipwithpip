@@ -222,6 +222,7 @@ window.setFrame = (t) => {
   X.restore();
   if (lt < 0.15) { X.fillStyle = `rgba(255,255,255,${(0.15 - lt) * 1.6})`; X.fillRect(0, 0, W, H); }
   capDark(b.cap, lt, d); handleDark();
+  if (D.series && b.kind !== 'end') { X.save(); X.font = '34px PopM'; const w = X.measureText(D.series).width + 44; rr(W / 2 - w / 2, 38, w, 54, 27); X.fillStyle = 'rgba(255,215,0,.95)'; X.fill(); X.restore(); txt(D.series, W / 2, 66, 34, { font: 'PopM', fill: INK }); }
   X.fillStyle = YEL; X.fillRect(0, 0, W * t / T, 10);
 };
 Promise.all(['700 50px Pop', '44px Hand', '40px Mono', '40px PopM'].map(f => document.fonts.load(f))).then(() => { window.ready = true; });

@@ -238,7 +238,7 @@ def main():
         pg.on("console", lambda m: print("console:", m.text) if m.type in ("error", "warning") else None)
         pg.on("pageerror", lambda e: print("pageerror:", e))
         pg.goto(f"http://127.0.0.1:{port}/index.html"); pg.wait_for_function("window.ready === true", timeout=60000)
-        pg.evaluate("d => window.setData(d)", dict(reel=a.reel, common=common, beats=B))
+        pg.evaluate("d => window.setData(d)", dict(reel=a.reel, common=common, beats=B, series=spec.get("series")))
         durs = []
         for i, b in enumerate(B):
             nf = pg.evaluate("i => window.frameCount(i)", i)
@@ -258,7 +258,7 @@ def main():
             d = max(3.2, vo, sim)
             if b["kind"] != "end" and b.get("sfx"): d = max(d, b["sfx"]["t"] + 1.6)
             durs.append(round(d, 2))
-        if punch: pg.evaluate("d => window.setData(d)", dict(reel=a.reel, common=common, beats=B))
+        if punch: pg.evaluate("d => window.setData(d)", dict(reel=a.reel, common=common, beats=B, series=spec.get("series")))
         TL = pg.evaluate("c => window.setDur(c)", durs); T = TL["T"]; print("T", round(T, 1), durs)
         if a.stills:
             for t in [float(v) for v in a.stills.split(",")]:
