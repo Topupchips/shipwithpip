@@ -1,0 +1,112 @@
+{
+ "reel": "flappy",
+ "style": "punch",
+ "voice": "hook",
+ "series": "AI LEARNS FLAPPY, PART 3",
+ "constants": [],
+ "beats": [
+  {
+   "gen": 1,
+   "head": [
+    "1 PIPE.",
+    "THAT'S THE BEST BIRD."
+   ],
+   "stat": "1 PIPE",
+   "say": "My AI birds start with one pipe. Watch the finish line.",
+   "cap": "Gen 1: best bird clears 1 pipe."
+  },
+  {
+   "gen": 2,
+   "head": [
+    "GEN 2.",
+    "9 PIPES."
+   ],
+   "stat": "9 PIPES",
+   "say": "Gen two, the best bird clears nine pipes.",
+   "cap": "One generation later: 9 pipes."
+  },
+  {
+   "gen": 3,
+   "head": [
+    "GEN 3.",
+    "STILL 9."
+   ],
+   "stat": "9 PIPES",
+   "stat_col": "RED",
+   "say": "Gen three is stuck at nine.",
+   "cap": "No progress. Stuck at 9."
+  },
+  {
+   "gen": 4,
+   "head": [
+    "GEN 4.",
+    "ALL 22 PIPES."
+   ],
+   "stat": "1 FINISHED",
+   "stat_col": "GREEN",
+   "say": "Gen four, one bird clears all twenty two.",
+   "cap": "Gen 4: one bird reaches the end.",
+   "sfx": {
+    "text": "22 / 22!",
+    "col": "LIME",
+    "burst": "GREEN",
+    "t": 1.4
+   }
+  },
+  {
+   "gen": 5,
+   "head": [
+    "GEN 5.",
+    "6 FINISH."
+   ],
+   "stat": "6 FINISHED",
+   "say": "Gen five, six birds finish.",
+   "cap": "Then 6 birds make it."
+  },
+  {
+   "gen": 6,
+   "head": [
+    "GEN 6.",
+    "49 FINISH."
+   ],
+   "stat": "49 FINISHED",
+   "say": "Gen six, forty nine.",
+   "cap": "Gen 6: 49 birds finish."
+  },
+  {
+   "gen": 7,
+   "head": [
+    "1 BIRD",
+    "BECAME 69."
+   ],
+   "stat": "69 FINISHED",
+   "stat_col": "GREEN",
+   "say": "Gen seven, sixty nine birds finish.",
+   "cap": "Gen 7: 69 birds clear all 22.",
+   "sfx": {
+    "text": "69!",
+    "col": "LIME",
+    "burst": "GREEN",
+    "t": 1.4
+   }
+  }
+ ],
+ "end": [
+  "Part 3.",
+  "1 bird to 69.",
+  "0 instructions."
+ ],
+ "end_say": "Smarter birds or just luckier birds? Comment.",
+ "post": {
+  "title": "One AI bird finished the course. Three generations later, 69 did",
+  "caption": "One AI bird finished all 22 pipes. Three generations later, 69 did. The best bird cleared 1 pipe in gen 1, 9 in gen 2, stayed stuck at 9 in gen 3, then gen 4 produced the first bird to clear all 22. Finishers went 1, 6, 49, 69. Each bird is a tiny neural network; the best ones get copied with small mutations every generation.",
+  "tags": [
+   "ai",
+   "machinelearning",
+   "flappybird",
+   "shipwithpip"
+  ],
+  "pinned": "Each bird is a small neural network that decides when to flap. No one tells it how. The birds that fly farthest get copied with random mutations into the next generation.",
+  "notes": "Seed 5965, maxsteps 1500. Per gen best pipes: 1,9,9,22,22,22,22; finishers (surv): 0,0,0,1,6,49,69. Gen 4 to gen 7 is three generations (7 - 4 = 3). Idea test: relatable/question/reaction/unrealistic = 3 of 4 (relatable, question, unrealistic)."
+ }
+}
