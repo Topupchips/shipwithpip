@@ -202,9 +202,16 @@ window.frameCount = (i) => { const b = beats[i]; if (b.kind === 'end') return 0;
 window.setFrame = (t) => {
   t = Math.min(t, T - 0.001);
   const bi = beats.findIndex(q => t >= q.t0 && t < q.t1); const b = beats[bi < 0 ? beats.length - 1 : bi]; const lt = t - b.t0, d = b.t1 - b.t0;
-  const fi = Math.max(0, Math.floor((lt - (b.delay || 0.35)) * 30));
+  const fi = Math.max(0, Math.floor((lt - (b.delay ?? 0.35)) * 30 * (b.rate || 1)));
   const key = (bi < 0 ? beats.length - 1 : bi) * 1000000 + fi;
-  if (key !== lastKey) { if (key !== lastKey + 1) parts = []; if (b.kind !== 'end' && SC[D.reel].events) for (const e of SC[D.reel].events(b, fi)) spawn(e.x, e.y, e.col, e.n, e.sp, 26, e.size || 5); lastKey = key; }
+  if (key !== lastKey) {
+    // punch style plays faster than 1 sim frame per video frame: replay the skipped frames' events so no swish or crash is lost
+    const same = Math.floor(key / 1000000) === Math.floor(lastKey / 1000000) && key > lastKey;
+    if (!same && key !== lastKey + 1) parts = [];
+    const f0 = same ? (lastKey % 1000000) + 1 : fi;
+    if (b.kind !== 'end' && SC[D.reel].events) for (let f = f0; f <= fi; f++) for (const e of SC[D.reel].events(b, f)) spawn(e.x, e.y, e.col, e.n, e.sp, 26, e.size || 5);
+    lastKey = key;
+  }
   stepParts();
   X.setTransform(1, 0, 0, 1, 0, 0); bg(t);
   const sh = lt < 0.2 ? (0.2 - lt) * 30 : 0; const r = rnd(Math.floor(t * 60)); X.save(); X.translate((r() - .5) * sh, (r() - .5) * sh);

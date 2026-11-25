@@ -1,29 +1,26 @@
 {
-  "next": "visual",
+  "next": "sim",
   "cycle": [
-    "sim",
-    "sim",
-    "visual",
-    "whatif"
+    "sim"
   ],
-  "cycle_index": 38,
+  "cycle_index": 0,
   "sim_rotation": [
-    "maze",
     "flappy",
-    "dodge",
+    "walk",
     "pole",
     "moon",
-    "hoops",
     "lander",
-    "hunt",
-    "snake",
+    "hoops",
+    "maze",
     "drone",
-    "walk",
+    "dodge",
+    "snake",
+    "hunt",
     "shortcut",
     "keepups",
     "password"
   ],
-  "sim_index": 20,
+  "sim_index": 0,
   "account": {
     "platform": "INSTAGRAM",
     "username": "shipwithpip",
@@ -48,5 +45,15 @@
   "satisfy_index": 5,
   "satisfy_queue": [],
   "whatif_queue": [],
-  "last_review": "2026-11-24T08:34:33Z"
+  "last_review": "2026-11-24T08:34:33Z",
+  "voice_modes": [
+    "hook",
+    "none"
+  ],
+  "voice_index": 0,
+  "style": "punch",
+  "paused_formats": [
+    "whatif",
+    "visual"
+  ]
 }

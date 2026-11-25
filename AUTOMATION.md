@@ -1,6 +1,13 @@
 # @shipwithpip auto-reels: runbook for each scheduled run
 
 Every run makes **one** reel and posts it to Instagram **@shipwithpip** with no human review.
+
+**Current plan (Ansh, Nov 25 2026: "implement the new plan", from the audit doc https://claude.ai/artifact/BrVQeB76XyjkXbiUfJqa7c).** 14-day data: 25,280 views but 48 profile visits and 88 followers; AI sims had a median of 642 views vs 145 for what-ifs and 283 for math reels; viewers left at about 15 s. So:
+- **Sims only, 2 runs a day** (02:07 and 14:07 Halifax). `cycle` is `["sim"]`. What-if (B3) and visual (B, B2) reels are paused; keep their sections and engines, but do not make them unless Ansh asks again.
+- **Punch style for every sim** (section A): swarm on screen from frame 1, 20 to 35 s, music-led, short captions, loop at the end.
+- **Voice A/B test**: `voice_modes` in state.json alternates `hook` (only the first line is spoken) and `none` (music only) by `voice_index`. Log the mode. Section E picks the winner.
+- **Rotation ordered by results**: best performers first (flappy, walk, pole, moon), recognisable games before abstract ones.
+- The rest of this paragraph is history:
 Ansh approved fully automatic posting, 3 reels a day (Ansh, Nov 13 2026: up from 2), in a repeating cycle of sim, sim, visual math reel, what-if reel (visual reels replaced the dark explainers on Nov 13 2026; what-if reels added Nov 16 2026, Ansh: "make videos like this as well, they get so many views", referencing a viral "what if you swung a hammer at the speed of light" reel; "adjust it yourself based on response", see section E).
 Because nobody reviews it, the checks below are the review. If any check fails and you cannot fix it honestly, **post nothing** and log the failure.
 
@@ -9,8 +16,8 @@ Because nobody reviews it, the checks below are the review. If any check fails a
 2. **Real facts for visual reels.** Every landmark, distance and claim in a visual reel is verified with WebSearch/WebFetch against a primary or reputable source found in this run. List the URLs in the script's `sources`. No invented stats, quotes, companies or incidents. If you cannot verify a claim, cut it.
 3. **No em dashes** anywhere (script, captions, on-screen text, post). Use commas, colons or full stops.
 4. Post only to account id `29510734025188123` (@shipwithpip). Never to @anshgotenks or @anshgoten.
-5. One reel per run. Runs are at 02:07, 04:07 and 14:07 Halifax time; each must finish within 110 minutes of starting. If the log shows a reel was already posted within the last 90 minutes, stop.
-6. Keep the video vertically centred, 1080x1920. Length 35 to 65 s.
+5. One reel per run. Runs are at 02:07 and 14:07 Halifax time (2 a day since Nov 25 2026); each must finish within 110 minutes of starting. If the log shows a reel was already posted within the last 90 minutes, stop.
+6. Keep the video vertically centred, 1080x1920. Length 20 to 35 s for punch-style sims (35 to 65 s for the paused formats).
 7. Hooks: the first 2 seconds must be a surprising, specific line (a number, a reversal, a "then I..." twist). Ansh wants more random, unexpected hooks; capturing attention in the first 10 seconds is the priority.
 
 ## 0. Setup (every run, fresh container)
@@ -28,12 +35,20 @@ Sim = `sim_rotation[sim_index % len]`. Never make a sim listed in `retired_sims`
    `python3 autosim.py run SIM SEED /tmp/r.json`
    For `shortcut` and `drone` the first run records nothing; read the stats, choose the generations to show, then rerun the same seed with `--record 1,6,12,...` (identical results, deterministic).
 2. **Judge the arc** from the printed stats. A good arc: starts near zero, a slow climb, a payoff, a twist that drops it (where the sim has one: hoops moves the hoop, maze blocks the path, dodge adds rocks, pole pushes, moon doubles gravity, drone halves rings, keepups adds a ball, hunt lets prey learn, password stalls on the last letter), and a second climb. If the arc is flat, never reaches the payoff, or the twist never triggers, **try another seed** (up to 6 seeds). If none works, switch to the next sim in the rotation.
-3. **Write the spec** `/tmp/spec.json` (format in `engine/goal2/specstory.py`). 6 to 9 beats plus the end card. Use `engine/goal2/stories2.py`, `stories3.py` and the builders in `goal2.py` as the tone and wording reference for that sim: short spoken lines, a two-line ALL CAPS head, a short caption, an `sfx` burst on the payoff and on the twist. Only state what the stats show. Fixed settings of the sim (population 100, 13 letters, 6 rings, 30 seconds...) go in `"constants"`. Derived numbers you compute (e.g. "stuck for 32 generations" = 41 - 9) also go in `constants` and must be arithmetic you actually did on the stats.
+3. **Write the spec** `/tmp/spec.json` (format in `engine/goal2/specstory.py`) in **punch style** (Nov 25 2026):
+   - top-level `"style": "punch"`, `"voice": voice_modes[voice_index % 2]` (`hook` or `none`), optional `"beat_max"` (seconds per beat, default 3.6; long runs are played faster to fit, never cut).
+   - 6 to 8 beats plus the end card; the whole reel 20 to 35 s (the render prints `T`; if it is over 35, drop a beat or lower `beat_max`).
+   - Beat 1 is the hook and must show the swarm from frame 1: pick gen 1 (or the most chaotic early gen). Its `head` is the hook (2 short ALL CAPS lines with a specific number or a twist, e.g. "100 AIs. 0 SHOTS." / "I MOVE THE HOOP."); its `say` is the one spoken line in `hook` mode, under 12 words.
+   - `cap` is the on-screen text that carries the story when there is no voice: 8 words or fewer, numbers from the stats ("Gen 8: 93/100. Solved."). `say` is still required on every beat (it is checked) but only beat 1 is voiced in `hook` mode.
+   - `end`: 3 short lines, the first is the series line ("Part 2."); `end_say` is the comment question, shown as the end caption.
+   - Bigger swarms: `--kw npop=N` only when that sim's arc still works at that size (hoops never solves at 300 because its elite count is fixed); say the real population on screen.
+   - Escalating series: each new part of a sim should be visibly harder or different from the last part (new twist outcome, bigger population, harder seed), and the hook says how ("Part 3: the hoop moves twice").
+   Older (non-punch) guidance follows and still applies to wording and honesty: 6 to 9 beats plus the end card. Use `engine/goal2/stories2.py`, `stories3.py` and the builders in `goal2.py` as the tone and wording reference for that sim: short spoken lines, a two-line ALL CAPS head, a short caption, an `sfx` burst on the payoff and on the twist. Only state what the stats show. Fixed settings of the sim (population 100, 13 letters, 6 rings, 30 seconds...) go in `"constants"`. Derived numbers you compute (e.g. "stuck for 32 generations" = 41 - 9) also go in `constants` and must be arithmetic you actually did on the stats.
    `post`: title, caption (what happened, with the real numbers, ends with what the algorithm is), tags (5 to 7, include shipwithpip), pinned (how the sim works), notes (seed and the per-generation numbers).
 4. `python3 autosim.py check /tmp/r.json /tmp/spec.json` must print `CHECK OK`.
 5. **Stills check**: `python3 goal2.py SIM /tmp/r.json /tmp/reel.mp4 --spec /tmp/spec.json --stills 2,15,30` and Read the PNGs. Look for: text overflowing, empty arena, overlapping labels, wrong counter. Fix and repeat.
-6. **Render**: `nohup python3 -u goal2.py SIM /tmp/r.json /tmp/reel.mp4 --spec /tmp/spec.json > /tmp/render.log 2>&1 &` then poll the log until `done` (10 to 20 min). Any `pageerror` = fix and re-render.
-7. **Verify the mp4**: ffprobe duration 35 to 65 s, has audio; extract 3 frames (early, middle, last third) with ffmpeg and Read them.
+6. **Render** (export `KOKORO_DIR` first or the voice model is not found; run `python3 -c "import sys; sys.path.insert(0,'..'); import scale; scale.patch_lexicon('$KOKORO_DIR')"` from `engine/goal2` once per container so words like AIs are spoken): `nohup python3 -u goal2.py SIM /tmp/r.json /tmp/reel.mp4 --spec /tmp/spec.json > /tmp/render.log 2>&1 &` then poll the log until `done` (10 to 20 min). Any `pageerror` = fix and re-render.
+7. **Verify the mp4**: ffprobe duration 20 to 35 s (punch), has audio, the last half second fades back into the opening frame (loop); extract 3 frames (early, middle, last third) with ffmpeg and Read them.
 
 ## B. Visual math reel (`next` is "visual")
 Style: a dark "scale climb". Something changes by a fixed factor every step and a log-scale camera moves past real landmarks, with a big step counter, a live readout and word-by-word captions. Engine: `engine/scale.py`. Examples in `engine/scale_scripts/`: `v1_folds.json` (paper folds, length, doubling), `v2_penny.json` (penny stack, length, doubling), and in `queue/` until posted: `v3_halving.json` (shrinking to an atom), `v4_seconds.json` (time, x10, `counter_fmt` pow10), `v5_tripling.json` (people, x3), `v6_odds.json` (odds, x10).
@@ -82,15 +97,16 @@ Style: an escalating chain of "what if" hypotheticals with real physics, like `e
 2. vidIQ `vidiq_video_upload` with `url` = that URL -> `videoUrl`.
 3. Caption: sims use `post.caption` + a blank line + `Follow @shipwithpip for more AI from scratch.` + blank line + hashtags (`#` + each tag). Visual reels use the script `caption` + blank line + `Follow @shipwithpip for more.` + blank line + hashtags. Max 2,200 chars, no em dashes.
 4. vidIQ `vidiq_instagram_publish_reel` with `platformAccountId` `29510734025188123`, `videoUrl`, `caption`. No trial params, no AI label. Continue with `containerId` / `mcpJobId` exactly as the tool says until `PUBLISHED`. Do not retry a failed publish with a new container; log the error and stop.
-5. Append one JSON line to `state/log.jsonl`: `{"date": ISO time, "kind": "sim"|"visual", "sim": name, "seed": n, "topic": title, "permalink": ..., "status": "posted"|"failed: reason"}`. Update `state/state.json` only when the reel was posted: `cycle_index += 1`, set `next` to the new `cycle[cycle_index % len(cycle)]` (for readability), and after a sim also `sim_index += 1`. A failed run leaves the state unchanged so the next run retries the same slot. Commit and push to `main`:
+5. Append one JSON line to `state/log.jsonl`: `{"date": ISO time, "kind": "sim"|"visual", "sim": name, "seed": n, "topic": title, "permalink": ..., "status": "posted"|"failed: reason"}`. Update `state/state.json` only when the reel was posted: `cycle_index += 1`, set `next` to the new `cycle[cycle_index % len(cycle)]` (for readability), and after a sim also `sim_index += 1` and `voice_index += 1`. Sim log lines also carry `"style": "punch"` and `"voice": "hook"|"none"`. A failed run leaves the state unchanged so the next run retries the same slot. Commit and push to `main`:
    `git add state engine/scale_scripts engine/satisfy_scripts engine/whatif_scripts && git commit -m "log: <title>" && git push origin HEAD:main`
 
-## E. Performance review (Ansh, Nov 16 2026: "try posting 1 rn and based on response adjust it yourself")
-Due when `state.json` `last_review` is more than 48 hours old (or missing) and at least 3 what-if reels in the log are 24+ hours old. Fetch the account's recent reels with vidIQ (`vidiq_ig_profile_reels` for shipwithpip, or `vidiq_instagram_owner_insights`) and match them to log lines by permalink. Compare the median views of the last 3 what-if reels (24+ h old) with the median of the last 6 other reels (24+ h old):
-- what-if median at least 1.5x the others: give what-if more slots. Step 1: cycle `["sim", "whatif", "visual", "whatif"]`. Step 2 (if still 1.5x at the next review): `["sim", "whatif", "whatif"]`.
-- between 0.7x and 1.5x: keep the cycle.
-- below 0.7x: step back one level (fewest: `["sim", "sim", "visual", "whatif"]`, never remove what-ifs entirely without telling Ansh in the run summary).
-When the cycle changes, set `cycle_index` so the next slot is the one that keeps the order sensible, set `next`, set `last_review` to now, and append a line to `state/decisions.jsonl`: `{"date", "whatif_median", "other_median", "old_cycle", "new_cycle"}`. If the views cannot be fetched, skip the review and say so in the summary. Never change account, timing or honesty rules in a review.
+## E. Performance review (rewritten Nov 25 2026: judge by what turns viewers into followers, not by views)
+Due when `state.json` `last_review` is more than 48 hours old (or missing). Use `vidiq_instagram_owner_insights` (platformAccountId 29510734025188123): `mode: "reels"` for per-reel lifetime metrics (views, skipRate = swiped away in the first 3 s, avgWatchedPct, shares, saves, comments) and `mode: "account"` with metrics `["views", "profile_views"]` for the last 7 days. Only reels 24+ hours old count. Match reels to log lines by permalink.
+1. **Account health**: profile visits per 1,000 views over the last 7 days (baseline Nov 25 2026: 1.9 over 14 days). Targets: 3 or more, followers rising every week.
+2. **Voice A/B**: once each voice mode has 4 or more punch reels 24+ h old, compare median skipRate and median avgWatchedPct. If one mode is better on both by at least 3 points, set `voice_modes` to that mode only and log it. Otherwise keep alternating.
+3. **Sims**: rank sims by median views and skipRate over their punch reels; move the two best to the front of `sim_rotation` (keep `sim_index` pointing at the sim that was next) and move any sim with 3+ punch reels all under 200 views to the end.
+4. **Baseline**: compare the median skipRate and avgWatchedPct of punch reels with the last 10 non-punch reels (Nov 17 to 24: median skip about 32%, watched about 25%). Report it.
+Append a line to `state/decisions.jsonl` (`{"date", "profile_visits_per_1k", "voice": {...}, "changes": [...], "why"}`), set `last_review`, and put the headline numbers in the run summary. If the data cannot be fetched, skip the review and say so. Never change account, timing or honesty rules in a review, and never bring back paused formats without Ansh.
 
 ## F. Follow triggers: series numbers and comment questions (Ansh, Nov 23 2026)
 Reach was fine but followers were not growing (14 days: 21,602 accounts reached, 50 profile visits, 0 shares, 0 comments on every reel). Every reel, of every kind, now gives viewers a reason to follow and to comment:

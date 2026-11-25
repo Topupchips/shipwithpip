@@ -184,6 +184,28 @@ def chime(b, t0, base=523):
     for k, f in enumerate((1, 1.26, 1.5, 2.0)): tone(b, t0 + k * 0.07, 1.2, base * f, base * f, 0.12, "sine")
 
 
+def punch_bed(total, seed):
+    """Original upbeat loop for punch-style reels: 124 bpm four-on-the-floor kick, offbeat hats, a bass line and
+    short synth stabs. Generated here, so no copyright."""
+    rng = np.random.default_rng(seed); beat = 60 / 124; n = int(total * SR) + SR; out = np.zeros(n, np.float32)
+    roots = [[55.0, 55.0, 65.41, 49.0], [61.74, 61.74, 73.42, 55.0], [49.0, 49.0, 58.27, 43.65]][seed % 3]
+    k = 0
+    while k * beat < total + beat:
+        j = int(k * beat * SR); bar = (k // 4) % 4; root = roots[bar]
+        kt = np.arange(int(0.2 * SR)) / SR; kick = np.sin(2 * np.pi * (45 + 110 * np.exp(-kt * 35)) * kt) * np.exp(-kt * 14) * 0.55
+        out[j:j + len(kick)] += kick[: max(0, n - j)]
+        jj = int((k + 0.5) * beat * SR); ht = int(0.05 * SR); hat = rng.normal(0, 1, ht) * np.exp(-np.arange(ht) / SR * 70) * 0.06
+        out[jj:jj + ht] += hat[: max(0, n - jj)]
+        bt = np.arange(int(beat * 0.45 * SR)) / SR; f = root * (2 if k % 2 else 1)
+        bass = (np.sin(2 * np.pi * f * bt) + 0.3 * np.sign(np.sin(2 * np.pi * f * bt))) * np.exp(-bt * 5) * 0.12
+        out[jj:jj + len(bass)] += bass[: max(0, n - jj)]
+        if k % 4 == 2:
+            st = np.arange(int(0.16 * SR)) / SR; stab = sum(np.sign(np.sin(2 * np.pi * root * 4 * m * st)) for m in (1, 1.26, 1.5)) * np.exp(-st * 18) * 0.025
+            out[j:j + len(stab)] += stab[: max(0, n - j)]
+        k += 1
+    return out[: int(total * SR) + SR // 10]
+
+
 class Q(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *a): pass
 
@@ -200,9 +222,13 @@ def main():
         B, common, post = spec_story(r, json.load(open(a.spec)), pick, beat)
     else:
         B, common, post = STORY[a.reel](r)
-    LEAD = 0.5; V = []
-    for b in B:
-        if a.stills: V.append(None); continue
+    spec = json.load(open(a.spec)) if a.spec else {}
+    punch = spec.get("style") == "punch"; vmode = spec.get("voice", "hook" if punch else "full")
+    if punch:  # end card: show the comment question as the caption, no follow pill voice-over unless voice is full
+        B[-1]["cap"] = spec.get("end_say", B[-1].get("say"))
+    LEAD = 0.25 if punch else 0.5; V = []
+    for i, b in enumerate(B):
+        if a.stills or vmode == "none" or (vmode == "hook" and i > 0): V.append(None); continue
         V.append(synth(b["say"]))
     from playwright.sync_api import sync_playwright
     srv = serve(); port = srv.server_address[1]
@@ -215,27 +241,50 @@ def main():
         pg.evaluate("d => window.setData(d)", dict(reel=a.reel, common=common, beats=B))
         durs = []
         for i, b in enumerate(B):
-            nf = pg.evaluate("i => window.frameCount(i)", i); vo = (LEAD + len(V[i]) / SR + 0.9) if V[i] is not None else 4.0
+            nf = pg.evaluate("i => window.frameCount(i)", i)
+            if punch:  # fast beats: the run is sped up to fit beat_max seconds, captions get time to be read
+                bmax = spec.get("beat_max", 3.6); simt = nf / FPS
+                if b["kind"] != "end":
+                    b["delay"] = 0.1; b["rate"] = round(max(1.0, simt / (bmax - 0.5)), 3)
+                    words_t = 0.6 + 0.26 * len((b.get("cap") or "").split())
+                    vo = (LEAD + len(V[i]) / SR + 0.4) if V[i] is not None else 0
+                    d = max(2.2, 0.1 + simt / b["rate"] + 0.4, words_t, vo)
+                    if b.get("sfx"): b["sfx"]["t"] = min(b["sfx"]["t"], max(0.4, d - 1.4)); d = max(d, b["sfx"]["t"] + 1.2)
+                else:
+                    d = max(2.8, 0.6 + 0.26 * len((b.get("cap") or "").split()))
+                durs.append(round(d, 2)); continue
+            vo = (LEAD + len(V[i]) / SR + 0.9) if V[i] is not None else 4.0
             sim = 0.35 + nf / FPS + 0.7 if b["kind"] != "end" else 0
             d = max(3.2, vo, sim)
             if b["kind"] != "end" and b.get("sfx"): d = max(d, b["sfx"]["t"] + 1.6)
             durs.append(round(d, 2))
+        if punch: pg.evaluate("d => window.setData(d)", dict(reel=a.reel, common=common, beats=B))
         TL = pg.evaluate("c => window.setDur(c)", durs); T = TL["T"]; print("T", round(T, 1), durs)
         if a.stills:
             for t in [float(v) for v in a.stills.split(",")]:
                 pg.evaluate("t => window.setFrame(t)", t); pg.screenshot(path=f"{os.path.splitext(a.out)[0]}_s{t:05.1f}.png")
             br.close(); return
-        buf = np.zeros(int(T * SR) + SR * 3, np.float32); bed = music_bed(T, 50 + len(a.reel)); buf[:len(bed)] += bed[:len(buf)] * 0.3
+        buf = np.zeros(int(T * SR) + SR * 3, np.float32)
+        bed = punch_bed(T, 50 + len(a.reel)) if punch else music_bed(T, 50 + len(a.reel)); buf[:len(bed)] += bed[:len(buf)] * (0.8 if punch else 0.3)
         for i, b in enumerate(B):
-            t0 = TL["beats"][i]["t0"]; x = V[i]; j = int((t0 + LEAD) * SR); buf[j:j + len(x)] += x
+            t0 = TL["beats"][i]["t0"]; x = V[i]
+            if x is not None: j = int((t0 + LEAD) * SR); buf[j:j + len(x)] += x
             tone(buf, t0, 0.22, 120, 50, 0.26, "sine"); noise_burst(buf, t0 + 0.01, 0.16, 0.18)
             if b.get("sfx"): ts = t0 + b["sfx"]["t"]; tone(buf, ts, 0.3, 90, 40, 0.3, "sine"); noise_burst(buf, ts, 0.25, 0.28); chime(buf, ts + 0.05)
             if b["kind"] == "end": chime(buf, t0 + 0.3, 440)
         buf = buf[:int(T * SR)]; wav = os.path.splitext(a.out)[0] + "_a.wav"; sf.write(wav, buf / (np.max(np.abs(buf)) or 1) * 0.92, SR)
         ff = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "image2pipe", "-framerate", str(FPS), "-c:v", "mjpeg", "-i", "-", "-i", wav, "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", "-pix_fmt", "yuv420p", "-af", "loudnorm=I=-15:TP=-1.2:LRA=11", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", a.out], stdin=subprocess.PIPE)
-        n = int(T * FPS)
+        n = int(T * FPS); first = None; NB = 12  # punch: the last NB frames fade into the opening frame so the reel loops
+        if punch:
+            import io
+            from PIL import Image
+            pg.evaluate("t => window.setFrame(t)", 0.3); first = Image.open(io.BytesIO(pg.screenshot(type="png"))).convert("RGB")
+            pg.evaluate("t => window.setFrame(t)", -1)
         for i in range(n):
-            pg.evaluate("t => window.setFrame(t)", i / FPS); ff.stdin.write(pg.screenshot(type="jpeg", quality=92))
+            pg.evaluate("t => window.setFrame(t)", i / FPS); jp = pg.screenshot(type="jpeg", quality=92)
+            if first is not None and i >= n - NB:
+                im = Image.blend(Image.open(io.BytesIO(jp)).convert("RGB"), first, (i - (n - NB) + 1) / NB); bb = io.BytesIO(); im.save(bb, "JPEG", quality=92); jp = bb.getvalue()
+            ff.stdin.write(jp)
             if i % 150 == 0: print("frame", i, "/", n, flush=True)
         ff.stdin.close(); ff.wait(); br.close(); os.remove(wav)
     write_post(os.path.splitext(a.out)[0] + "_post.txt", post["title"], post["caption"], post["tags"], post["pinned"], post["notes"]); print("done", a.out)
