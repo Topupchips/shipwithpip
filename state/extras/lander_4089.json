@@ -1,0 +1,113 @@
+{
+ "reel": "lander",
+ "style": "punch",
+ "voice": "hook",
+ "series": "AI LEARNS LANDER, BONUS ROUND",
+ "constants": [],
+ "beats": [
+  {
+   "gen": 1,
+   "head": [
+    "0 LANDINGS.",
+    "5 GENS STRAIGHT."
+   ],
+   "stat": "0 LANDED",
+   "stat_col": "RED",
+   "say": "My AIs crashed every landing for five generations.",
+   "cap": "Gen 1: every rocket crashes."
+  },
+  {
+   "gen": 5,
+   "head": [
+    "GEN 5.",
+    "STILL 0."
+   ],
+   "stat": "0 LANDED",
+   "stat_col": "RED",
+   "say": "Gen five, still zero.",
+   "cap": "Gen 5: still zero landings."
+  },
+  {
+   "gen": 6,
+   "head": [
+    "GEN 6.",
+    "1 LANDS."
+   ],
+   "stat": "1 LANDED",
+   "say": "Gen six, one lands.",
+   "cap": "Gen 6: the first one touches down.",
+   "sfx": {
+    "text": "1!",
+    "col": "LIME",
+    "burst": "GREEN",
+    "t": 1.2
+   }
+  },
+  {
+   "gen": 7,
+   "head": [
+    "GEN 7.",
+    "8 LAND."
+   ],
+   "stat": "8 LANDED",
+   "say": "Gen seven, eight.",
+   "cap": "Gen 7: 8 land."
+  },
+  {
+   "gen": 8,
+   "head": [
+    "GEN 8.",
+    "37 LAND."
+   ],
+   "stat": "37 LANDED",
+   "stat_col": "GREEN",
+   "say": "Gen eight, thirty seven.",
+   "cap": "Gen 8: 37. It clicked."
+  },
+  {
+   "gen": 11,
+   "head": [
+    "GEN 11.",
+    "37 AGAIN."
+   ],
+   "stat": "37 LANDED",
+   "say": "Gen eleven, stuck at thirty seven.",
+   "cap": "Gen 11: back to 37."
+  },
+  {
+   "gen": 13,
+   "head": [
+    "0 TO 57.",
+    "IN 13 GENS."
+   ],
+   "stat": "57 LANDED",
+   "stat_col": "GREEN",
+   "say": "Gen thirteen, fifty seven land.",
+   "cap": "Gen 13: 57 rockets land.",
+   "sfx": {
+    "text": "57!",
+    "col": "LIME",
+    "burst": "GREEN",
+    "t": 1.4
+   }
+  }
+ ],
+ "end": [
+  "Bonus round.",
+  "0 to 57.",
+  "0 instructions."
+ ],
+ "end_say": "Would you ride in rocket 57? Comment.",
+ "post": {
+  "title": "My AI rockets crashed for 5 generations. Gen 13: 57 landed",
+  "caption": "My AI rockets crashed every time for 5 generations. Gen 6: the first one landed. Gen 7: 8. Gen 8: 37. Gen 13: 57. Each rocket is a small neural network that fires its thrusters; the best landers get copied with mutations.",
+  "tags": [
+   "ai",
+   "machinelearning",
+   "rocket",
+   "shipwithpip"
+  ],
+  "pinned": "Each rocket is a small neural network that controls its thrusters. No one tells it how to land. The best ones get copied with random mutations into the next generation.",
+  "notes": "Extra reel (Ansh asked for more, Nov 25). Seed 4089. landed by gen: 0,0,0,0,0,1,8,37,38,39,37,43,57. Idea test: relatable/question/unrealistic = 2 to 3 of 4."
+ }
+}

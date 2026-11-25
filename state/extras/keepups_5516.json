@@ -1,0 +1,112 @@
+{
+ "reel": "keepups",
+ "style": "punch",
+ "voice": "none",
+ "series": "AI LEARNS KEEPUPS, BONUS ROUND",
+ "constants": [],
+ "beats": [
+  {
+   "gen": 1,
+   "head": [
+    "0 AIs MAKE IT.",
+    "THEN I ADD A BALL."
+   ],
+   "stat": "0 MADE IT",
+   "say": "Zero AIs keep it up. Then I add a ball.",
+   "cap": "Gen 1: nobody keeps it up."
+  },
+  {
+   "gen": 3,
+   "head": [
+    "GEN 3.",
+    "17 MAKE IT."
+   ],
+   "stat": "17 MADE IT",
+   "say": "Gen three, seventeen.",
+   "cap": "Gen 3: 17 keep it up."
+  },
+  {
+   "gen": 4,
+   "head": [
+    "GEN 4.",
+    "69 MAKE IT."
+   ],
+   "stat": "69 MADE IT",
+   "stat_col": "GREEN",
+   "say": "Gen four, sixty nine.",
+   "cap": "Gen 4: 69 make it."
+  },
+  {
+   "gen": 5,
+   "head": [
+    "2 BALLS.",
+    "0 MAKE IT."
+   ],
+   "stat": "0 MADE IT",
+   "stat_col": "RED",
+   "say": "Two balls. Zero.",
+   "cap": "Second ball. All 69 fail.",
+   "sfx": {
+    "text": "+1 BALL",
+    "col": "RED",
+    "burst": "RED",
+    "t": 1.2
+   }
+  },
+  {
+   "gen": 15,
+   "head": [
+    "GEN 15.",
+    "1 MAKES IT."
+   ],
+   "stat": "1 MADE IT",
+   "say": "Gen fifteen, one.",
+   "cap": "10 gens later: just 1."
+  },
+  {
+   "gen": 25,
+   "head": [
+    "GEN 25.",
+    "6 MAKE IT."
+   ],
+   "stat": "6 MADE IT",
+   "say": "Gen twenty five, six.",
+   "cap": "Gen 25: 6."
+  },
+  {
+   "gen": 40,
+   "head": [
+    "GEN 40.",
+    "13 MAKE IT."
+   ],
+   "stat": "13 MADE IT",
+   "stat_col": "GREEN",
+   "say": "Gen forty, thirteen.",
+   "cap": "Gen 40: 13 juggle both.",
+   "sfx": {
+    "text": "13!",
+    "col": "LIME",
+    "burst": "GREEN",
+    "t": 1.4
+   }
+  }
+ ],
+ "end": [
+  "Bonus round.",
+  "69, then 0, then 13.",
+  "0 instructions."
+ ],
+ "end_say": "Add a third ball or let them practice? Comment.",
+ "post": {
+  "title": "69 AIs mastered one ball. I added a second and 0 made it",
+  "caption": "69 AIs learned to keep one ball up by gen 4. Then I added a second ball and 0 made it. 10 generations later: 1. Gen 25: 6. Gen 40: 13. Each AI is a small neural network; the best ones get copied with mutations.",
+  "tags": [
+   "ai",
+   "machinelearning",
+   "football",
+   "shipwithpip"
+  ],
+  "pinned": "Each AI is a small neural network that decides how to hit the ball. No one tells it how. The best ones get copied with random mutations into the next generation. From gen 5 there are two balls.",
+  "notes": "Extra reel (Ansh asked for more, Nov 25). Seed 5516, two_at 5. surv: 0,1,17,69 then 0 until gen 15 (1), 25: 6, 40: 13. 15 - 5 = 10. Idea test: question/reaction/unrealistic = 3 of 4."
+ }
+}

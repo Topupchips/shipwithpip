@@ -1,0 +1,112 @@
+{
+ "reel": "hunt",
+ "style": "punch",
+ "voice": "hook",
+ "series": "AI LEARNS HUNT, BONUS ROUND",
+ "constants": [],
+ "beats": [
+  {
+   "gen": 1,
+   "head": [
+    "16 CATCHES.",
+    "THEN THE RABBITS LEARN."
+   ],
+   "stat": "16 CAUGHT",
+   "say": "My AI wolves catch sixteen. Then the prey learns too.",
+   "cap": "Gen 1: the wolves catch 16."
+  },
+  {
+   "gen": 4,
+   "head": [
+    "GEN 4.",
+    "33 CAUGHT."
+   ],
+   "stat": "33 CAUGHT",
+   "say": "Gen four, thirty three.",
+   "cap": "Gen 4: 33. The wolves get it."
+  },
+  {
+   "gen": 16,
+   "head": [
+    "GEN 16.",
+    "38 CAUGHT."
+   ],
+   "stat": "38 CAUGHT",
+   "stat_col": "GREEN",
+   "say": "Gen sixteen, thirty eight.",
+   "cap": "Gen 16: 38 rabbits caught.",
+   "sfx": {
+    "text": "38!",
+    "col": "LIME",
+    "burst": "GREEN",
+    "t": 1.2
+   }
+  },
+  {
+   "gen": 19,
+   "head": [
+    "NOW THE RABBITS",
+    "EVOLVE TOO."
+   ],
+   "stat": "34 CAUGHT",
+   "say": "Now the prey evolves too.",
+   "cap": "Gen 19: rabbits start learning.",
+   "sfx": {
+    "text": "RABBITS LEARN",
+    "col": "RED",
+    "burst": "RED",
+    "t": 1.2
+   }
+  },
+  {
+   "gen": 23,
+   "head": [
+    "GEN 23.",
+    "32 CAUGHT."
+   ],
+   "stat": "32 CAUGHT",
+   "say": "Gen twenty three, thirty two.",
+   "cap": "Gen 23: down to 32."
+  },
+  {
+   "gen": 30,
+   "head": [
+    "GEN 30.",
+    "19 CAUGHT."
+   ],
+   "stat": "19 CAUGHT",
+   "stat_col": "RED",
+   "say": "Gen thirty, nineteen.",
+   "cap": "Gen 30: only 19."
+  },
+  {
+   "gen": 36,
+   "head": [
+    "38 CATCHES",
+    "BECAME 18."
+   ],
+   "stat": "18 CAUGHT",
+   "stat_col": "RED",
+   "say": "Gen thirty six, eighteen.",
+   "cap": "Gen 36: 18. The rabbits are winning."
+  }
+ ],
+ "end": [
+  "Bonus round.",
+  "38 to 18.",
+  "0 instructions."
+ ],
+ "end_say": "Team wolf or team rabbit? Comment.",
+ "post": {
+  "title": "My AI wolves got to 38 catches. Then the rabbits learned too",
+  "caption": "My AI wolves went from 16 catches to 38 by gen 16. At gen 19 the rabbits started evolving too. Gen 23: 32. Gen 30: 19. Gen 36: 18. Wolves and rabbits are small neural networks; the best of each get copied with mutations.",
+  "tags": [
+   "ai",
+   "machinelearning",
+   "evolution",
+   "shipwithpip"
+  ],
+  "pinned": "Every wolf is a small neural network that steers toward rabbits. From gen 19 the rabbits are neural networks too, and the best escapers get copied with mutations, so both sides evolve.",
+  "notes": "Extra reel (Ansh asked for more, Nov 25). Seed 929, prey_from 19. caught: 1:16 4:33 16:38 19:34 23:32 30:19 36:18. Idea test: relatable/question/reaction = 3 of 4."
+ }
+}
