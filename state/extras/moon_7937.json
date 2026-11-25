@@ -1,0 +1,112 @@
+{
+ "reel": "moon",
+ "style": "punch",
+ "voice": "hook",
+ "series": "AI LEARNS MOON, BONUS ROUND",
+ "constants": [],
+ "beats": [
+  {
+   "gen": 1,
+   "head": [
+    "3 HIT THE MOON.",
+    "THEN I DOUBLE GRAVITY."
+   ],
+   "stat": "3 HIT",
+   "say": "Three AIs hit the moon. Then I double the gravity.",
+   "cap": "Gen 1: 3 reach the Moon."
+  },
+  {
+   "gen": 2,
+   "head": [
+    "GEN 2.",
+    "20 HIT."
+   ],
+   "stat": "20 HIT",
+   "say": "Gen two, twenty.",
+   "cap": "Gen 2: 20 make it."
+  },
+  {
+   "gen": 5,
+   "head": [
+    "GEN 5.",
+    "73 HIT."
+   ],
+   "stat": "73 HIT",
+   "say": "Gen five, seventy three.",
+   "cap": "Gen 5: 73. They get it."
+  },
+  {
+   "gen": 9,
+   "head": [
+    "GEN 9.",
+    "92 HIT."
+   ],
+   "stat": "92 HIT",
+   "stat_col": "GREEN",
+   "say": "Gen nine, ninety two.",
+   "cap": "Gen 9: 92 hit the Moon."
+  },
+  {
+   "gen": 10,
+   "head": [
+    "DOUBLE GRAVITY.",
+    "0 HIT."
+   ],
+   "stat": "0 HIT",
+   "stat_col": "RED",
+   "say": "Double gravity. Zero.",
+   "cap": "Gravity doubled. All 92 miss.",
+   "sfx": {
+    "text": "2x GRAVITY",
+    "col": "RED",
+    "burst": "RED",
+    "t": 1.2
+   }
+  },
+  {
+   "gen": 12,
+   "head": [
+    "GEN 12.",
+    "52 HIT."
+   ],
+   "stat": "52 HIT",
+   "say": "Gen twelve, fifty two.",
+   "cap": "2 gens later: 52 adapt."
+  },
+  {
+   "gen": 18,
+   "head": [
+    "GEN 18.",
+    "99 HIT."
+   ],
+   "stat": "99 HIT",
+   "stat_col": "GREEN",
+   "say": "Gen eighteen, ninety nine.",
+   "cap": "Gen 18: 99. Better than before.",
+   "sfx": {
+    "text": "99!",
+    "col": "LIME",
+    "burst": "GREEN",
+    "t": 1.4
+   }
+  }
+ ],
+ "end": [
+  "Bonus round.",
+  "92, then 0, then 99.",
+  "0 instructions."
+ ],
+ "end_say": "Triple gravity next, yes or no? Comment.",
+ "post": {
+  "title": "I doubled gravity and all 92 AI probes missed. 8 generations later, 99 hit",
+  "caption": "92 AI probes learned to hit the Moon by gen 9. Then I doubled the gravity and 0 hit. Gen 12: 52. Gen 18: 99, more than before the change. Each probe is a small neural network; the best ones get copied with mutations.",
+  "tags": [
+   "ai",
+   "machinelearning",
+   "space",
+   "shipwithpip"
+  ],
+  "pinned": "Each probe is a small neural network that controls its launch and thrust. No one tells it how. The best ones get copied with random mutations into the next generation. At gen 10 the gravity doubles.",
+  "notes": "Extra reel (Ansh asked for more, Nov 25). Seed 7937, heavy_at 10. hit: 3,20,37,41,73,69,85,89,92,0,8,52,75,79,76,88,88,99. 18 - 10 = 8, 12 - 10 = 2. Idea test: question/reaction/unrealistic = 3 of 4."
+ }
+}

@@ -1,0 +1,119 @@
+{
+ "reel": "walk",
+ "style": "punch",
+ "voice": "hook",
+ "series": "AI LEARNS WALK, BONUS ROUND",
+ "constants": [
+  273,
+  904,
+  1169,
+  1838,
+  2119,
+  2652,
+  1756
+ ],
+ "beats": [
+  {
+   "gen": 1,
+   "head": [
+    "THE AVERAGE AI",
+    "WALKED 1.0."
+   ],
+   "stat": "AVG 1.0",
+   "stat_col": "RED",
+   "say": "The average AI walked one. Watch generation forty.",
+   "cap": "Gen 1: the average barely moves."
+  },
+  {
+   "gen": 2,
+   "head": [
+    "GEN 2.",
+    "BEST: 428."
+   ],
+   "stat": "BEST 428",
+   "say": "Gen two, the best gets further.",
+   "cap": "Gen 2: the best one stumbles 428."
+  },
+  {
+   "gen": 6,
+   "head": [
+    "GEN 6.",
+    "BEST: 904."
+   ],
+   "stat": "BEST 904",
+   "say": "Gen six, a real stride.",
+   "cap": "Gen 6: 904. A real stride."
+  },
+  {
+   "gen": 9,
+   "head": [
+    "GEN 9.",
+    "BEST: 1169."
+   ],
+   "stat": "BEST 1169",
+   "say": "Gen nine, still climbing.",
+   "cap": "Gen 9: 1169. Still climbing."
+  },
+  {
+   "gen": 15,
+   "head": [
+    "GEN 15.",
+    "BEST: 1838."
+   ],
+   "stat": "BEST 1838",
+   "say": "Gen fifteen, climbing fast.",
+   "cap": "Gen 15: 1838 and climbing.",
+   "sfx": {
+    "text": "1838!",
+    "col": "LIME",
+    "burst": "GREEN",
+    "t": 1.2
+   }
+  },
+  {
+   "gen": 24,
+   "head": [
+    "GEN 24.",
+    "BEST: 2119."
+   ],
+   "stat": "BEST 2119",
+   "say": "Gen twenty four, further again.",
+   "cap": "Gen 24: 2119."
+  },
+  {
+   "gen": 40,
+   "head": [
+    "GEN 40.",
+    "AVERAGE: 1756."
+   ],
+   "stat": "AVG 1756",
+   "stat_col": "GREEN",
+   "say": "Gen forty, the average walks further than the early best.",
+   "cap": "Gen 40: average 1756, best 2652.",
+   "sfx": {
+    "text": "1756!",
+    "col": "LIME",
+    "burst": "GREEN",
+    "t": 1.4
+   }
+  }
+ ],
+ "end": [
+  "Bonus round.",
+  "Average: 1.0 to 1756.",
+  "0 instructions."
+ ],
+ "end_say": "Does that count as walking? Comment.",
+ "post": {
+  "title": "The average AI creature walked 1.0. 40 generations later, 1756",
+  "caption": "In gen 1 the average AI creature moved 1.0 and the best managed 273. Gen 6: best 904. Gen 15: 1838. By gen 40 the average creature walks 1756 and the best 2652. Each creature is a small neural network driving its legs; the ones that get farthest are copied with mutations.",
+  "tags": [
+   "ai",
+   "machinelearning",
+   "evolution",
+   "shipwithpip"
+  ],
+  "pinned": "Each creature is a small neural network that drives its legs. No one tells it how to walk. The ones that travel farthest get copied with random mutations into the next generation. Numbers are distance in sim units.",
+  "notes": "Extra reel (Ansh asked for more, Nov 25). Seed 4662. best: g1 273.4, g2 428.8, g6 904.1, g9 1169.4, g15 1838.4, g24 2119.2, g40 2652.5; mean g1 1.0, g40 1756.7. Decimals dropped (rounded down). Idea test: relatable/question/reaction = 3 of 4."
+ }
+}
