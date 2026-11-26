@@ -1,0 +1,126 @@
+{
+ "reel": "walk",
+ "style": "punch",
+ "voice": "none",
+ "series": "AI LEARNS TO WALK, PART 3",
+ "constants": [
+  418,
+  849,
+  328,
+  1318,
+  4,
+  2654,
+  2020,
+  2033,
+  1488,
+  545,
+  3280,
+  1909,
+  40
+ ],
+ "beats": [
+  {
+   "gen": 1,
+   "head": [
+    "THE BEST GETS BETTER.",
+    "THE CROWD GETS WORSE."
+   ],
+   "stat": "BEST 418",
+   "say": "AI creatures learn to walk. Watch the average, not the best.",
+   "cap": "Gen 1: the average walker goes backwards."
+  },
+  {
+   "gen": 9,
+   "head": [
+    "GEN 9.",
+    "STILL STUMBLING."
+   ],
+   "stat": "AVG 328",
+   "say": "Nine generations in, the average barely moves.",
+   "cap": "Best 849. Average only 328."
+  },
+  {
+   "gen": 14,
+   "head": [
+    "GEN 14.",
+    "THEN IT CLICKS."
+   ],
+   "stat": "AVG 1318",
+   "stat_col": "GREEN",
+   "say": "Five generations later the average is four times further.",
+   "cap": "Average 4x in 5 generations."
+  },
+  {
+   "gen": 24,
+   "head": [
+    "GEN 24.",
+    "EVERYONE WALKS."
+   ],
+   "stat": "BEST 2654",
+   "say": "The whole crowd is walking now.",
+   "cap": "Average 2020. Best 2654."
+  },
+  {
+   "gen": 29,
+   "head": [
+    "GEN 29.",
+    "THE CROWD PEAKS."
+   ],
+   "stat": "AVG 2033",
+   "say": "The average peaks right here.",
+   "cap": "Gen 29: average hits 2033."
+  },
+  {
+   "gen": 34,
+   "head": [
+    "GEN 34.",
+    "THEN IT FALLS."
+   ],
+   "stat": "AVG 1488",
+   "stat_col": "RED",
+   "say": "Then the crowd falls apart.",
+   "cap": "Average drops 545 in 5 generations.",
+   "sfx": {
+    "text": "-545",
+    "col": "RED",
+    "burst": "RED",
+    "t": 1.4
+   }
+  },
+  {
+   "gen": 40,
+   "head": [
+    "THE BEST",
+    "NEVER STOPPED."
+   ],
+   "stat": "BEST 3280",
+   "stat_col": "GREEN",
+   "say": "But the best walker never stopped climbing.",
+   "cap": "Gen 40: best walks 3280.",
+   "sfx": {
+    "text": "3280!",
+    "col": "LIME",
+    "burst": "GREEN",
+    "t": 1.6
+   }
+  }
+ ],
+ "end": [
+  "Part 3.",
+  "Best: 3280.",
+  "Crowd: 1909."
+ ],
+ "end_say": "Would you bet on the best or the crowd? Comment.",
+ "post": {
+  "title": "The best AI walker kept climbing. The crowd fell.",
+  "caption": "The best AI walker kept climbing. The crowd fell. Gen 1: the best walked 418 and the average went backwards. The average hit 2033 at gen 29, then dropped to 1488 by gen 34, while the best kept going to 3280 at gen 40. No instructions, just evolution: each generation the best walkers are copied with random tweaks.",
+  "tags": [
+   "ai",
+   "machinelearning",
+   "walking",
+   "shipwithpip"
+  ],
+  "pinned": "Every generation the best walkers survive and get copied with small random mutations. Nobody tells them how to walk.",
+  "notes": "Seed 1676. Gen1 best 418.4 mean -5.7; gen9 best 849.1 mean 328.3; gen14 mean 1318.3; gen24 best 2653.9 mean 2019.8; gen29 mean 2033.0; gen34 mean 1487.5 best 3018.5; gen40 best 3279.8 mean 1908.7. Derived: rounded to integers; 1318.3/328.3 = 4.0 (4x); 2033.0 - 1487.5 = 545.5 shown as 545 (2033 - 1488 = 545). Idea test: relatable yes, question yes, reaction yes, unrealistic no = 3 of 4."
+ }
+}
