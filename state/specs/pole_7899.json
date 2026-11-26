@@ -1,0 +1,116 @@
+{
+ "reel": "pole",
+ "style": "punch",
+ "voice": "hook",
+ "series": "AI LEARNS POLE, PART 3",
+ "constants": [
+  50,
+  38,
+  13
+ ],
+ "beats": [
+  {
+   "gen": 1,
+   "head": [
+    "50 AIs. 0 BALANCE.",
+    "THEN I SHOVE THEM."
+   ],
+   "stat": "0 / 50",
+   "say": "Fifty AIs learn to balance a pole. Then I shove them.",
+   "cap": "Gen 1: not one pole stays up."
+  },
+  {
+   "gen": 4,
+   "head": [
+    "GEN 4.",
+    "11 STAY UP."
+   ],
+   "stat": "11 / 50",
+   "say": "Gen four, eleven stay up.",
+   "cap": "Gen 4: 11 balance the pole."
+  },
+  {
+   "gen": 7,
+   "head": [
+    "GEN 7.",
+    "42 STAY UP."
+   ],
+   "stat": "42 / 50",
+   "stat_col": "GREEN",
+   "say": "Gen seven, forty two.",
+   "cap": "Gen 7: 42 of 50 balance.",
+   "sfx": {
+    "text": "42 / 50!",
+    "col": "LIME",
+    "burst": "GREEN",
+    "t": 1.4
+   }
+  },
+  {
+   "gen": 8,
+   "head": [
+    "I SHOVE.",
+    "4 SURVIVE."
+   ],
+   "stat": "4 / 50",
+   "stat_col": "RED",
+   "say": "Gen eight, I shove the carts. Four survive.",
+   "cap": "The shove: 38 poles fall.",
+   "sfx": {
+    "text": "SHOVE!",
+    "col": "RED",
+    "burst": "RED",
+    "t": 1.0
+   }
+  },
+  {
+   "gen": 10,
+   "head": [
+    "GEN 10.",
+    "23 ADAPT."
+   ],
+   "stat": "23 / 50",
+   "say": "Gen ten, twenty three adapt.",
+   "cap": "Gen 10: back to 23."
+  },
+  {
+   "gen": 15,
+   "head": [
+    "GEN 15.",
+    "34 HOLD."
+   ],
+   "stat": "34 / 50",
+   "say": "Gen fifteen, thirty four.",
+   "cap": "Gen 15: 34 hold through the shove."
+  },
+  {
+   "gen": 21,
+   "head": [
+    "13 GENS LATER.",
+    "STILL NOT 42."
+   ],
+   "stat": "35 / 50",
+   "stat_col": "GREEN",
+   "say": "Gen twenty one, thirty five. Still short of forty two.",
+   "cap": "Gen 21: 35. Never got back to 42."
+  }
+ ],
+ "end": [
+  "Part 3.",
+  "1 shove.",
+  "0 instructions."
+ ],
+ "end_say": "Smarter after the shove, or just scarred? Comment.",
+ "post": {
+  "title": "I shoved 42 balancing AIs. 13 generations later they still were not back",
+  "caption": "One shove knocked my balancing AIs from 42 to 4. Gen 1: 0 of 50 kept the pole up. Gen 4: 11. Gen 7: 42. Then at gen 8 I started shoving every cart and only 4 survived, 38 fell. They climbed back to 23 by gen 10, 34 by gen 15 and 35 by gen 21, still short of 42. Each AI is a tiny neural network; the ones that balance longest get copied with small mutations.",
+  "tags": [
+   "ai",
+   "machinelearning",
+   "cartpole",
+   "shipwithpip"
+  ],
+  "pinned": "Each cart is driven by a small neural network that sees the pole angle and decides which way to push. No one tells it how. The carts that keep the pole up longest get copied with random mutations into the next generation, and from gen 8 every cart gets shoved.",
+  "notes": "Seed 7899, push_at 8, final 21. Per gen surv: 0,2,4,11,29,34,42 | push 4,8,23,23,24,28,21,34,27,22,27,29,34,35. Derived: 42 - 4 = 38 fell; 21 - 8 = 13 gens after the shove; 35 < 42. Population 50. Idea test: relatable/question/reaction/unrealistic = 3 of 4 (question, reaction, unrealistic)."
+ }
+}
