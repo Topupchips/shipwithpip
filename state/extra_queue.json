@@ -17,7 +17,7 @@
   "seed": 3189,
   "when": "2026-11-26 20:07 Halifax",
   "title": "41 AIs balanced the pole. I shoved them and 0 did. 12 generations later, 38",
-  "url": "https://raw.githubusercontent.com/Topupchips/shipwithpip/media/20261125-1823-reel.mp4",
+  "url": "https://raw.githubusercontent.com/Topupchips/shipwithpip/media/20261126-1449-pole_3189.mp4",
   "caption": "AI learns pole, part 3.\n\n41 AIs learned to balance a pole by gen 4. Then I shoved them and all 41 dropped it. Gen 7: 2 survived the shove. Gen 10: 20. Gen 17: 38. Each AI is a small neural network; the ones that balance longest get copied with mutations.\n\nWould you keep shoving or let them rest? Comment.\n\nFollow @shipwithpip, a new part every day.\n\n#ai #machinelearning #cartpole #shipwithpip",
   "spec": "state/extras/pole_3189.json",
   "status": "queued"
@@ -28,7 +28,7 @@
   "seed": 5516,
   "when": "2026-11-27 08:07 Halifax",
   "title": "69 AIs mastered one ball. I added a second and 0 made it",
-  "url": "https://raw.githubusercontent.com/Topupchips/shipwithpip/media/20261125-1825-reel.mp4",
+  "url": "https://raw.githubusercontent.com/Topupchips/shipwithpip/media/20261126-1449-keepups_5516.mp4",
   "caption": "AI learns keepups, part 3.\n\n69 AIs learned to keep one ball up by gen 4. Then I added a second ball and 0 made it. 10 generations later: 1. Gen 25: 6. Gen 40: 13. Each AI is a small neural network; the best ones get copied with mutations.\n\nAdd a third ball or let them practice? Comment.\n\nFollow @shipwithpip, a new part every day.\n\n#ai #machinelearning #football #shipwithpip",
   "spec": "state/extras/keepups_5516.json",
   "status": "queued"
@@ -39,7 +39,7 @@
   "seed": 929,
   "when": "2026-11-27 20:07 Halifax",
   "title": "My AI wolves got to 38 catches. Then the rabbits learned too",
-  "url": "https://raw.githubusercontent.com/Topupchips/shipwithpip/media/20261125-1831-reel.mp4",
+  "url": "https://raw.githubusercontent.com/Topupchips/shipwithpip/media/20261126-1449-hunt_929.mp4",
   "caption": "AI learns hunt, part 2.\n\nMy AI wolves went from 16 catches to 38 by gen 16. At gen 19 the rabbits started evolving too. Gen 23: 32. Gen 30: 19. Gen 36: 18. Wolves and rabbits are small neural networks; the best of each get copied with mutations.\n\nTeam wolf or team rabbit? Comment.\n\nFollow @shipwithpip, a new part every day.\n\n#ai #machinelearning #evolution #shipwithpip",
   "spec": "state/extras/hunt_929.json",
   "status": "queued"
@@ -50,7 +50,7 @@
   "seed": 7937,
   "when": "2026-11-28 08:07 Halifax",
   "title": "I doubled gravity and all 92 AI probes missed. 8 generations later, 99 hit",
-  "url": "https://raw.githubusercontent.com/Topupchips/shipwithpip/media/20261125-2231-reel.mp4",
+  "url": "https://raw.githubusercontent.com/Topupchips/shipwithpip/media/20261126-1449-moon_7937.mp4",
   "caption": "AI learns moon, part 3.\n\n92 AI probes learned to hit the Moon by gen 9. Then I doubled the gravity and 0 hit. Gen 12: 52. Gen 18: 99, more than before the change. Each probe is a small neural network; the best ones get copied with mutations.\n\nTriple gravity next, yes or no? Comment.\n\nFollow @shipwithpip, a new part every day.\n\n#ai #machinelearning #space #shipwithpip",
   "spec": "state/extras/moon_7937.json",
   "status": "queued"
@@ -61,7 +61,7 @@
   "seed": 4950,
   "when": "2026-11-28 20:07 Halifax",
   "title": "My AIs cracked a 13 character password in 12 generations",
-  "url": "https://raw.githubusercontent.com/Topupchips/shipwithpip/media/20261125-2233-reel.mp4",
+  "url": "https://raw.githubusercontent.com/Topupchips/shipwithpip/media/20261126-1449-password_4950.mp4",
   "caption": "AI learns password, part 3.\n\nMy AIs started with 3 of 13 characters right. Gen 4: 8. Gen 8: 11. Gen 10: 12. Gen 12: 2 of them cracked all 13. Two generations later, 45 knew it. This is a genetic algorithm: the closest guesses get copied with random mutations. It only works because the sim scores each guess.\n\nIs your password longer than 13? Comment.\n\nFollow @shipwithpip, a new part every day.\n\n#ai #machinelearning #password #shipwithpip",
   "spec": "state/extras/password_4950.json",
   "status": "queued"
@@ -72,7 +72,7 @@
   "seed": 4662,
   "when": "2026-11-29 08:07 Halifax",
   "title": "The average AI creature walked 1.0. 40 generations later, 1756",
-  "url": "https://raw.githubusercontent.com/Topupchips/shipwithpip/media/20261125-2238-reel.mp4",
+  "url": "https://raw.githubusercontent.com/Topupchips/shipwithpip/media/20261126-1449-walk_4662.mp4",
   "caption": "AI learns walk, part 3.\n\nIn gen 1 the average AI creature moved 1.0 and the best managed 273. Gen 6: best 904. Gen 15: 1838. By gen 40 the average creature walks 1756 and the best 2652. Each creature is a small neural network driving its legs; the ones that get farthest are copied with mutations.\n\nDoes that count as walking? Comment.\n\nFollow @shipwithpip, a new part every day.\n\n#ai #machinelearning #evolution #shipwithpip",
   "spec": "state/extras/walk_4662.json",
   "status": "queued"
