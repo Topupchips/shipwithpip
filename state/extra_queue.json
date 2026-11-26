@@ -5,10 +5,11 @@
   "seed": 4089,
   "when": "2026-11-26 08:07 Halifax",
   "title": "My AI rockets crashed for 5 generations. Gen 13: 57 landed",
-  "url": "https://raw.githubusercontent.com/Topupchips/shipwithpip/media/20261125-1822-reel.mp4",
+  "url": "https://raw.githubusercontent.com/Topupchips/shipwithpip/media/20261126-1438-lander_4089.mp4",
   "caption": "AI learns lander, part 2.\n\nMy AI rockets crashed every time for 5 generations. Gen 6: the first one landed. Gen 7: 8. Gen 8: 37. Gen 13: 57. Each rocket is a small neural network that fires its thrusters; the best landers get copied with mutations.\n\nWould you ride in rocket 57? Comment.\n\nFollow @shipwithpip, a new part every day.\n\n#ai #machinelearning #rocket #shipwithpip",
   "spec": "state/extras/lander_4089.json",
-  "status": "failed: video 404 - media branch was overwritten (now only holds 20261126-0618-reel.mp4); 20261125-1822-reel.mp4 no longer exists. Needs re-render and re-upload."
+  "status": "posted",
+  "permalink": "https://www.instagram.com/reel/DgNVsSxzgvp/"
  },
  {
   "id": 2,
