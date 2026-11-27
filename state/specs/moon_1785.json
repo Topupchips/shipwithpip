@@ -1,0 +1,130 @@
+{
+ "reel": "moon",
+ "style": "punch",
+ "voice": "none",
+ "series": "AI LEARNS MOON, PART 3",
+ "constants": [
+  100,
+  2,
+  92,
+  1,
+  8,
+  9000,
+  18000
+ ],
+ "beats": [
+  {
+   "gen": 1,
+   "head": [
+    "100 AI PROBES. 5 HIT.",
+    "THEN I DOUBLE GRAVITY."
+   ],
+   "stat": "5 / 100",
+   "say": "A hundred AI probes learn to reach the Moon. Then I double gravity.",
+   "cap": "Gen 1: 5 of 100 hit the Moon."
+  },
+  {
+   "gen": 3,
+   "head": [
+    "GEN 3.",
+    "37 HIT."
+   ],
+   "stat": "37 / 100",
+   "say": "Gen three, thirty seven land.",
+   "cap": "Gen 3: 37 reach the Moon."
+  },
+  {
+   "gen": 8,
+   "head": [
+    "GEN 8.",
+    "79 HIT."
+   ],
+   "stat": "79 / 100",
+   "say": "Gen eight, seventy nine.",
+   "cap": "Gen 8: 79 of 100."
+  },
+  {
+   "gen": 11,
+   "head": [
+    "GEN 11.",
+    "92 HIT."
+   ],
+   "stat": "92 / 100",
+   "stat_col": "GREEN",
+   "say": "Gen eleven, ninety two hit.",
+   "cap": "Gen 11: 92. Nearly solved."
+  },
+  {
+   "gen": 12,
+   "head": [
+    "2X GRAVITY.",
+    "0 HIT."
+   ],
+   "stat": "0 / 100",
+   "stat_col": "RED",
+   "say": "Gen twelve, I double the planet's pull. Zero hit.",
+   "cap": "Planet gravity doubled. Every probe misses.",
+   "sfx": {
+    "text": "2X GRAVITY!",
+    "col": "RED",
+    "burst": "RED",
+    "t": 1.0
+   }
+  },
+  {
+   "gen": 14,
+   "head": [
+    "GEN 14.",
+    "39 HIT."
+   ],
+   "stat": "39 / 100",
+   "say": "Gen fourteen, thirty nine adapt.",
+   "cap": "Gen 14: back to 39."
+  },
+  {
+   "gen": 17,
+   "head": [
+    "GEN 17.",
+    "70 HIT."
+   ],
+   "stat": "70 / 100",
+   "say": "Gen seventeen, seventy.",
+   "cap": "Gen 17: 70 hit in heavy gravity."
+  },
+  {
+   "gen": 20,
+   "head": [
+    "8 GENS LATER.",
+    "93 HIT."
+   ],
+   "stat": "93 / 100",
+   "stat_col": "GREEN",
+   "say": "Gen twenty, ninety three. Better than before.",
+   "cap": "Gen 20: 93. Beat the old 92.",
+   "sfx": {
+    "text": "93 / 100!",
+    "col": "LIME",
+    "burst": "GREEN",
+    "t": 1.6
+   }
+  }
+ ],
+ "end": [
+  "Part 3.",
+  "2x gravity.",
+  "0 instructions."
+ ],
+ "end_say": "Did gravity break them, or make them better? Comment.",
+ "post": {
+  "title": "I doubled gravity and all 100 AI probes missed the Moon. 8 generations later: 93",
+  "caption": "Doubling gravity took my AI probes from 92 Moon hits to 0. Gen 1: 5 of 100 reached the Moon. Gen 3: 37. Gen 8: 79. Gen 11: 92. Then at gen 12 I doubled the pull of the planet in their path and not one probe made it. Gen 14: 39. Gen 17: 70. Gen 20: 93, one better than before the change. Each probe is a small neural network; the best flyers each generation get copied with small mutations, and nobody tells them how to fly.",
+  "tags": [
+   "ai",
+   "machinelearning",
+   "moon",
+   "shipwithpip"
+  ],
+  "pinned": "Each probe is a tiny neural net steering its thrust. Every generation the best flyers get copied with random mutations. At gen 12 the planet's gravity doubles (9000 to 18000) and they have to relearn the route.",
+  "notes": "Seed 1785. Per-gen hits: 1:5 3:37 8:79 11:92 12:0 14:39 17:70 20:93. mu 9000 -> 18000 = 2x. 92 - 0 = 92 lost. 93 - 92 = 1 better. 20 - 12 = 8 gens. Idea test: question yes, reaction yes, unrealistic yes (0 then 93), relatable no = 3 of 4."
+ }
+}
