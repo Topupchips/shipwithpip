@@ -1,0 +1,122 @@
+{
+ "reel": "lander",
+ "style": "punch",
+ "voice": "hook",
+ "series": "AI LEARNS LANDER, PART 3",
+ "constants": [
+  13,
+  53
+ ],
+ "beats": [
+  {
+   "gen": 1,
+   "head": [
+    "13 GENS.",
+    "0 LANDINGS."
+   ],
+   "stat": "0 LANDED",
+   "stat_col": "RED",
+   "say": "My AIs crashed every landing for thirteen generations.",
+   "cap": "Gen 1: every rocket crashes."
+  },
+  {
+   "gen": 13,
+   "head": [
+    "GEN 13.",
+    "STILL 0."
+   ],
+   "stat": "0 LANDED",
+   "stat_col": "RED",
+   "say": "Gen thirteen, still zero.",
+   "cap": "Gen 13: still zero landings."
+  },
+  {
+   "gen": 14,
+   "head": [
+    "GEN 14.",
+    "1 LANDS."
+   ],
+   "stat": "1 LANDED",
+   "say": "Gen fourteen, one lands.",
+   "cap": "Gen 14: the first touchdown.",
+   "sfx": {
+    "text": "1!",
+    "col": "LIME",
+    "burst": "GREEN",
+    "t": 1.2
+   }
+  },
+  {
+   "gen": 15,
+   "head": [
+    "GEN 15.",
+    "BACK TO 0."
+   ],
+   "stat": "0 LANDED",
+   "stat_col": "RED",
+   "say": "Gen fifteen, back to zero.",
+   "cap": "Gen 15: zero again.",
+   "sfx": {
+    "text": "0?!",
+    "col": "RED",
+    "burst": "RED",
+    "t": 1.2
+   }
+  },
+  {
+   "gen": 20,
+   "head": [
+    "GEN 20.",
+    "20 LAND."
+   ],
+   "stat": "20 LANDED",
+   "say": "Gen twenty, twenty land.",
+   "cap": "Gen 20: suddenly 20 land."
+  },
+  {
+   "gen": 32,
+   "head": [
+    "GEN 32.",
+    "37 LAND."
+   ],
+   "stat": "37 LANDED",
+   "say": "Gen thirty two, thirty seven.",
+   "cap": "Gen 32: 37 touch down."
+  },
+  {
+   "gen": 53,
+   "head": [
+    "0 TO 45.",
+    "IN 53 GENS."
+   ],
+   "stat": "45 LANDED",
+   "stat_col": "GREEN",
+   "say": "Gen fifty three, forty five land.",
+   "cap": "Gen 53: 45 rockets land.",
+   "sfx": {
+    "text": "45!",
+    "col": "LIME",
+    "burst": "GREEN",
+    "t": 1.4
+   }
+  }
+ ],
+ "end": [
+  "Part 3.",
+  "53 gens.",
+  "0 instructions."
+ ],
+ "end_say": "Would you quit at gen 13 or keep going? Comment.",
+ "post": {
+  "title": "My AI rockets crashed for 13 generations. Gen 53: 45 landed",
+  "caption": "My AI rockets crashed every time for 13 generations. Gen 14: one landed. Gen 15: zero again. Gen 20: 20. Gen 32: 37. Gen 53: 45. Each rocket is a small neural network that fires its thrusters; the best landers get copied with mutations.",
+  "tags": [
+   "ai",
+   "machinelearning",
+   "rocket",
+   "shipwithpip"
+  ],
+  "pinned": "Each rocket is a small neural network that controls its thrusters. No one tells it how to land. The best ones get copied with random mutations into the next generation.",
+  "notes": "Seed 8427. landed by gen: 0 for gens 1-13, 14:1, 15:0, 16:2, 17:4, 18:6, 19:9, 20:20, 24:21, 32:37, 34:27, 42:43, 53:45. 13 = gens 1 to 13 all at 0. Idea test: relatable/question/unrealistic = 3 of 4."
+ }
+}
