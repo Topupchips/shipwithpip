@@ -3,7 +3,7 @@
   "cycle": [
     "sim"
   ],
-  "cycle_index": 5,
+  "cycle_index": 6,
   "sim_rotation": [
     "flappy",
     "walk",
@@ -20,7 +20,7 @@
     "keepups",
     "password"
   ],
-  "sim_index": 5,
+  "sim_index": 6,
   "account": {
     "platform": "INSTAGRAM",
     "username": "shipwithpip",
@@ -50,7 +50,7 @@
     "hook",
     "none"
   ],
-  "voice_index": 5,
+  "voice_index": 6,
   "style": "punch",
   "paused_formats": [
     "whatif",

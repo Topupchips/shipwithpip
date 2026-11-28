@@ -1,0 +1,117 @@
+{
+ "reel": "hoops",
+ "style": "punch",
+ "voice": "none",
+ "series": "AI LEARNS HOOPS, PART 3",
+ "constants": [
+  100,
+  99,
+  82,
+  17,
+  55,
+  60
+ ],
+ "beats": [
+  {
+   "gen": 1,
+   "head": [
+    "100 AIs. 0 SHOTS.",
+    "THEN I MOVE THE HOOP."
+   ],
+   "stat": "2 / 100",
+   "say": "A hundred AIs learn this shot. Then I move the hoop.",
+   "cap": "100 AIs. Never shot a ball. Gen 1: 2 in."
+  },
+  {
+   "gen": 3,
+   "head": [
+    "GEN 3.",
+    "THEY GET IT."
+   ],
+   "stat": "78 / 100",
+   "say": "By gen three, most of them get it.",
+   "cap": "Gen 3: 78 swish."
+  },
+  {
+   "gen": 5,
+   "head": [
+    "GEN 5.",
+    "ALMOST PERFECT."
+   ],
+   "stat": "99 / 100",
+   "stat_col": "GREEN",
+   "say": "Gen five. Ninety nine out of a hundred.",
+   "cap": "Gen 5: 99 of 100. Solved.",
+   "sfx": {
+    "text": "99 / 100!",
+    "col": "LIME",
+    "burst": "GREEN",
+    "t": 1.6
+   }
+  },
+  {
+   "gen": 6,
+   "head": [
+    "I MOVED",
+    "THE HOOP."
+   ],
+   "stat": "0 / 100",
+   "say": "So I moved the hoop. Zero.",
+   "cap": "Hoop moved. 0 of 100.",
+   "sfx": {
+    "text": "0 / 100",
+    "col": "RED",
+    "burst": "RED",
+    "t": 1.2
+   }
+  },
+  {
+   "gen": 9,
+   "head": [
+    "GEN 9.",
+    "RELEARNING."
+   ],
+   "stat": "39 / 100",
+   "say": "Gen nine, they start relearning.",
+   "cap": "Gen 9: 39 find it again."
+  },
+  {
+   "gen": 16,
+   "head": [
+    "GEN 16.",
+    "STILL SHORT."
+   ],
+   "stat": "79 / 100",
+   "say": "Gen sixteen. Seventy nine. Still short.",
+   "cap": "Gen 16: 79. Not 99."
+  },
+  {
+   "gen": 60,
+   "head": [
+    "55 GENS LATER.",
+    "BEST: 82."
+   ],
+   "stat": "75 / 100",
+   "say": "Fifty five gens after the move, the best they hit was eighty two.",
+   "cap": "Best after the move: 82. Never 99."
+  }
+ ],
+ "end": [
+  "Part 3.",
+  "100 AIs.",
+  "0 instructions."
+ ],
+ "end_say": "Move it back, or move it again? Comment.",
+ "post": {
+  "title": "My AIs hit 99/100. I moved the hoop. They never got back",
+  "caption": "99 out of 100 AIs had the shot by gen 5. Then I moved the hoop and all 100 missed. Gen 9: 39. Gen 16: 79. In the 55 gens after the move, the best they ever did was 82, 17 short of 99. Every AI is a tiny neural net, and each gen the best shooters get copied with small mutations.",
+  "tags": [
+   "ai",
+   "machinelearning",
+   "basketball",
+   "shipwithpip"
+  ],
+  "pinned": "Each AI is a small neural net. Each gen the best shooters are copied with small random changes. Nobody tells them how to shoot.",
+  "notes": "Seed 3879. Gen1 2, gen3 78, gen5 99, hoop moved after gen 5, gen6 0, gen7 0, gen9 39, gen16 79, max after move 82 (gen 50), gen60 75. Derived: 60-5=55 gens after move, 99-82=17. Idea test: relatable/question/reaction/unrealistic = 3 of 4."
+ }
+}
