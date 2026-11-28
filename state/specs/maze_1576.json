@@ -1,0 +1,106 @@
+{
+ "reel": "maze",
+ "style": "punch",
+ "voice": "hook",
+ "series": "AI LEARNS MAZE, PART 2",
+ "constants": [
+  100,
+  86,
+  182,
+  200,
+  19
+ ],
+ "beats": [
+  {
+   "gen": 1,
+   "head": [
+    "100 AIs. 0 ESCAPES.",
+    "THEN I BLOCK THE WAY."
+   ],
+   "stat": "0 / 100",
+   "say": "A hundred AIs learn this maze. Then I block the way.",
+   "cap": "100 AIs. No map. Gen 1: 0 out."
+  },
+  {
+   "gen": 7,
+   "head": [
+    "GEN 7.",
+    "ONE GETS OUT."
+   ],
+   "stat": "1 / 100",
+   "say": "Gen seven. One finds the exit.",
+   "cap": "Gen 7: the first one escapes."
+  },
+  {
+   "gen": 9,
+   "head": [
+    "GEN 9.",
+    "THE WAY SPREADS."
+   ],
+   "stat": "60 / 100",
+   "say": "Two gens later, sixty are out.",
+   "cap": "Gen 9: 60 escape."
+  },
+  {
+   "gen": 18,
+   "head": [
+    "GEN 18.",
+    "MAZE SOLVED."
+   ],
+   "stat": "86 / 100",
+   "stat_col": "GREEN",
+   "say": "Gen eighteen. Eighty six out of a hundred.",
+   "cap": "Gen 18: 86 of 100 escape.",
+   "sfx": {
+    "text": "86 / 100!",
+    "col": "LIME",
+    "burst": "GREEN",
+    "t": 1.6
+   }
+  },
+  {
+   "gen": 19,
+   "head": [
+    "I BLOCKED",
+    "THEIR ROUTE."
+   ],
+   "stat": "0 / 100",
+   "say": "So I blocked their route. Zero.",
+   "cap": "Route blocked. 0 of 100.",
+   "sfx": {
+    "text": "0 / 100",
+    "col": "RED",
+    "burst": "RED",
+    "t": 1.2
+   }
+  },
+  {
+   "gen": 200,
+   "head": [
+    "GEN 200.",
+    "182 GENS. ZERO."
+   ],
+   "stat": "0 / 100",
+   "say": "Gen two hundred. A hundred eighty two gens, and not one got out.",
+   "cap": "182 gens blocked. 0 escapes."
+  }
+ ],
+ "end": [
+  "Part 2.",
+  "100 AIs.",
+  "0 instructions."
+ ],
+ "end_say": "Unblock it, or give them more time? Comment.",
+ "post": {
+  "title": "86 of my AIs escaped the maze. I blocked the route. 0 since",
+  "caption": "86 of 100 AIs escaped the maze by gen 18. Then I blocked their route and 0 got out. Gen 1: 0. Gen 7: 1. Gen 9: 60. Gen 18: 86. Gen 19, route blocked: 0. In the 182 gens from the block to gen 200, not one AI escaped. Each AI is a run of moves through the maze, and each gen the best ones get copied with small random changes.",
+  "tags": [
+   "ai",
+   "machinelearning",
+   "maze",
+   "shipwithpip"
+  ],
+  "pinned": "Each AI is a run of moves through the maze. Nobody tells it the way. Each generation the best ones get copied with small random changes, and from gen 19 their route is blocked.",
+  "notes": "Seed 1576. Gen1 0, gen7 1, gen8 10, gen9 60, gen18 86, blocked at gen 19: 0, gens 19 to 200 all 0. Derived: 200-19+1=182 gens of 0 after the block. Idea test: relatable/question/reaction/unrealistic = 3 of 4. Drone seeds 8209/9260/8728 had no ring twist (move_at null); maze seeds 8903/9530/6978/1864/1563 also never recovered, 1576 had the highest peak."
+ }
+}
